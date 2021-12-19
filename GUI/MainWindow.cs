@@ -22,19 +22,18 @@ namespace GUI
             timer_date.Start();
         }
 
-        private void btn_delete_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_add_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void update_date(object sender, EventArgs e)
         {
             txt_time.Text = DateTime.Now.ToLongDateString().ToString();
+        }
+
+        private void btn_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            if (button.Equals(btn_user)){
+                new StudentManagerWindow().ShowDialog();
+                return;
+            }
         }
     }
 }

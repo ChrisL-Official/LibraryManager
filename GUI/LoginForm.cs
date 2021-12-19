@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using static GUI.MyUtil;
 
 namespace GUI
 {
@@ -15,7 +16,7 @@ namespace GUI
             InitializeComponent();
         }
 
-        private void btn_login_Click(object sender, EventArgs e)
+        private unsafe void btn_login_Click(object sender, EventArgs e)
         {
             //C#的Byte对应C的unsigned char
             byte[] account = Encoding.ASCII.GetBytes(edit_account.Text);
@@ -25,6 +26,8 @@ namespace GUI
                 MyUtil.showWarningMsgbox("账户和密码不能为空");
                 return;
             }
+            //User user = (User)Marshal.PtrToStructure(p,typeof(User));
+            //this.Text = Encoding.Unicode.GetString(user.name);
             switch (login(account, pwd))
             {
                 case (int)MyUtil.LoginStatus.SUCCESS:
