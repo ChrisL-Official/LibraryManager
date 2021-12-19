@@ -1,16 +1,22 @@
+#pragma once
 #include <stdbool.h>
+#include <wchar.h>
+#include "util.h"
+
+/*
+	这里存放所有需要暴露的函数
+*/
 
 _declspec(dllexport) int login(char* account, char* pwd);
 
-_declspec(dllexport) enum Login_State {
-    SUCCESS,
-    WRONG,
-    NOT_EXIST
-};
 
-_declspec(dllexport) typedef struct Account_Info {
-    int id;
-    char name[11];
-    char class[11];
-    char pwd[20];
-}Account,*pAccount;
+//增加
+_declspec(dllexport) pItem add_item(const char* id, const wchar_t* u_name, const wchar_t* u_class, const wchar_t* b_name, int days);
+//修改
+_declspec(dllexport) pItem change_item(pItem p, const char* id, const wchar_t* u_name, const wchar_t* u_class, const wchar_t* b_name, int days);
+//删除
+_declspec(dllexport) void delete_item(pItem p);
+//获取所有条目
+_declspec(dllexport) pItem get_all_items();
+//获取工作条目
+_declspec(dllexport) pPItem get_need_items();
