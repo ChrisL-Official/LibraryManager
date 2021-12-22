@@ -13,11 +13,14 @@ int init()
 
 }
 
-int login(const wchar_t* account, const wchar_t* pwd)
+int login(const char* account, const char* pwd)
 {
-    if (strcmp(account, pwd) == 0)
+    if (!strcmp(account, "admin"))
     {
-        return SUCCESS;
+        if (!strcmp(account, pwd))
+        {
+            return SUCCESS;
+        }
     }
     return WRONG;
 }
@@ -31,6 +34,8 @@ pItem add_item(const char* id, const wchar_t* u_name, const wchar_t* u_class, co
     wcscpy(p->u_name, u_name);
     wcscpy(p->u_class, u_class);
     wcscpy(p->b_name, b_name);
+    p->days = days;
+    p->fine = 0;
     p->next = NULL;
     if (list_item)
     {
@@ -58,7 +63,7 @@ pItem change_item(pItem p,const char* id, const wchar_t* u_name, const wchar_t* 
     return p;
 }
 
-void delete_item(pItem p)
+void delete_item(const pItem p)
 {
     pItem p_last, p_now;
     p_last = list_item;
@@ -68,6 +73,7 @@ void delete_item(pItem p)
     if (p_last==p)
     {
         list_item = p_now;
+        free(p_now);
         return;
     }
     while (p_now)
@@ -75,6 +81,7 @@ void delete_item(pItem p)
         if (p_now==p)
         {
             p_last->next = p_now->next;
+            free(p_now);
             return;
         }
         p_last = p_now;
