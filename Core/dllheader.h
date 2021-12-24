@@ -29,3 +29,5 @@ _declspec(dllexport) pPItem get_need_items();
 */
 //检查字符串是否为纯数字
 _declspec(dllexport) bool wstr_is_pure_numberic(wchar_t* str);
+//检查字符串是否为id
+_declspec(dllexport) bool wstr_is_id(const wchar_t* str);

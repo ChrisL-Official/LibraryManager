@@ -14,6 +14,9 @@ namespace GUI
             WRONG,
             NOT_EXIST
         }
+
+
+
         public struct Item
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 12)]
@@ -34,6 +37,8 @@ namespace GUI
             public IntPtr p;
             public IntPtr next;
         };
+
+        public static IntPtr PTmp = IntPtr.Zero;
 
         public static void showWarningMsgbox(String msg)
         {

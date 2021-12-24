@@ -43,8 +43,10 @@
             this.edit_bname = new System.Windows.Forms.TextBox();
             this.txt_bname = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.txt_time = new System.Windows.Forms.Label();
+            this.edit_days = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +57,7 @@
             this.txt_title.Font = new System.Drawing.Font("Microsoft YaHei UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txt_title.Location = new System.Drawing.Point(12, 9);
             this.txt_title.Name = "txt_title";
-            this.txt_title.Size = new System.Drawing.Size(478, 40);
+            this.txt_title.Size = new System.Drawing.Size(504, 40);
             this.txt_title.TabIndex = 1;
             this.txt_title.Text = "超期记录详情";
             this.txt_title.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -64,15 +66,15 @@
             // 
             this.groupBox1.Controls.Add(this.btn_cancel);
             this.groupBox1.Controls.Add(this.btn_confirm);
-            this.groupBox1.Location = new System.Drawing.Point(0, 250);
+            this.groupBox1.Location = new System.Drawing.Point(0, 285);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(505, 65);
+            this.groupBox1.Size = new System.Drawing.Size(532, 65);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             // 
             // btn_cancel
             // 
-            this.btn_cancel.Location = new System.Drawing.Point(296, 22);
+            this.btn_cancel.Location = new System.Drawing.Point(322, 23);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(94, 29);
             this.btn_cancel.TabIndex = 1;
@@ -81,7 +83,7 @@
             // 
             // btn_confirm
             // 
-            this.btn_confirm.Location = new System.Drawing.Point(396, 22);
+            this.btn_confirm.Location = new System.Drawing.Point(422, 23);
             this.btn_confirm.Name = "btn_confirm";
             this.btn_confirm.Size = new System.Drawing.Size(94, 29);
             this.btn_confirm.TabIndex = 0;
@@ -91,7 +93,7 @@
             // 
             // btn_user
             // 
-            this.btn_user.Location = new System.Drawing.Point(284, 93);
+            this.btn_user.Location = new System.Drawing.Point(284, 126);
             this.btn_user.Name = "btn_user";
             this.btn_user.Size = new System.Drawing.Size(94, 29);
             this.btn_user.TabIndex = 28;
@@ -109,14 +111,14 @@
             // 
             // edit_id
             // 
-            this.edit_id.Location = new System.Drawing.Point(78, 160);
+            this.edit_id.Location = new System.Drawing.Point(78, 193);
             this.edit_id.Name = "edit_id";
             this.edit_id.Size = new System.Drawing.Size(200, 27);
             this.edit_id.TabIndex = 25;
             // 
             // txt_id
             // 
-            this.txt_id.Location = new System.Drawing.Point(12, 163);
+            this.txt_id.Location = new System.Drawing.Point(12, 196);
             this.txt_id.Name = "txt_id";
             this.txt_id.Size = new System.Drawing.Size(70, 20);
             this.txt_id.TabIndex = 24;
@@ -124,14 +126,14 @@
             // 
             // edit_class
             // 
-            this.edit_class.Location = new System.Drawing.Point(78, 127);
+            this.edit_class.Location = new System.Drawing.Point(78, 160);
             this.edit_class.Name = "edit_class";
             this.edit_class.Size = new System.Drawing.Size(200, 27);
             this.edit_class.TabIndex = 23;
             // 
             // txt_class
             // 
-            this.txt_class.Location = new System.Drawing.Point(12, 130);
+            this.txt_class.Location = new System.Drawing.Point(12, 163);
             this.txt_class.Name = "txt_class";
             this.txt_class.Size = new System.Drawing.Size(70, 20);
             this.txt_class.TabIndex = 22;
@@ -139,14 +141,14 @@
             // 
             // edit_uname
             // 
-            this.edit_uname.Location = new System.Drawing.Point(78, 94);
+            this.edit_uname.Location = new System.Drawing.Point(78, 127);
             this.edit_uname.Name = "edit_uname";
             this.edit_uname.Size = new System.Drawing.Size(200, 27);
             this.edit_uname.TabIndex = 21;
             // 
             // txt_uname
             // 
-            this.txt_uname.Location = new System.Drawing.Point(12, 97);
+            this.txt_uname.Location = new System.Drawing.Point(12, 130);
             this.txt_uname.Name = "txt_uname";
             this.txt_uname.Size = new System.Drawing.Size(70, 20);
             this.txt_uname.TabIndex = 20;
@@ -173,31 +175,48 @@
             this.panel1.Controls.Add(this.txt_title);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(504, 50);
+            this.panel1.Size = new System.Drawing.Size(532, 50);
             this.panel1.TabIndex = 17;
             // 
-            // textBox2
+            // edit_days
             // 
-            this.textBox2.Location = new System.Drawing.Point(78, 193);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(200, 27);
-            this.textBox2.TabIndex = 30;
+            this.edit_days.Location = new System.Drawing.Point(78, 226);
+            this.edit_days.Name = "edit_days";
+            this.edit_days.Size = new System.Drawing.Size(200, 27);
+            this.edit_days.TabIndex = 30;
             // 
-            // txt_time
+            // textBox1
             // 
-            this.txt_time.Location = new System.Drawing.Point(12, 196);
-            this.txt_time.Name = "txt_time";
-            this.txt_time.Size = new System.Drawing.Size(70, 20);
-            this.txt_time.TabIndex = 29;
-            this.txt_time.Text = "时长：";
+            this.textBox1.Location = new System.Drawing.Point(78, 94);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(200, 27);
+            this.textBox1.TabIndex = 32;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(12, 97);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 20);
+            this.label1.TabIndex = 31;
+            this.label1.Text = "ISBN：";
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(12, 229);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(70, 20);
+            this.label2.TabIndex = 29;
+            this.label2.Text = "时长：";
             // 
             // ItemDetailForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 313);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.txt_time);
+            this.ClientSize = new System.Drawing.Size(528, 349);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.edit_days);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btn_user);
             this.Controls.Add(this.btn_book);
@@ -216,6 +235,7 @@
             this.Name = "ItemDetailForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "超期记录详情";
+            this.Load += new System.EventHandler(this.ItemDetailForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -239,8 +259,10 @@
         private System.Windows.Forms.TextBox edit_bname;
         private System.Windows.Forms.Label txt_bname;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label txt_time;
+        private System.Windows.Forms.TextBox edit_days;
         private System.Windows.Forms.Button btn_cancel;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

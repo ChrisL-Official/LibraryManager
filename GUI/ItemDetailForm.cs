@@ -18,32 +18,64 @@ namespace GUI
         [DllImport("Core.dll")]
         extern static IntPtr change_item(IntPtr p,byte[] id, byte[] u_name, byte[] u_class, byte[] b_name, int days);
 
-        private IntPtr current;
+        [DllImport("Core.dll")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        extern static bool wstr_is_pure_numberic(byte[] str);
+
+        [DllImport("Core.dll")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        extern static bool wstr_is_id(byte[] str);
+
+        private IntPtr current = IntPtr.Zero;
 
         public ItemDetailForm(IntPtr p)
         {
+            current = p;
             InitializeComponent();
-            if(p!=IntPtr.Zero)
-            {
-                Item i = (Item)Marshal.PtrToStructure(p, typeof(Item));
-                edit_bname.Text = Encoding.Unicode.GetString(i.b_name).TrimEnd('\0');
-                edit_uname.Text = Encoding.Unicode.GetString(i.u_name).TrimEnd('\0');
-                edit_class.Text = Encoding.Unicode.GetString(i.u_class).TrimEnd('\0');
-                edit_id.Text = Encoding.ASCII.GetString(i.id).TrimEnd('\0');
-                current = p;
-            }
+        }
+
+        public ItemDetailForm()
+        {
+            InitializeComponent();
         }
 
         private void btn_confirm_Click(object sender, EventArgs e)
         {
-            if(current==IntPtr.Zero)
+            if(edit_bname.Text.Length==0||
+                edit_class.Text.Length==0||
+                edit_id.Text.Length==0||
+                edit_days.Text.Length==0)
             {
-                add_item(Encoding.ASCII.GetBytes(edit_id.Text),
+                MyUtil.showWarningMsgbox("所有项都是必填项。");
+                return;
+            }
+            if (!wstr_is_pure_numberic(Encoding.Unicode.GetBytes(edit_days.Text)))
+            {
+                MyUtil.showWarningMsgbox("天数只能是大于0的纯数字。");
+                return;
+            }
+            if (!wstr_is_id(Encoding.Unicode.GetBytes(edit_id.Text)))
+            {
+                MyUtil.showWarningMsgbox("学号只能由数字和大写字母(A-Z)组成。");
+                return;
+            }
+            if (current==IntPtr.Zero)
+            {
+                current = add_item(Encoding.ASCII.GetBytes(edit_id.Text),
                     Encoding.Unicode.GetBytes(edit_uname.Text),
                     Encoding.Unicode.GetBytes(edit_class.Text),
                     Encoding.Unicode.GetBytes(edit_bname.Text),
                     2);
-                DialogResult = DialogResult.OK;
+                if(current==IntPtr.Zero)
+                {
+                    MyUtil.showErrorMsgbox("添加失败。");
+                    DialogResult = DialogResult.Abort;
+                }
+                else
+                {
+                    DialogResult = DialogResult.OK;
+                    MyUtil.PTmp = current;
+                }
             }
             else
             {
@@ -56,6 +88,18 @@ namespace GUI
                 DialogResult = DialogResult.OK;
             }
             Dispose();
+        }
+
+        private void ItemDetailForm_Load(object sender, EventArgs e)
+        {
+            if (current != IntPtr.Zero)
+            {
+                Item i = (Item)Marshal.PtrToStructure(current, typeof(Item));
+                edit_bname.Text = Encoding.Unicode.GetString(i.b_name).TrimEnd('\0');
+                edit_uname.Text = Encoding.Unicode.GetString(i.u_name).TrimEnd('\0');
+                edit_class.Text = Encoding.Unicode.GetString(i.u_class).TrimEnd('\0');
+                edit_id.Text = Encoding.ASCII.GetString(i.id).TrimEnd('\0');
+            }
         }
     }
 }

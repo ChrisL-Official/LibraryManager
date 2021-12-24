@@ -63,15 +63,15 @@
             // 
             this.groupBox1.Controls.Add(this.btn_reset);
             this.groupBox1.Controls.Add(this.btn_search);
-            this.groupBox1.Location = new System.Drawing.Point(0, 249);
+            this.groupBox1.Location = new System.Drawing.Point(12, 385);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(505, 65);
+            this.groupBox1.Size = new System.Drawing.Size(664, 65);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             // 
             // btn_reset
             // 
-            this.btn_reset.Location = new System.Drawing.Point(296, 23);
+            this.btn_reset.Location = new System.Drawing.Point(455, 23);
             this.btn_reset.Name = "btn_reset";
             this.btn_reset.Size = new System.Drawing.Size(94, 29);
             this.btn_reset.TabIndex = 1;
@@ -80,7 +80,7 @@
             // 
             // btn_search
             // 
-            this.btn_search.Location = new System.Drawing.Point(396, 23);
+            this.btn_search.Location = new System.Drawing.Point(555, 23);
             this.btn_search.Name = "btn_search";
             this.btn_search.Size = new System.Drawing.Size(94, 29);
             this.btn_search.TabIndex = 0;
@@ -93,7 +93,7 @@
             this.panel1.Controls.Add(this.txt_title);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(504, 50);
+            this.panel1.Size = new System.Drawing.Size(676, 50);
             this.panel1.TabIndex = 4;
             // 
             // txt_bname
@@ -187,7 +187,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ClientSize = new System.Drawing.Size(502, 313);
+            this.ClientSize = new System.Drawing.Size(673, 451);
             this.Controls.Add(this.btn_user);
             this.Controls.Add(this.btn_book);
             this.Controls.Add(this.txt_des);

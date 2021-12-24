@@ -45,6 +45,7 @@ namespace GUI
             item.SubItems.Add(Encoding.Unicode.GetString(i.u_name).TrimEnd('\0'));
             item.SubItems.Add(Encoding.Unicode.GetString(i.u_class).TrimEnd('\0'));
             item.SubItems.Add(Encoding.Unicode.GetString(i.b_name).TrimEnd('\0'));
+            item.SubItems.Add("1234567890123");//ISBN
             item.SubItems.Add(Convert.ToString(i.days));
             item.SubItems.Add(Convert.ToString(i.fine));
             item.Tag = p;
@@ -74,7 +75,7 @@ namespace GUI
                 Encoding.Unicode.GetBytes("21计科2"),
                 Encoding.Unicode.GetBytes("我的世界"),2);
             UpdateList();*/
-            ItemDetailForm form = new ItemDetailForm(IntPtr.Zero);
+            ItemDetailForm form = new ItemDetailForm();
             form.ShowDialog();
         }
 
@@ -92,6 +93,12 @@ namespace GUI
         private void btn_fresh_Click(object sender, EventArgs e)
         {
             UpdateList();
+        }
+
+        private void btn_search_Click(object sender, EventArgs e)
+        {
+            ItemDetailForm form = new ItemDetailForm((IntPtr)list_main.SelectedItems[0].Tag);
+            form.ShowDialog();
         }
     }
 }
