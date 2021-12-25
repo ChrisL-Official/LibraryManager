@@ -84,7 +84,7 @@ namespace GUI
         {
             if (current != IntPtr.Zero)
             {
-                User u = (User)Marshal.PtrToStructure(current, typeof(Item));
+                User u = (User)Marshal.PtrToStructure(current, typeof(User));
                 edit_name.Text = Encoding.Unicode.GetString(u.u_name).TrimEnd('\0');
                 edit_class.Text = Encoding.Unicode.GetString(u.u_class).TrimEnd('\0');
                 edit_id.Text = Encoding.ASCII.GetString(u.id).TrimEnd('\0');

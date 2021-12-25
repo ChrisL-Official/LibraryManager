@@ -112,7 +112,7 @@ namespace GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            new UserManagerForm().ShowDialog();
+            new UserManagerForm(false).ShowDialog();
         }
 
         private void list_Selected(object sender, ListViewItemSelectionChangedEventArgs e)

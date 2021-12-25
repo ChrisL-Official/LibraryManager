@@ -104,7 +104,7 @@ namespace GUI
 
         private void btn_user_Click(object sender, EventArgs e)
         {
-            UserManagerForm form = new UserManagerForm();
+            UserManagerForm form = new UserManagerForm(true);
             if(form.ShowDialog() == DialogResult.OK)
             {
                 User u = (User)Marshal.PtrToStructure(PTmp, typeof(User));
@@ -112,6 +112,11 @@ namespace GUI
                 edit_class.Text = Encoding.Unicode.GetString(u.u_class).TrimEnd('\0');
                 edit_id.Text = Encoding.ASCII.GetString(u.id).TrimEnd('\0');
             }
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            Dispose();
         }
     }
 }

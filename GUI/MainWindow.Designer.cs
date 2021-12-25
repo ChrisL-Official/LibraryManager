@@ -58,9 +58,10 @@ namespace GUI
             this.bar_status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.txt_info,
             this.txt_time});
-            this.bar_status.Location = new System.Drawing.Point(0, 443);
+            this.bar_status.Location = new System.Drawing.Point(0, 372);
             this.bar_status.Name = "bar_status";
-            this.bar_status.Size = new System.Drawing.Size(782, 30);
+            this.bar_status.Padding = new System.Windows.Forms.Padding(1, 0, 11, 0);
+            this.bar_status.Size = new System.Drawing.Size(608, 30);
             this.bar_status.SizingGrip = false;
             this.bar_status.TabIndex = 0;
             this.bar_status.Text = "statusStrip1";
@@ -74,7 +75,7 @@ namespace GUI
             this.txt_info.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
             this.txt_info.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.txt_info.Name = "txt_info";
-            this.txt_info.Size = new System.Drawing.Size(500, 24);
+            this.txt_info.Size = new System.Drawing.Size(400, 25);
             this.txt_info.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txt_time
@@ -86,14 +87,15 @@ namespace GUI
             this.txt_time.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
             this.txt_time.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.txt_time.Name = "txt_time";
-            this.txt_time.Size = new System.Drawing.Size(200, 24);
+            this.txt_time.Size = new System.Drawing.Size(200, 25);
             // 
             // txt_heading
             // 
             this.txt_heading.Font = new System.Drawing.Font("Microsoft YaHei UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txt_heading.Location = new System.Drawing.Point(12, 9);
+            this.txt_heading.Location = new System.Drawing.Point(9, 8);
+            this.txt_heading.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txt_heading.Name = "txt_heading";
-            this.txt_heading.Size = new System.Drawing.Size(358, 90);
+            this.txt_heading.Size = new System.Drawing.Size(278, 76);
             this.txt_heading.TabIndex = 1;
             this.txt_heading.Text = "超期借阅图书管理系统";
             this.txt_heading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -140,9 +142,10 @@ namespace GUI
             // 
             // btn_search
             // 
-            this.btn_search.Location = new System.Drawing.Point(576, 105);
+            this.btn_search.Location = new System.Drawing.Point(448, 89);
+            this.btn_search.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_search.Name = "btn_search";
-            this.btn_search.Size = new System.Drawing.Size(94, 29);
+            this.btn_search.Size = new System.Drawing.Size(73, 25);
             this.btn_search.TabIndex = 5;
             this.btn_search.Text = "筛选搜索...";
             this.btn_search.UseVisualStyleBackColor = true;
@@ -150,30 +153,33 @@ namespace GUI
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(118, 105);
+            this.btn_add.Location = new System.Drawing.Point(92, 89);
+            this.btn_add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(80, 29);
-            this.btn_add.TabIndex = 6;
+            this.btn_add.Size = new System.Drawing.Size(62, 25);
+            this.btn_add.TabIndex = 1;
             this.btn_add.Text = "新增...";
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
             // 
             // btn_delete
             // 
-            this.btn_delete.Location = new System.Drawing.Point(290, 105);
+            this.btn_delete.Location = new System.Drawing.Point(226, 89);
+            this.btn_delete.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_delete.Name = "btn_delete";
-            this.btn_delete.Size = new System.Drawing.Size(80, 29);
-            this.btn_delete.TabIndex = 7;
+            this.btn_delete.Size = new System.Drawing.Size(62, 25);
+            this.btn_delete.TabIndex = 3;
             this.btn_delete.Text = "删除";
             this.btn_delete.UseVisualStyleBackColor = true;
             this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
             // 
             // btn_edit
             // 
-            this.btn_edit.Location = new System.Drawing.Point(204, 105);
+            this.btn_edit.Location = new System.Drawing.Point(159, 89);
+            this.btn_edit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_edit.Name = "btn_edit";
-            this.btn_edit.Size = new System.Drawing.Size(80, 29);
-            this.btn_edit.TabIndex = 8;
+            this.btn_edit.Size = new System.Drawing.Size(62, 25);
+            this.btn_edit.TabIndex = 2;
             this.btn_edit.Text = "修改...";
             this.btn_edit.UseVisualStyleBackColor = true;
             this.btn_edit.Click += new System.EventHandler(this.btn_edit_Click);
@@ -185,29 +191,32 @@ namespace GUI
             // 
             // btn_sort
             // 
-            this.btn_sort.Location = new System.Drawing.Point(476, 105);
+            this.btn_sort.Location = new System.Drawing.Point(370, 89);
+            this.btn_sort.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_sort.Name = "btn_sort";
-            this.btn_sort.Size = new System.Drawing.Size(94, 29);
-            this.btn_sort.TabIndex = 10;
+            this.btn_sort.Size = new System.Drawing.Size(73, 25);
+            this.btn_sort.TabIndex = 4;
             this.btn_sort.Text = "排序...";
             this.btn_sort.UseVisualStyleBackColor = true;
             // 
             // btn_fresh
             // 
-            this.btn_fresh.Location = new System.Drawing.Point(12, 105);
+            this.btn_fresh.Location = new System.Drawing.Point(9, 89);
+            this.btn_fresh.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_fresh.Name = "btn_fresh";
-            this.btn_fresh.Size = new System.Drawing.Size(80, 29);
-            this.btn_fresh.TabIndex = 11;
+            this.btn_fresh.Size = new System.Drawing.Size(62, 25);
+            this.btn_fresh.TabIndex = 0;
             this.btn_fresh.Text = "刷新";
             this.btn_fresh.UseVisualStyleBackColor = true;
             this.btn_fresh.Click += new System.EventHandler(this.btn_fresh_Click);
             // 
             // btn_backup
             // 
-            this.btn_backup.Location = new System.Drawing.Point(676, 105);
+            this.btn_backup.Location = new System.Drawing.Point(526, 89);
+            this.btn_backup.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_backup.Name = "btn_backup";
-            this.btn_backup.Size = new System.Drawing.Size(94, 29);
-            this.btn_backup.TabIndex = 12;
+            this.btn_backup.Size = new System.Drawing.Size(73, 25);
+            this.btn_backup.TabIndex = 6;
             this.btn_backup.Text = "备份...";
             this.btn_backup.UseVisualStyleBackColor = true;
             // 
@@ -226,9 +235,10 @@ namespace GUI
             listViewItem1.StateImageIndex = 0;
             this.list_main.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
-            this.list_main.Location = new System.Drawing.Point(12, 140);
+            this.list_main.Location = new System.Drawing.Point(9, 119);
+            this.list_main.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.list_main.Name = "list_main";
-            this.list_main.Size = new System.Drawing.Size(758, 300);
+            this.list_main.Size = new System.Drawing.Size(590, 250);
             this.list_main.TabIndex = 15;
             this.list_main.UseCompatibleStateImageBehavior = false;
             this.list_main.View = System.Windows.Forms.View.Details;
@@ -237,18 +247,21 @@ namespace GUI
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Location = new System.Drawing.Point(476, 9);
+            this.groupBox2.Location = new System.Drawing.Point(370, 8);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(294, 90);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.groupBox2.Size = new System.Drawing.Size(229, 76);
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "用户";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(200, 36);
+            this.button1.Location = new System.Drawing.Point(156, 31);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(88, 29);
+            this.button1.Size = new System.Drawing.Size(68, 25);
             this.button1.TabIndex = 17;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
@@ -256,9 +269,9 @@ namespace GUI
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(782, 473);
+            this.ClientSize = new System.Drawing.Size(608, 402);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.list_main);
             this.Controls.Add(this.btn_backup);
@@ -271,6 +284,7 @@ namespace GUI
             this.Controls.Add(this.txt_heading);
             this.Controls.Add(this.bar_status);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

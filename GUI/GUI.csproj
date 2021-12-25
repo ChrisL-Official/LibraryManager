@@ -21,7 +21,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <OutputPath>D:\CProject\LibraryManager\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)Debug</OutputPath>
     <DocumentationFile />
   </PropertyGroup>
 
@@ -29,7 +29,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <OutputPath>D:\CProject\LibraryManager\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)Debug</OutputPath>
     <DocumentationFile />
   </PropertyGroup>
 

@@ -14,9 +14,11 @@ namespace GUI
         [DllImport("Core.dll")]
         extern static IntPtr get_all_users();
 
-        public UserManagerForm()
+        public UserManagerForm(bool showbtns)
         {
             InitializeComponent();
+            btn_confirm.Visible = showbtns;
+            btn_cancel.Visible = showbtns;
         }
 
         private void UserManagerForm_Load(object sender, EventArgs e)
@@ -57,7 +59,7 @@ namespace GUI
             if(list_main.Items.Count == 0)
             {
                 btn_delete.Enabled = false;
-                btn_edit.Enabled = false;
+                btn_edit.Enabled = false; 
             }
         }
 
@@ -105,11 +107,13 @@ namespace GUI
             {
                 btn_delete.Enabled = false;
                 btn_edit.Enabled = false;
+                btn_confirm.Enabled = false;
             }
             else
             {
                 btn_delete.Enabled = true;
                 btn_edit.Enabled = list_main.SelectedItems.Count==1;
+                btn_confirm.Enabled = list_main.SelectedItems.Count == 1;
             }
         }
     }

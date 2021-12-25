@@ -43,9 +43,10 @@
             // 
             // btn_delete
             // 
-            this.btn_delete.Location = new System.Drawing.Point(368, 152);
+            this.btn_delete.Location = new System.Drawing.Point(286, 129);
+            this.btn_delete.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_delete.Name = "btn_delete";
-            this.btn_delete.Size = new System.Drawing.Size(120, 29);
+            this.btn_delete.Size = new System.Drawing.Size(93, 25);
             this.btn_delete.TabIndex = 10;
             this.btn_delete.Text = "删除";
             this.btn_delete.UseVisualStyleBackColor = true;
@@ -53,9 +54,10 @@
             // 
             // btn_edit
             // 
-            this.btn_edit.Location = new System.Drawing.Point(368, 117);
+            this.btn_edit.Location = new System.Drawing.Point(286, 99);
+            this.btn_edit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_edit.Name = "btn_edit";
-            this.btn_edit.Size = new System.Drawing.Size(120, 29);
+            this.btn_edit.Size = new System.Drawing.Size(93, 25);
             this.btn_edit.TabIndex = 8;
             this.btn_edit.Text = "修改...";
             this.btn_edit.UseVisualStyleBackColor = true;
@@ -63,9 +65,10 @@
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(368, 82);
+            this.btn_add.Location = new System.Drawing.Point(286, 70);
+            this.btn_add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(120, 29);
+            this.btn_add.Size = new System.Drawing.Size(93, 25);
             this.btn_add.TabIndex = 7;
             this.btn_add.Text = "添加...";
             this.btn_add.UseVisualStyleBackColor = true;
@@ -80,9 +83,10 @@
             this.col_class});
             this.list_main.FullRowSelect = true;
             this.list_main.HideSelection = false;
-            this.list_main.Location = new System.Drawing.Point(12, 12);
+            this.list_main.Location = new System.Drawing.Point(9, 10);
+            this.list_main.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.list_main.Name = "list_main";
-            this.list_main.Size = new System.Drawing.Size(350, 329);
+            this.list_main.Size = new System.Drawing.Size(273, 280);
             this.list_main.TabIndex = 6;
             this.list_main.UseCompatibleStateImageBehavior = false;
             this.list_main.View = System.Windows.Forms.View.Details;
@@ -113,9 +117,11 @@
             // 
             // btn_confirm
             // 
-            this.btn_confirm.Location = new System.Drawing.Point(368, 312);
+            this.btn_confirm.Enabled = false;
+            this.btn_confirm.Location = new System.Drawing.Point(286, 265);
+            this.btn_confirm.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_confirm.Name = "btn_confirm";
-            this.btn_confirm.Size = new System.Drawing.Size(120, 29);
+            this.btn_confirm.Size = new System.Drawing.Size(93, 25);
             this.btn_confirm.TabIndex = 11;
             this.btn_confirm.Text = "确定";
             this.btn_confirm.UseVisualStyleBackColor = true;
@@ -123,9 +129,10 @@
             // 
             // btn_fresh
             // 
-            this.btn_fresh.Location = new System.Drawing.Point(368, 12);
+            this.btn_fresh.Location = new System.Drawing.Point(286, 10);
+            this.btn_fresh.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_fresh.Name = "btn_fresh";
-            this.btn_fresh.Size = new System.Drawing.Size(120, 29);
+            this.btn_fresh.Size = new System.Drawing.Size(93, 25);
             this.btn_fresh.TabIndex = 12;
             this.btn_fresh.Text = "刷新";
             this.btn_fresh.UseVisualStyleBackColor = true;
@@ -133,9 +140,10 @@
             // 
             // btn_cancel
             // 
-            this.btn_cancel.Location = new System.Drawing.Point(368, 277);
+            this.btn_cancel.Location = new System.Drawing.Point(286, 235);
+            this.btn_cancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(120, 29);
+            this.btn_cancel.Size = new System.Drawing.Size(93, 25);
             this.btn_cancel.TabIndex = 13;
             this.btn_cancel.Text = "取消";
             this.btn_cancel.UseVisualStyleBackColor = true;
@@ -143,9 +151,9 @@
             // 
             // UserManagerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(497, 353);
+            this.ClientSize = new System.Drawing.Size(387, 300);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_fresh);
             this.Controls.Add(this.btn_delete);
@@ -154,6 +162,7 @@
             this.Controls.Add(this.list_main);
             this.Controls.Add(this.btn_confirm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UserManagerForm";
