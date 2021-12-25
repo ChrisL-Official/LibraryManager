@@ -17,7 +17,8 @@ namespace GUI
         [DllImport("kernel32.dll")]
         extern static IntPtr FreeLibrary(IntPtr handle);
 
-
+        [DllImport("Core.dll")]
+        extern static void init();
 
 
         //[STAThread]
@@ -29,7 +30,7 @@ namespace GUI
                 MyUtil.showErrorMsgbox("未找到关键文件Core.dll!\n请把Core.dll放入\"" + System.Environment.CurrentDirectory + "\"文件夹。");
                 return;
             }
-
+            //init();
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

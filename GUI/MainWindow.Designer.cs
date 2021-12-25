@@ -45,11 +45,11 @@ namespace GUI
             this.btn_sort = new System.Windows.Forms.Button();
             this.btn_fresh = new System.Windows.Forms.Button();
             this.btn_backup = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.list_main = new System.Windows.Forms.ListView();
-            this.col_isbn = new System.Windows.Forms.ColumnHeader();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.bar_status.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // bar_status
@@ -58,9 +58,9 @@ namespace GUI
             this.bar_status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.txt_info,
             this.txt_time});
-            this.bar_status.Location = new System.Drawing.Point(0, 523);
+            this.bar_status.Location = new System.Drawing.Point(0, 443);
             this.bar_status.Name = "bar_status";
-            this.bar_status.Size = new System.Drawing.Size(932, 30);
+            this.bar_status.Size = new System.Drawing.Size(782, 30);
             this.bar_status.SizingGrip = false;
             this.bar_status.TabIndex = 0;
             this.bar_status.Text = "statusStrip1";
@@ -140,7 +140,7 @@ namespace GUI
             // 
             // btn_search
             // 
-            this.btn_search.Location = new System.Drawing.Point(726, 105);
+            this.btn_search.Location = new System.Drawing.Point(576, 105);
             this.btn_search.Name = "btn_search";
             this.btn_search.Size = new System.Drawing.Size(94, 29);
             this.btn_search.TabIndex = 5;
@@ -185,7 +185,7 @@ namespace GUI
             // 
             // btn_sort
             // 
-            this.btn_sort.Location = new System.Drawing.Point(626, 105);
+            this.btn_sort.Location = new System.Drawing.Point(476, 105);
             this.btn_sort.Name = "btn_sort";
             this.btn_sort.Size = new System.Drawing.Size(94, 29);
             this.btn_sort.TabIndex = 10;
@@ -204,21 +204,12 @@ namespace GUI
             // 
             // btn_backup
             // 
-            this.btn_backup.Location = new System.Drawing.Point(826, 105);
+            this.btn_backup.Location = new System.Drawing.Point(676, 105);
             this.btn_backup.Name = "btn_backup";
             this.btn_backup.Size = new System.Drawing.Size(94, 29);
             this.btn_backup.TabIndex = 12;
             this.btn_backup.Text = "备份...";
             this.btn_backup.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(491, 9);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(229, 90);
-            this.groupBox1.TabIndex = 13;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
             // 
             // list_main
             // 
@@ -228,7 +219,6 @@ namespace GUI
             this.col_name,
             this.col_class,
             this.col_book,
-            this.col_isbn,
             this.col_days,
             this.col_fine});
             this.list_main.FullRowSelect = true;
@@ -238,34 +228,39 @@ namespace GUI
             listViewItem1});
             this.list_main.Location = new System.Drawing.Point(12, 140);
             this.list_main.Name = "list_main";
-            this.list_main.Size = new System.Drawing.Size(908, 380);
+            this.list_main.Size = new System.Drawing.Size(758, 300);
             this.list_main.TabIndex = 15;
             this.list_main.UseCompatibleStateImageBehavior = false;
             this.list_main.View = System.Windows.Forms.View.Details;
-            // 
-            // col_isbn
-            // 
-            this.col_isbn.Text = "ISBN";
-            this.col_isbn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.col_isbn.Width = 160;
+            this.list_main.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.list_Selected);
             // 
             // groupBox2
             // 
-            this.groupBox2.Location = new System.Drawing.Point(726, 9);
+            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Location = new System.Drawing.Point(476, 9);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(194, 90);
+            this.groupBox2.Size = new System.Drawing.Size(294, 90);
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "用户";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(200, 36);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(88, 29);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(932, 553);
+            this.ClientSize = new System.Drawing.Size(782, 473);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.list_main);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btn_backup);
             this.Controls.Add(this.btn_fresh);
             this.Controls.Add(this.btn_sort);
@@ -283,6 +278,7 @@ namespace GUI
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.bar_status.ResumeLayout(false);
             this.bar_status.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -309,10 +305,9 @@ namespace GUI
         private System.Windows.Forms.ColumnHeader col_fine;
         private System.Windows.Forms.Button btn_fresh;
         private System.Windows.Forms.Button btn_backup;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListView list_main;
-        private System.Windows.Forms.ColumnHeader col_isbn;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button1;
     }
 }
 

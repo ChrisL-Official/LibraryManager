@@ -24,6 +24,14 @@ _declspec(dllexport) pItem get_all_items();
 //获取工作条目
 _declspec(dllexport) pPItem get_need_items();
 
+_declspec(dllexport) pUser get_all_users();
+
+_declspec(dllexport) pUser add_user(const char* id, const wchar_t* uname, const wchar_t* uclass);
+
+_declspec(dllexport) pUser change_user(pUser p, const char* id, const wchar_t* uname, const wchar_t* uclass);
+
+_declspec(dllexport) pUser delete_user(pUser p);
+
 /*
 *  util.c
 */

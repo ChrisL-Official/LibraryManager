@@ -9,6 +9,15 @@ enum Login_State {
     NEGETIVE_NUM
 };
 
+typedef struct User_Info User, * pUser;
+struct User_Info {
+    char id[12];
+    wchar_t uname[5];
+    wchar_t uclass[10];
+    pUser pervious;
+    pUser next;
+};
+
 typedef struct Item_Info Item, *pItem;
 struct Item_Info {
     char id[12];

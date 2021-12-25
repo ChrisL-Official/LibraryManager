@@ -35,6 +35,11 @@ namespace GUI
                 p = AddItem(p);
             }
             list_main.EndUpdate();
+            if (list_main.Items.Count == 0)
+            {
+                btn_delete.Enabled = false;
+                btn_edit.Enabled = false;
+            }
         }
 
         private IntPtr AddItem(IntPtr p)
@@ -45,7 +50,6 @@ namespace GUI
             item.SubItems.Add(Encoding.Unicode.GetString(i.u_name).TrimEnd('\0'));
             item.SubItems.Add(Encoding.Unicode.GetString(i.u_class).TrimEnd('\0'));
             item.SubItems.Add(Encoding.Unicode.GetString(i.b_name).TrimEnd('\0'));
-            item.SubItems.Add("1234567890123");//ISBN
             item.SubItems.Add(Convert.ToString(i.days));
             item.SubItems.Add(Convert.ToString(i.fine));
             item.Tag = p;
@@ -56,6 +60,7 @@ namespace GUI
         private void MainWindow_Load(object sender, EventArgs e)
         {
             timer_date.Start();
+            UpdateList();
         }
 
         private void btn_delete_Click(object sender, EventArgs e)
@@ -77,6 +82,10 @@ namespace GUI
             UpdateList();*/
             ItemDetailForm form = new ItemDetailForm();
             form.ShowDialog();
+            if(form.DialogResult == DialogResult.OK)
+            {
+                UpdateList();
+            }
         }
 
         private void btn_edit_Click(object sender, EventArgs e)
@@ -99,6 +108,25 @@ namespace GUI
         {
             ItemDetailForm form = new ItemDetailForm((IntPtr)list_main.SelectedItems[0].Tag);
             form.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new UserManagerForm().ShowDialog();
+        }
+
+        private void list_Selected(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (list_main.SelectedItems.Count == 0)
+            {
+                btn_delete.Enabled = false;
+                btn_edit.Enabled = false;
+            }
+            else
+            {
+                btn_delete.Enabled = true;
+                btn_edit.Enabled = list_main.SelectedItems.Count == 1;
+            }
         }
     }
 }

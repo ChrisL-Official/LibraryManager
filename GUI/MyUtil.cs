@@ -15,8 +15,7 @@ namespace GUI
             NOT_EXIST
         }
 
-
-
+        //需严格按照C内布局
         public struct Item
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 12)]
@@ -32,9 +31,15 @@ namespace GUI
             public IntPtr next;
         };
 
-        public struct PItem
+        public struct User
         {
-            public IntPtr p;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 12)]
+            public byte[] id;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+            public byte[] u_name;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
+            public byte[] u_class;
+            public IntPtr pervious;
             public IntPtr next;
         };
 
