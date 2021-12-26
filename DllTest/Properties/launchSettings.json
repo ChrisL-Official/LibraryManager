@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DllTest": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

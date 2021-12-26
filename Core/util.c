@@ -29,3 +29,33 @@ bool wstr_is_id(const wchar_t* str)
     }
     return true;
 }
+
+pNode add_item(pLinkedList list, pNode p)
+{
+    if (list->head)
+    {
+        p->pervious = list->tail;
+        list->tail->next = p;
+    }
+    else
+    {
+        list->head = p;
+    }
+    list->tail = p;
+    list->items++;
+    return p;
+}
+
+void delete_item(pLinkedList list, pNode p)
+{
+    //Í·Ö¸Õë½ûÖ¹É¾³ı
+    p->pervious->next = p->next;
+    p->next->pervious = p->pervious;
+    free(p);
+    list->items--;
+}
+
+void reverse_list(pLinkedList des, pLinkedList sur)
+{
+
+}

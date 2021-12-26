@@ -106,7 +106,7 @@ namespace GUI
 
         private void btn_search_Click(object sender, EventArgs e)
         {
-            ItemDetailForm form = new ItemDetailForm((IntPtr)list_main.SelectedItems[0].Tag);
+            SearchForm form = new SearchForm();
             form.ShowDialog();
         }
 
@@ -127,6 +127,12 @@ namespace GUI
                 btn_delete.Enabled = true;
                 btn_edit.Enabled = list_main.SelectedItems.Count == 1;
             }
+        }
+
+        private void btn_sort_Click(object sender, EventArgs e)
+        {
+            SortForm sortForm = new SortForm();
+            sortForm.ShowDialog();
         }
     }
 }

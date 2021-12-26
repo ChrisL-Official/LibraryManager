@@ -5,14 +5,26 @@
 #include "dllheader.h"
 #include "util.h"
 
-pItem list_item = NULL; //总表 
-pPItem list_working = NULL; //工作表
+//pItem list_item = NULL; //总表 
+//pPItem list_working = NULL; //工作表
 
-pUser list_user = NULL;
+//pUser list_user = NULL;
+
+//pNode list_penalty = NULL;
+//pNode list_penalty_last = NULL;
+
+//pNode list_user = NULL;
+//pNode list_user_last = NULL;
+
+LinkedList list_penalty = { NULL,NULL,0 };
+LinkedList list_user = { NULL,NULL,0 };
 
 int init()
 {
-    add_user("0", L"[不存在]", L"[不存在]");
+    //每个链表的头都是预留的错误项
+    const wchar_t* error = L"[错误]";
+    add_user("?", error, error);
+    add_penalty(error, 0);
 }
 
 int login(const char* account, const char* pwd)
@@ -27,132 +39,51 @@ int login(const char* account, const char* pwd)
     return WRONG;
 }
 
-//添加
-pItem add_item(const char* id, const wchar_t* u_name, const wchar_t* u_class, const wchar_t* b_name,int days)
+pNode add_user(const char* u_id, const wchar_t* u_name, const wchar_t* u_class)
 {
-    pItem p = (pItem)malloc(sizeof(Item));
+    pNode p = (pNode)malloc(sizeof(Node));
     if (!p) return NULL;
-    strcpy(p->id, id);
+    memset(p, 0, sizeof(Node));
+    strcpy(p->u_id, u_id);
     wcscpy(p->u_name, u_name);
     wcscpy(p->u_class, u_class);
+    add_item(&list_user, p);
+}
+
+pNode add_penalty(const wchar_t* b_name,unsigned short days)
+{
+    pNode p = (pNode)malloc(sizeof(Node));
+    if (!p) return NULL;
+    memset(p, 0, sizeof(Node));
     wcscpy(p->b_name, b_name);
     p->days = days;
-    p->fine = 0;
-    p->next = NULL;
-
-    if (list_item)
-    {
-        pItem p1 = list_item;
-        while (p1->next)
-        {
-            p1 = p1->next;
-        }
-        p1->next = p;
-    }
-    else
-    {
-        list_item = p;
-    }
-    return p;
+    p->fine = 2.0;
+    add_item(&list_penalty, p);
 }
 
-pItem change_item(pItem p,const char* id, const wchar_t* u_name, const wchar_t* u_class, const wchar_t* b_name, int days)
+void edit_user(pNode p, const char* u_id, const wchar_t* u_name, const wchar_t* u_class)
 {
-    if (!p) return NULL;
-    strcpy(p->id, id);
+    if (!p) return;
+    strcpy(p->u_id, u_id);
     wcscpy(p->u_name, u_name);
     wcscpy(p->u_class, u_class);
+}
+
+void edit_penalty(pNode p, const wchar_t* b_name, unsigned short days)
+{
+    if (!p) return;
+    memset(p, 0, sizeof(Node));
     wcscpy(p->b_name, b_name);
-    return p;
+    p->days = days;
+    p->fine = 2.0;
 }
 
-void delete_item(const pItem p)
+pLinkedList get_user_list()
 {
-    pItem p_last, p_now;
-    p_last = list_item;
-    if (p_last == NULL)
-        return;
-    p_now = p_last->next;
-    if (p_last==p)
-    {
-        list_item = p_now;
-        free(p);
-        return;
-    }
-    while (p_now)
-    {
-        if (p_now==p)
-        {
-            p_last->next = p_now->next;
-            free(p);
-            return;
-        }
-        p_last = p_now;
-        p_now = p_last->next;
-    }
+    return &list_user;
 }
 
-
-pItem get_all_items()
+pLinkedList get_penalty_list()
 {
-    return list_item;
-}
-
-pUser get_all_users()
-{
-    return list_user;
-}
-
-pPItem get_need_items()
-{
-    return list_working;
-}
-
-pUser add_user(const char* id, const wchar_t* uname, const wchar_t* uclass)
-{
-    pUser p = (pUser)malloc(sizeof(User));
-    if (!p) return NULL;
-    strcpy(p->id, id);
-    wcscpy(p->uname, uname);
-    wcscpy(p->uclass, uclass);
-    p->next = NULL;
-    if (list_user)
-    {
-        pUser p1 = list_user;
-        while (p1->next)
-        {
-            p1 = p1->next;
-        }
-        p1->next = p;
-        p->pervious = p1;
-    }
-    else
-    {
-        p->pervious = NULL;
-        list_user = p;
-    }
-    return p;
-}
-
-pUser change_user(pUser p, const char* id, const wchar_t* uname, const wchar_t* uclass)
-{
-    if (!p) return NULL;
-    strcpy(p->id, id);
-    wcscpy(p->uname, uname);
-    wcscpy(p->uclass, uclass);
-    return p;
-}
-
-pUser delete_user(pUser p)
-{
-    if (p->pervious)
-    {
-        p->pervious->next = p->next;
-    }
-    else
-    {
-        list_user = p->next;
-    }
-    if(p->next) p->next->pervious = p->pervious;
-    free(p);
+    return &list_penalty;
 }

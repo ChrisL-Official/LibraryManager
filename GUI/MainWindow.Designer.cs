@@ -198,6 +198,7 @@ namespace GUI
             this.btn_sort.TabIndex = 4;
             this.btn_sort.Text = "排序...";
             this.btn_sort.UseVisualStyleBackColor = true;
+            this.btn_sort.Click += new System.EventHandler(this.btn_sort_Click);
             // 
             // btn_fresh
             // 
