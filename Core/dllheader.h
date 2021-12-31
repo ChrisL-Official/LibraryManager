@@ -36,15 +36,13 @@ _declspec(dllexport) pNode add_item(pLinkedList list, pNode data);
 
 _declspec(dllexport) void delete_item(pNode p);
 
-_declspec(dllexport) void change_item(pNode p, pNode data);
-
 _declspec(dllexport) pLinkedList get_user_list();
 
 _declspec(dllexport) pLinkedList get_penalty_list();
 
 _declspec(dllexport) pNode add_user(const char* u_id, const wchar_t* u_name, const wchar_t* u_class);
 
-_declspec(dllexport) pNode add_penalty(const wchar_t* b_name, unsigned short days);
+_declspec(dllexport) pNode add_penalty(const wchar_t* b_name, const char* b_id,unsigned short days);
 
 /*
 *  util.c
@@ -53,3 +51,5 @@ _declspec(dllexport) pNode add_penalty(const wchar_t* b_name, unsigned short day
 _declspec(dllexport) bool wstr_is_pure_numberic(wchar_t* str);
 //¼ì²é×Ö·û´®ÊÇ·ñÎªid
 _declspec(dllexport) bool wstr_is_id(const wchar_t* str);
+//×Ö·û´®×ªÊý×Ö
+_declspec(dllexport) int wstr_to_int(const wchar_t* str);

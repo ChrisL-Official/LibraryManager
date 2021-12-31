@@ -19,5 +19,21 @@ namespace GUI
         {
             Dispose();
         }
+
+        private void rad_backup_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rad_backup.Checked)
+            {
+                chk_book.Enabled = true;
+                chk_penalty.Enabled = true;
+                chk_user.Enabled = true;
+            }
+            else
+            {
+                chk_book.Enabled = false;
+                chk_penalty.Enabled = false;
+                chk_user.Enabled = false;
+            }
+        }
     }
 }

@@ -44,6 +44,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.edit_days = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.edit_type = new System.Windows.Forms.TextBox();
+            this.txt_type = new System.Windows.Forms.Label();
+            this.btn_book = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -52,10 +55,9 @@
             // 
             this.txt_title.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.txt_title.Font = new System.Drawing.Font("Microsoft YaHei UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txt_title.Location = new System.Drawing.Point(9, 8);
-            this.txt_title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.txt_title.Location = new System.Drawing.Point(12, 9);
             this.txt_title.Name = "txt_title";
-            this.txt_title.Size = new System.Drawing.Size(392, 34);
+            this.txt_title.Size = new System.Drawing.Size(504, 40);
             this.txt_title.TabIndex = 1;
             this.txt_title.Text = "超期记录详情";
             this.txt_title.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -64,20 +66,20 @@
             // 
             this.groupBox1.Controls.Add(this.btn_cancel);
             this.groupBox1.Controls.Add(this.btn_confirm);
-            this.groupBox1.Location = new System.Drawing.Point(0, 245);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.groupBox1.Location = new System.Drawing.Point(0, 288);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox1.Size = new System.Drawing.Size(414, 55);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox1.Size = new System.Drawing.Size(532, 65);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             // 
             // btn_cancel
             // 
-            this.btn_cancel.Location = new System.Drawing.Point(250, 20);
-            this.btn_cancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_cancel.Location = new System.Drawing.Point(321, 24);
+            this.btn_cancel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(73, 25);
+            this.btn_cancel.Size = new System.Drawing.Size(94, 29);
             this.btn_cancel.TabIndex = 7;
             this.btn_cancel.Text = "取消";
             this.btn_cancel.UseVisualStyleBackColor = true;
@@ -85,10 +87,10 @@
             // 
             // btn_confirm
             // 
-            this.btn_confirm.Location = new System.Drawing.Point(328, 20);
-            this.btn_confirm.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_confirm.Location = new System.Drawing.Point(422, 24);
+            this.btn_confirm.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_confirm.Name = "btn_confirm";
-            this.btn_confirm.Size = new System.Drawing.Size(73, 25);
+            this.btn_confirm.Size = new System.Drawing.Size(94, 29);
             this.btn_confirm.TabIndex = 8;
             this.btn_confirm.Text = "确定";
             this.btn_confirm.UseVisualStyleBackColor = true;
@@ -96,10 +98,10 @@
             // 
             // btn_user
             // 
-            this.btn_user.Location = new System.Drawing.Point(221, 79);
-            this.btn_user.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_user.Location = new System.Drawing.Point(284, 130);
+            this.btn_user.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_user.Name = "btn_user";
-            this.btn_user.Size = new System.Drawing.Size(73, 25);
+            this.btn_user.Size = new System.Drawing.Size(94, 29);
             this.btn_user.TabIndex = 5;
             this.btn_user.Text = "选择用户...";
             this.btn_user.UseVisualStyleBackColor = true;
@@ -107,69 +109,65 @@
             // 
             // edit_id
             // 
-            this.edit_id.Location = new System.Drawing.Point(61, 136);
-            this.edit_id.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_id.Location = new System.Drawing.Point(78, 197);
+            this.edit_id.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.edit_id.Name = "edit_id";
-            this.edit_id.Size = new System.Drawing.Size(156, 23);
+            this.edit_id.Size = new System.Drawing.Size(199, 27);
             this.edit_id.TabIndex = 3;
             // 
             // txt_id
             // 
-            this.txt_id.Location = new System.Drawing.Point(9, 139);
-            this.txt_id.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.txt_id.Location = new System.Drawing.Point(12, 201);
             this.txt_id.Name = "txt_id";
-            this.txt_id.Size = new System.Drawing.Size(54, 17);
+            this.txt_id.Size = new System.Drawing.Size(69, 20);
             this.txt_id.TabIndex = 24;
             this.txt_id.Text = "学号：";
             // 
             // edit_class
             // 
-            this.edit_class.Location = new System.Drawing.Point(61, 108);
-            this.edit_class.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_class.Location = new System.Drawing.Point(78, 164);
+            this.edit_class.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.edit_class.Name = "edit_class";
-            this.edit_class.Size = new System.Drawing.Size(156, 23);
+            this.edit_class.Size = new System.Drawing.Size(199, 27);
             this.edit_class.TabIndex = 2;
             // 
             // txt_class
             // 
-            this.txt_class.Location = new System.Drawing.Point(9, 110);
-            this.txt_class.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.txt_class.Location = new System.Drawing.Point(12, 166);
             this.txt_class.Name = "txt_class";
-            this.txt_class.Size = new System.Drawing.Size(54, 17);
+            this.txt_class.Size = new System.Drawing.Size(69, 20);
             this.txt_class.TabIndex = 22;
             this.txt_class.Text = "班级：";
             // 
             // edit_uname
             // 
-            this.edit_uname.Location = new System.Drawing.Point(61, 80);
-            this.edit_uname.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_uname.Location = new System.Drawing.Point(78, 131);
+            this.edit_uname.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.edit_uname.Name = "edit_uname";
-            this.edit_uname.Size = new System.Drawing.Size(156, 23);
+            this.edit_uname.Size = new System.Drawing.Size(199, 27);
             this.edit_uname.TabIndex = 1;
             // 
             // txt_uname
             // 
-            this.txt_uname.Location = new System.Drawing.Point(9, 82);
-            this.txt_uname.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.txt_uname.Location = new System.Drawing.Point(12, 133);
             this.txt_uname.Name = "txt_uname";
-            this.txt_uname.Size = new System.Drawing.Size(54, 17);
+            this.txt_uname.Size = new System.Drawing.Size(69, 20);
             this.txt_uname.TabIndex = 20;
             this.txt_uname.Text = "姓名：";
             // 
             // edit_bname
             // 
-            this.edit_bname.Location = new System.Drawing.Point(61, 52);
-            this.edit_bname.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_bname.Location = new System.Drawing.Point(78, 61);
+            this.edit_bname.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.edit_bname.Name = "edit_bname";
-            this.edit_bname.Size = new System.Drawing.Size(156, 23);
+            this.edit_bname.Size = new System.Drawing.Size(199, 27);
             this.edit_bname.TabIndex = 0;
             // 
             // txt_bname
             // 
-            this.txt_bname.Location = new System.Drawing.Point(9, 54);
-            this.txt_bname.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.txt_bname.Location = new System.Drawing.Point(12, 64);
             this.txt_bname.Name = "txt_bname";
-            this.txt_bname.Size = new System.Drawing.Size(47, 17);
+            this.txt_bname.Size = new System.Drawing.Size(60, 20);
             this.txt_bname.TabIndex = 18;
             this.txt_bname.Text = "书本：";
             // 
@@ -178,33 +176,61 @@
             this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.panel1.Controls.Add(this.txt_title);
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(414, 42);
+            this.panel1.Size = new System.Drawing.Size(532, 49);
             this.panel1.TabIndex = 17;
             // 
             // edit_days
             // 
-            this.edit_days.Location = new System.Drawing.Point(61, 164);
-            this.edit_days.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_days.Location = new System.Drawing.Point(78, 230);
+            this.edit_days.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.edit_days.Name = "edit_days";
-            this.edit_days.Size = new System.Drawing.Size(156, 23);
+            this.edit_days.Size = new System.Drawing.Size(199, 27);
             this.edit_days.TabIndex = 4;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(9, 167);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(12, 233);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(54, 17);
+            this.label2.Size = new System.Drawing.Size(69, 20);
             this.label2.TabIndex = 29;
             this.label2.Text = "时长：";
             // 
+            // edit_type
+            // 
+            this.edit_type.Location = new System.Drawing.Point(78, 96);
+            this.edit_type.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.edit_type.Name = "edit_type";
+            this.edit_type.Size = new System.Drawing.Size(199, 27);
+            this.edit_type.TabIndex = 30;
+            // 
+            // txt_type
+            // 
+            this.txt_type.Location = new System.Drawing.Point(12, 99);
+            this.txt_type.Name = "txt_type";
+            this.txt_type.Size = new System.Drawing.Size(60, 20);
+            this.txt_type.TabIndex = 31;
+            this.txt_type.Text = "类别：";
+            // 
+            // btn_book
+            // 
+            this.btn_book.Location = new System.Drawing.Point(284, 61);
+            this.btn_book.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_book.Name = "btn_book";
+            this.btn_book.Size = new System.Drawing.Size(94, 29);
+            this.btn_book.TabIndex = 32;
+            this.btn_book.Text = "选择图书...";
+            this.btn_book.UseVisualStyleBackColor = true;
+            // 
             // ItemDetailForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(411, 297);
+            this.ClientSize = new System.Drawing.Size(528, 349);
+            this.Controls.Add(this.btn_book);
+            this.Controls.Add(this.edit_type);
+            this.Controls.Add(this.txt_type);
             this.Controls.Add(this.edit_days);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox1);
@@ -219,7 +245,7 @@
             this.Controls.Add(this.txt_bname);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ItemDetailForm";
@@ -251,5 +277,8 @@
         private System.Windows.Forms.TextBox edit_days;
         private System.Windows.Forms.Button btn_cancel;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox edit_type;
+        private System.Windows.Forms.Label txt_type;
+        private System.Windows.Forms.Button btn_book;
     }
 }

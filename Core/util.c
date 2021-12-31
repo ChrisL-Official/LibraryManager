@@ -1,7 +1,22 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <io.h>
 #include "dllheader.h"
+
+int wstr_to_int(const wchar_t* str)
+{
+    int result = 0;
+    wchar_t* p = str;
+    while (*p)
+    {
+        if (*p >= 0x30 && *p <= 0x39)
+        {
+            result = result * 10 + *p - 0x30;
+        }
+    }
+    return result;
+}
 
 bool wstr_is_pure_numberic(const wchar_t* str)
 {
@@ -30,32 +45,98 @@ bool wstr_is_id(const wchar_t* str)
     return true;
 }
 
-pNode add_item(pLinkedList list, pNode p)
+pNode add_item(pLinkedList list, void* p)
 {
+    pNode node = (pNode)malloc(sizeof(Node));
+    if (!node) return NULL;
+    memset(p, 0, sizeof(Node));
+    node->p = p;
     if (list->head)
     {
-        p->pervious = list->tail;
-        list->tail->next = p;
+        node->pervious = list->tail;
+        list->tail->next = node;
     }
     else
     {
-        list->head = p;
+        list->head = node;
     }
-    list->tail = p;
+    list->tail = node;
     list->items++;
-    return p;
+    return node;
 }
 
-void delete_item(pLinkedList list, pNode p)
+void delete_item(pLinkedList list,pNode p)
 {
     //Í·Ö¸Õë½ûÖ¹É¾³ý
     p->pervious->next = p->next;
     p->next->pervious = p->pervious;
+    free(p->p);
     free(p);
     list->items--;
 }
 
-void reverse_list(pLinkedList des, pLinkedList sur)
+void reverse_list(pLinkedList list)
+{
+    pNode p = list->tail, tmp;
+    while (p->pervious)
+    {
+        tmp = p->pervious;
+        p->pervious = p->next;
+        p->next = tmp;
+        p = tmp;
+    }
+    tmp = list->head;
+    list->head = list->tail;
+    list->tail = tmp;
+}
+
+void delete_list(pLinkedList list)
+{
+    pNode p = list->head,tmp;
+    while (p)
+    {
+        tmp = p->next;
+        free(p->p);
+        free(p);
+        p = tmp;
+    }
+    free(list);
+}
+
+void clear_list(pLinkedList list)
 {
 
+}
+
+int check_file(const char* path)
+{
+    //r->4 w->2 rw->6
+    if (_access(path, 6))
+    {
+        FILE* f = fopen(path, 'w');
+        if (f)
+        {
+            fclose(f);
+            return SUCCESS;
+        }
+        else 
+        {
+            return UNWRITABLE;
+        }
+    }
+    return SUCCESS;
+}
+
+bool str_find(const char* str, const char* key, bool is_fuzzy)
+{
+    if (is_fuzzy)
+        return strstr(str,key) == NULL ? false : true;
+    return strcmp(str, key) ? false : true;
+}
+
+bool wstr_find(const wchar_t* str, const wchar_t* key, bool is_fuzzy)
+{
+    if (is_fuzzy)
+        return wcsstr(str, key) == NULL ? false : true;
+    return wcscmp(str, key) ? false : true;
 }
