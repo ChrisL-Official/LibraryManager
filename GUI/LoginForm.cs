@@ -32,15 +32,12 @@ namespace GUI
             }
             switch (login(account, pwd))
             {
-                case (int)MyUtil.LoginStatus.SUCCESS:
+                case (int)MyUtil.StatusCode.SUCCESS:
                     this.DialogResult = DialogResult.OK;
                     this.Dispose();
                     break;
-                case (int)MyUtil.LoginStatus.WRONG:
+                case (int)MyUtil.StatusCode.WRONG:
                     MyUtil.showWarningMsgbox("账户或密码错误");
-                    break;
-                case (int)MyUtil.LoginStatus.NOT_EXIST:
-                    MyUtil.showWarningMsgbox("账户不存在");
                     break;
             }
         }

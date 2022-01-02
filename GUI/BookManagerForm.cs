@@ -6,31 +6,31 @@ using static GUI.MyUtil;
 
 namespace GUI
 {
-    public partial class UserManagerForm : Form
+    public partial class BookManagerForm : Form
     {
         [DllImport("Core.dll")]
-        extern static IntPtr get_users();
+        extern static IntPtr get_books();
 
         [DllImport("Core.dll")]
-        extern static IntPtr get_user_list();
+        extern static IntPtr get_book_list();
 
-        public UserManagerForm(bool showbtns)
+        public BookManagerForm(bool showbtns)
         {
             InitializeComponent();
             btn_confirm.Visible = showbtns;
             btn_cancel.Visible = showbtns;
         }
 
-        private void UserManagerForm_Load(object sender, EventArgs e)
+        private void BookManagerForm_Load(object sender, EventArgs e)
         {
             UpdateList();
         }
 
         private void btn_add_Click(object sender, EventArgs e)
         {
-            UserDetailForm form = new UserDetailForm();
+            BookDetailForm form = new BookDetailForm();
             form.ShowDialog();
-            if(form.DialogResult == DialogResult.OK)
+            if (form.DialogResult == DialogResult.OK)
             {
                 UpdateList();
             }
@@ -38,7 +38,7 @@ namespace GUI
 
         private void btn_edit_Click(object sender, EventArgs e)
         {
-            UserDetailForm form = new UserDetailForm((IntPtr)list_main.SelectedItems[0].Tag);
+            BookDetailForm form = new BookDetailForm((IntPtr)list_main.SelectedItems[0].Tag);
             form.ShowDialog();
             if (form.DialogResult == DialogResult.OK)
             {
@@ -50,16 +50,16 @@ namespace GUI
         {
             list_main.BeginUpdate();
             list_main.Items.Clear();
-            IntPtr p = get_users();
+            IntPtr p = get_books();
             while (p != IntPtr.Zero)
             {
                 p = AddItem(p);
             }
             list_main.EndUpdate();
-            if(list_main.Items.Count == 0)
+            if (list_main.Items.Count == 0)
             {
                 btn_delete.Enabled = false;
-                btn_edit.Enabled = false; 
+                btn_edit.Enabled = false;
             }
             UpdateButtons();
         }
@@ -67,11 +67,10 @@ namespace GUI
         private IntPtr AddItem(IntPtr ptr)
         {
             Node n = (Node)Marshal.PtrToStructure(ptr, typeof(Node));
-            User u = (User)Marshal.PtrToStructure(n.pointer, typeof(User));
+            Book u = (Book)Marshal.PtrToStructure(n.pointer, typeof(Book));
             ListViewItem item = new ListViewItem(Convert.ToString(list_main.Items.Count + 1));
-            item.SubItems.Add(Encoding.ASCII.GetString(u.u_id).TrimEnd('\0'));
-            item.SubItems.Add(Encoding.Unicode.GetString(u.u_name).TrimEnd('\0'));
-            item.SubItems.Add(Encoding.Unicode.GetString(u.u_class).TrimEnd('\0'));
+            item.SubItems.Add(Encoding.ASCII.GetString(u.b_id).TrimEnd('\0'));
+            item.SubItems.Add(Encoding.Unicode.GetString(u.b_name).TrimEnd('\0'));
             item.Tag = ptr;
             list_main.Items.Add(item);
             return n.next;
@@ -86,7 +85,7 @@ namespace GUI
         {
             for (int i = 0; i < list_main.SelectedItems.Count; i++)
             {
-                delete_item(get_user_list(),(IntPtr)list_main.SelectedItems[i].Tag);
+                delete_item(get_book_list(), (IntPtr)list_main.SelectedItems[i].Tag);
             }
             UpdateList();
         }

@@ -18,20 +18,29 @@
 //pNode list_user = NULL;
 //pNode list_user_last = NULL;
 
-LinkedList list_penalty = { NULL, NULL, 0};
-LinkedList list_user = { NULL, NULL, 0};
-LinkedList list_book = { NULL, NULL, 0};
+LinkedList list_penalty = { NULL, NULL};
+LinkedList list_user = { NULL, NULL};
+LinkedList list_book = { NULL, NULL};
 LinkedList list_working1, list_working2;
 
-void* tmp;
+const char* Path_Penalty = "penalty.data";
+const char* Path_Book = "book.data";
+const char* Path_User = "user.data";
 
 int init()
 {
     //每个链表的头都是预留的错误项
     const wchar_t* error = L"[失效]";
     add_user(0,"?", error, error);
-    add_penalty(error, 0, 0,NULL);
-    load_list();
+    add_book(0, error, "?");
+    pPenalty p = (pPenalty)malloc(sizeof(Penalty));
+    if (!p)
+        return MEMORY_FULL;
+    memset(p, 0, sizeof(Penalty));
+    p->user = list_user.head->p;
+    p->book = list_book.head->p;
+    p->days = 2;
+    add_item(&list_penalty, p);
 }
 
 int load_list()
@@ -52,7 +61,7 @@ int load_list()
 
     i = check_file(Path_Book);
     if (i) return i;
-    FILE* f = fopen(Path_Book, 'r');
+    f = fopen(Path_Book, 'r');
     while (!feof(f))
     {
         pBook book = (pBook)malloc(sizeof(Book));
@@ -66,7 +75,7 @@ int load_list()
 
     i = check_file(Path_Penalty);
     if (i) return i;
-    FILE* f = fopen(Path_Penalty, 'r');
+    f = fopen(Path_Penalty, 'r');
     while (!feof(f))
     {
         pPenalty4IO penalty = (pPenalty4IO)malloc(sizeof(Penalty4IO));
@@ -99,24 +108,20 @@ int login(const char* account, const char* pwd)
 */
 int check_user(pUser *user, const char* u_id, const wchar_t* u_name, const wchar_t* u_class)
 {
-    pUser temp;
-    if (user)
-    {
-        temp = *user;
-        if (!strcmp(temp->u_id, u_id)&&
-            wcscmp(temp->u_class,u_class)&&
-            wcscmp(temp->u_name,u_name))
-            return SAME;
-    }
-    pNode p = list_book.head;
+    pUser temp = *user;
+    if (!strcmp(temp->u_id, u_id) &&
+        !wcscmp(temp->u_class, u_class) &&
+        !wcscmp(temp->u_name, u_name))
+        return SAME;
+    pNode p = list_user.head;
     while (p)
     {
         temp = p->p;
         if (!strcmp(temp->u_id, u_id) &&
-            wcscmp(temp->u_class, u_class) &&
-            wcscmp(temp->u_name, u_name))
+            !wcscmp(temp->u_class, u_class) &&
+            !wcscmp(temp->u_name, u_name))
         {
-            if (*user)
+            if (user)
                 *user = temp;
             return SUCCESS;
         }
@@ -134,20 +139,16 @@ int check_user(pUser *user, const char* u_id, const wchar_t* u_name, const wchar
 */
 int check_book(pBook* book, const wchar_t* b_name, const char* b_id)
 {
-    pBook temp;
-    if (book)
-    {
-        temp = *book;
-        if (!wcscmp(temp->b_name, b_name) && !strcmp(temp->b_id, b_id))
-            return SAME;
-    }
+    pBook temp = *book;
+    if (!wcscmp(temp->b_name, b_name) && !strcmp(temp->b_id, b_id))
+        return SAME;
     pNode p = list_book.head;
     while (p)
     {
         temp = p->p;
-        if (!wcscmp(temp->b_name, b_name)&&!strcmp(temp->b_id, b_id))
+        if (!wcscmp(temp->b_name, b_name) && !strcmp(temp->b_id, b_id))
         {
-            if (*book)
+            if (book)
                 *book = temp;
             return SUCCESS;
         }
@@ -156,10 +157,19 @@ int check_book(pBook* book, const wchar_t* b_name, const char* b_id)
     return NOT_EXIST;
 }
 
-
-int add_penalty(int uid_user, int uid_book, unsigned short days)
+pNode get_users()
 {
-    
+    return list_user.head->next;
+}
+
+pNode get_penaltys()
+{
+    return list_penalty.head->next;
+}
+
+pNode get_books()
+{
+    return list_book.head->next;
 }
 
 pLinkedList get_user_list()
@@ -172,11 +182,19 @@ pLinkedList get_penalty_list()
     return &list_penalty;
 }
 
+pLinkedList get_book_list()
+{
+    return &list_book;
+}
+
+
 //添加超期记录
 int add_penalty(pUser user, pBook book, const wchar_t* b_name, const char* b_id,
     const char* u_id, const wchar_t* u_name, const wchar_t* u_class, unsigned short days)
 {
     pPenalty penalty = (pPenalty)malloc(sizeof(Penalty));
+    if (!penalty)
+        return MEMORY_FULL;
     int i = edit_penalty(penalty, user, book, b_name, b_id, u_id, u_name, u_class, days);
     if (i != SUCCESS) {
         free(penalty);
@@ -193,17 +211,49 @@ int edit_penalty(pPenalty penalty, pUser user, pBook book, const wchar_t* b_name
     const char* u_id, const wchar_t* u_name, const wchar_t* u_class, unsigned short days)
 {
     if (!penalty) return;
-    int i = check_user(&user, u_id, u_name, u_class);
-    if (i != SUCCESS|| i != SAME) 
+    pUser* pu = &(list_user.head->p);
+    pBook* pb = &(list_book.head->p);
+    if (user)
+        pu = &user;
+    if (book)
+        pb = &book;
+    int i = check_user(pu, u_id, u_name, u_class);
+    if (i != SUCCESS && i != SAME) 
         return i;
-    i = check_book(&book, b_name, b_id);
-    if (i != SUCCESS || i != SAME)
+    i = check_book(pb, b_name, b_id);
+    if (i != SUCCESS && i != SAME)
         return i;
-    penalty->user = user;
-    penalty->book = book;
+    //不可能是NULL指针
+    penalty->user = *pu;
+    penalty->book = *pb;
     penalty->days = days;
     penalty->fine = 0.2 * days;
     return SUCCESS; 
+}
+
+void fresh_penalty_list()
+{
+    pNode p1 = list_penalty.head;
+    pNode p2;
+    while (p1)
+    {
+        pPenalty temp = p1->p;
+        p2 = list_user.head;
+        while (p2 = p2->next) {
+            if (p2->p == temp->user)
+                goto next;
+        }
+        temp->user = list_user.head->p;
+    next:
+        p2 = list_book.head;
+        while (p2 = p2->next) {
+            if (p2->p == temp->book)
+                goto final;
+        }
+        temp->book = list_book.head->p;
+    final:
+        p1 = p1->next;
+    }
 }
 
 //添加用户
@@ -230,11 +280,12 @@ int edit_user(pUser user, const char* u_id, const wchar_t* u_name, const wchar_t
     if (!user) return;
     pNode p = list_user.head;
     pUser p1;
-    while (p = p->next)
+    while (p)
     {
         p1 = p->p;
-        if (!strcmp(p1->uid, u_id) && user != p1)
+        if (!strcmp(p1->u_id, u_id) && user != p1)
             return CONFLICT;
+        p = p->next;
     }
     strcpy(user->u_id, u_id);
     wcscpy(user->u_name, u_name);
@@ -245,10 +296,15 @@ int edit_user(pUser user, const char* u_id, const wchar_t* u_name, const wchar_t
 //添加图书
 int add_book(int uid, const wchar_t* b_name, const char* b_id)
 {
-
-    pBook book = (pBook)malloc(sizeof(book));
-    if (!book) return MEMORY_FULL;
+    pBook book = (pBook)malloc(sizeof(Book));
+    if (!book) 
+        return MEMORY_FULL;
     memset(book, 0, sizeof(Book));
+    if (edit_book(book, b_name, b_id))
+    {
+        free(book);
+        return CONFLICT;
+    }
     book->uid = uid;
     if (add_item(&list_book, book))
         return SUCCESS;
@@ -260,11 +316,12 @@ int edit_book(pBook book, const wchar_t* b_name, const char* b_id)
 {
     pNode p = list_book.head;
     pBook p1;
-    while (p = p->next)
+    while (p)
     {
         p1 = p->p;
         if ((!strcmp(p1->b_id, b_id)||!wcscmp(p1->b_name, b_name)) && book != p1)
             return CONFLICT;
+        p = p->next;
     }
     strcpy(book->b_id, b_id);
     wcscpy(book->b_name, b_name);
@@ -276,6 +333,8 @@ pLinkedList search(pLinkedList source, pLinkedList search)
     if (!search->head)
         return;
     pLinkedList des = (pLinkedList)malloc(sizeof(LinkedList));
+    if (!des)
+        return NULL;
     memset(des, 0, sizeof(LinkedList));
     pNode p = source->head->next;
     while (p)

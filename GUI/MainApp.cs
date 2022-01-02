@@ -21,7 +21,7 @@ namespace GUI
         extern static void init();
 
 
-        //[STAThread]
+        [STAThread]
         static void Main()
         {
             IntPtr handle = LoadLibrary("Core.dll");
@@ -30,7 +30,7 @@ namespace GUI
                 MyUtil.showErrorMsgbox("未找到关键文件Core.dll!\n请把Core.dll放入\"" + System.Environment.CurrentDirectory + "\"文件夹。");
                 return;
             }
-            //init();
+            init();
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

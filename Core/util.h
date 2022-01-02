@@ -1,10 +1,6 @@
 #pragma once
 #include <wchar.h>
 
-const char* Path_Penalty = "penalty.data";
-const char* Path_Book = "book.data";
-const char* Path_User = "user.data";
-
 int check_file(const char* path);
 
 bool str_find(const char* str, const char* key, bool is_fuzzy);
@@ -129,5 +125,4 @@ typedef struct LinkedListInfo
 {
     pNode head;
     pNode tail;
-    int items;
 }LinkedList, *pLinkedList;

@@ -15,10 +15,13 @@ namespace GUI
     public partial class MainWindow : Form
     {
         [DllImport("Core.dll")]
-        extern static IntPtr get_all_items();
+        extern static IntPtr get_penaltys();
 
         [DllImport("Core.dll")]
-        extern static void delete_item(IntPtr p);
+        extern static IntPtr get_penalty_list();
+
+        [DllImport("Core.dll")]
+        extern static void fresh_penalty_list();
 
         public MainWindow()
         {
@@ -27,9 +30,10 @@ namespace GUI
 
         private void UpdateList()
         {
+            fresh_penalty_list();
             list_main.BeginUpdate();
             list_main.Items.Clear();
-            IntPtr p = get_all_items();
+            IntPtr p = get_penaltys();
             while (p!=IntPtr.Zero)
             {
                 p = AddItem(p);
@@ -40,21 +44,26 @@ namespace GUI
                 btn_delete.Enabled = false;
                 btn_edit.Enabled = false;
             }
+            UpdateButtons();
         }
 
-        private IntPtr AddItem(IntPtr p)
+        private IntPtr AddItem(IntPtr ptr)
         {
-            Item i = (Item)Marshal.PtrToStructure(p, typeof(Item));
-            ListViewItem item = new ListViewItem(Convert.ToString(list_main.Items.Count+1));
-            item.SubItems.Add(Encoding.ASCII.GetString(i.id).TrimEnd('\0'));
-            item.SubItems.Add(Encoding.Unicode.GetString(i.u_name).TrimEnd('\0'));
-            item.SubItems.Add(Encoding.Unicode.GetString(i.u_class).TrimEnd('\0'));
-            item.SubItems.Add(Encoding.Unicode.GetString(i.b_name).TrimEnd('\0'));
-            item.SubItems.Add(Convert.ToString(i.days));
-            item.SubItems.Add(Convert.ToString(i.fine));
-            item.Tag = p;
+            Node n = (Node)Marshal.PtrToStructure(ptr, typeof(Node));
+            Penalty p = (Penalty)Marshal.PtrToStructure(n.pointer, typeof(Penalty));
+            User u = (User)Marshal.PtrToStructure(p.user, typeof(User));
+            Book b = (Book)Marshal.PtrToStructure(p.book,typeof(Book));
+            ListViewItem item = new ListViewItem(Convert.ToString(list_main.Items.Count + 1));
+            item.SubItems.Add(Encoding.ASCII.GetString(u.u_id).TrimEnd('\0'));
+            item.SubItems.Add(Encoding.Unicode.GetString(u.u_name).TrimEnd('\0'));
+            item.SubItems.Add(Encoding.Unicode.GetString(u.u_class).TrimEnd('\0'));
+            item.SubItems.Add(Encoding.Unicode.GetString(b.b_name).TrimEnd('\0'));
+            item.SubItems.Add(Encoding.ASCII.GetString(b.b_id).TrimEnd('\0'));
+            item.SubItems.Add(Convert.ToString(p.days));
+            item.SubItems.Add(Convert.ToString(p.fine));
+            item.Tag = ptr;
             list_main.Items.Add(item);
-            return i.next;
+            return n.next;
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -68,7 +77,7 @@ namespace GUI
             int j = list_main.SelectedItems.Count;
             for (int i=0;i<j;i++)
             {
-                delete_item((IntPtr)list_main.SelectedItems[i].Tag);
+                delete_item(get_penalty_list(),(IntPtr)list_main.SelectedItems[i].Tag);
             }
             UpdateList();
         }
@@ -117,6 +126,17 @@ namespace GUI
 
         private void list_Selected(object sender, ListViewItemSelectionChangedEventArgs e)
         {
+            UpdateButtons();
+        }
+
+        private void btn_sort_Click(object sender, EventArgs e)
+        {
+            SortForm sortForm = new SortForm();
+            sortForm.ShowDialog();
+        }
+
+        private void UpdateButtons()
+        {
             if (list_main.SelectedItems.Count == 0)
             {
                 btn_delete.Enabled = false;
@@ -129,10 +149,9 @@ namespace GUI
             }
         }
 
-        private void btn_sort_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
-            SortForm sortForm = new SortForm();
-            sortForm.ShowDialog();
+            new BookManagerForm(false).ShowDialog();
         }
     }
 }

@@ -4,7 +4,7 @@
 #include <io.h>
 #include "dllheader.h"
 
-int wstr_to_int(const wchar_t* str)
+unsigned short wstr_to_short(const wchar_t* str)
 {
     int result = 0;
     wchar_t* p = str;
@@ -14,6 +14,7 @@ int wstr_to_int(const wchar_t* str)
         {
             result = result * 10 + *p - 0x30;
         }
+        p++;
     }
     return result;
 }
@@ -49,30 +50,34 @@ pNode add_item(pLinkedList list, void* p)
 {
     pNode node = (pNode)malloc(sizeof(Node));
     if (!node) return NULL;
-    memset(p, 0, sizeof(Node));
+    memset(node, 0, sizeof(Node));
     node->p = p;
     if (list->head)
     {
+        pNode tmp = list->tail;
         node->pervious = list->tail;
-        list->tail->next = node;
+        tmp->next = node;
     }
     else
     {
         list->head = node;
     }
     list->tail = node;
-    list->items++;
     return node;
 }
 
 void delete_item(pLinkedList list,pNode p)
 {
-    //Í·Ö¸Õë½ûÖ¹É¾³ı
-    p->pervious->next = p->next;
-    p->next->pervious = p->pervious;
+    if (p->pervious)
+        p->pervious->next = p->next;
+    else
+        list->head = p->next;
+    if (p->next)
+        p->next->pervious = p->pervious;
+    else
+        list->tail = p->pervious;
     free(p->p);
     free(p);
-    list->items--;
 }
 
 void reverse_list(pLinkedList list)

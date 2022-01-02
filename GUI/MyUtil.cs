@@ -8,15 +8,31 @@ namespace GUI
 {
     class MyUtil
     {
-        public enum LoginStatus
+
+        [DllImport("Core.dll")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public extern static bool wstr_is_id(byte[] str);
+
+        [DllImport("Core.dll")]
+        public extern static void delete_item(IntPtr p, IntPtr p1);
+
+        public enum StatusCode
         {
             SUCCESS,
             WRONG,
-            NOT_EXIST
+            NOT_EXIST,
+            CHANGED,
+            SAME,
+            UNREADABLE,
+            UNWRITABLE,
+            UNFORMATTABLE,
+            MEMORY_FULL,
+            CONFLICT,
+            FATAL,
         }
 
         //需严格按照C内布局
-        public struct Item
+        /*public struct Item
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 12)]
             public byte[] id;
@@ -29,19 +45,42 @@ namespace GUI
             public int days;
             public float fine;
             public IntPtr next;
-        };
+        };*/
+
+        public struct Node
+        {
+            public IntPtr pointer;
+            public IntPtr pervious;
+            public IntPtr next;
+        }
+
+        public struct Penalty
+        {
+            public IntPtr user;
+            public IntPtr book;
+            public ushort days;
+            public float fine;
+        }
+
+        public struct Book
+        {
+            public int uid;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+            public byte[] b_id;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+            public byte[] b_name;
+        }
 
         public struct User
         {
+            public int uid;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 12)]
-            public byte[] id;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+            public byte[] u_id;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 12)]
             public byte[] u_name;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
             public byte[] u_class;
-            public IntPtr pervious;
-            public IntPtr next;
-        };
+        }
 
         public static IntPtr PTmp = IntPtr.Zero;
 

@@ -10,22 +10,22 @@ using static GUI.MyUtil;
 
 namespace GUI
 {
-    public partial class UserDetailForm : Form
+    public partial class BookDetailForm : Form
     {
 
         [DllImport("Core.dll")]
-        extern static int add_user(int uid, byte[] id, byte[] u_name, byte[] u_class);
+        extern static int add_book(int uid, byte[] name, byte[] id);
 
         [DllImport("Core.dll")]
-        extern static int edit_user(IntPtr p, byte[] id, byte[] u_name, byte[] u_class);
+        extern static int edit_book(IntPtr p, byte[] name, byte[] id);
 
         private IntPtr current = IntPtr.Zero;
-        public UserDetailForm()
+        public BookDetailForm()
         {
             InitializeComponent();
         }
 
-        public UserDetailForm(IntPtr p)
+        public BookDetailForm(IntPtr p)
         {
             Node n = (Node)Marshal.PtrToStructure(p, typeof(Node));
             current = n.pointer;
@@ -34,29 +34,26 @@ namespace GUI
 
         private void btn_confirm_Click(object sender, EventArgs e)
         {
-            if (edit_name.Text.Length == 0 ||
-                edit_class.Text.Length == 0 ||
-                edit_id.Text.Length == 0)
+            if (edit_name.Text.Length == 0 || edit_type.Text.Length == 0)
             {
                 showWarningMsgbox("所有项都是必填项。");
                 return;
             }
-            if (!wstr_is_id(Encoding.Unicode.GetBytes(edit_id.Text)))
+            if (!wstr_is_id(Encoding.Unicode.GetBytes(edit_type.Text)))
             {
-                showWarningMsgbox("学号只能由数字和大写字母(A-Z)组成。");
+                showWarningMsgbox("编号只能由数字和大写字母(A-Z)组成。");
                 return;
             }
             if (current == IntPtr.Zero)
             {
-                int i = add_user(DateTime.Now.Second,
-                    Encoding.ASCII.GetBytes(edit_id.Text),
+                int i = add_book(DateTime.Now.Second,
                     Encoding.Unicode.GetBytes(edit_name.Text),
-                    Encoding.Unicode.GetBytes(edit_class.Text));
+                    Encoding.ASCII.GetBytes(edit_type.Text));
                 if (i != 0)
                 {
-                    if(i==(int)StatusCode.CONFLICT)
+                    if (i == (int)StatusCode.CONFLICT)
                     {
-                        showWarningMsgbox("学号已存在。");
+                        showWarningMsgbox("图书已存在。");
                     }
                     return;
                 }
@@ -68,15 +65,14 @@ namespace GUI
             }
             else
             {
-                int i = edit_user(current,
-                    Encoding.ASCII.GetBytes(edit_id.Text),
+                int i = edit_book(current,
                     Encoding.Unicode.GetBytes(edit_name.Text),
-                    Encoding.Unicode.GetBytes(edit_class.Text));
+                    Encoding.ASCII.GetBytes(edit_type.Text));
                 if (i != 0)
                 {
                     if (i == (int)StatusCode.CONFLICT)
                     {
-                        showWarningMsgbox("学号已存在。");
+                        showWarningMsgbox("图书已存在。");
                     }
                     return;
                 }
@@ -90,14 +86,13 @@ namespace GUI
             Dispose();
         }
 
-        private void UserDetailForm_Load(object sender, EventArgs e)
+        private void BookDetailForm_Load(object sender, EventArgs e)
         {
             if (current != IntPtr.Zero)
             {
-                User u = (User)Marshal.PtrToStructure(current, typeof(User));
-                edit_name.Text = Encoding.Unicode.GetString(u.u_name).TrimEnd('\0');
-                edit_class.Text = Encoding.Unicode.GetString(u.u_class).TrimEnd('\0');
-                edit_id.Text = Encoding.ASCII.GetString(u.u_id).TrimEnd('\0');
+                Book u = (Book)Marshal.PtrToStructure(current, typeof(Book));
+                edit_name.Text = Encoding.Unicode.GetString(u.b_name).TrimEnd('\0');
+                edit_type.Text = Encoding.ASCII.GetString(u.b_id).TrimEnd('\0');
             }
         }
     }
