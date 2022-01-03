@@ -7,21 +7,10 @@
 #include "dllheader.h"
 #include "util.h"
 
-//pItem list_item = NULL; //总表 
-//pPItem list_working = NULL; //工作表
-
-//pUser list_user = NULL;
-
-//pNode list_penalty = NULL;
-//pNode list_penalty_last = NULL;
-
-//pNode list_user = NULL;
-//pNode list_user_last = NULL;
-
 LinkedList list_penalty = { NULL, NULL};
 LinkedList list_user = { NULL, NULL};
 LinkedList list_book = { NULL, NULL};
-LinkedList list_working1, list_working2;
+LinkedList list_working;
 
 const char* Path_Penalty = "penalty.data";
 const char* Path_Book = "book.data";
@@ -328,7 +317,22 @@ int edit_book(pBook book, const wchar_t* b_name, const char* b_id)
     return SUCCESS;
 }
 
-pLinkedList search(pLinkedList source, pLinkedList search)
+pUser get_penalty_user(pNode p)
+{
+    return ((pPenalty)p->p)->user;
+}
+
+pBook get_penalty_book(pNode p)
+{
+    return ((pPenalty)p->p)->book;
+}
+
+pPenalty get_penalty(pNode p)
+{
+    return (pPenalty)p->p;
+}
+
+pLinkedList search(pLinkedList source, pLinkedList search, void*(*get_info)(pNode))
 {
     if (!search->head)
         return;
@@ -340,49 +344,54 @@ pLinkedList search(pLinkedList source, pLinkedList search)
     while (p)
     {
         pNode p1 = search->head;
+        void* p2;
+        if (get_info == NULL) 
+            p2 = p1->p; 
+        else
+            p2 = get_info(p1);
         bool add = false;
         while (p1)
         {
             pSearch s = p1->p;
             if (s->type == USER_ID)
             {
-                if (!str_find(((pUser)p->p)->u_id, s->str, s->is_fuzzy))
+                if (!str_find(((pUser)p2)->u_id, s->str, s->is_fuzzy))
                     goto big_continue;
                 continue;
             }
             if (s->type == USER_NAME)
             {
-                if (!wstr_find(((pUser)p->p)->u_name, s->wstr, s->is_fuzzy))
+                if (!wstr_find(((pUser)p2)->u_name, s->wstr, s->is_fuzzy))
                     goto big_continue;
                 continue;
             }
             if (s->type == USER_CLASS)
             {
-                if (!wstr_find(((pUser)p->p)->u_class, s->wstr, s->is_fuzzy))
+                if (!wstr_find(((pUser)p2)->u_class, s->wstr, s->is_fuzzy))
                     goto big_continue;
                 continue;
             }
             if (s->type == BOOK_ID)
             {
-                if (!str_find(((pBook)p->p)->b_id, s->str, s->is_fuzzy))
+                if (!str_find(((pBook)p2)->b_id, s->str, s->is_fuzzy))
                     goto big_continue;
                 continue;
             }
             if (s->type == BOOK_NAME)
             {
-                if (!wstr_find(((pBook)p->p)->b_name, s->wstr, s->is_fuzzy))
+                if (!wstr_find(((pBook)p2)->b_name, s->wstr, s->is_fuzzy))
                     goto big_continue;
                 continue;
             }
             if (s->type == DAYS)
             {
-                if (((pPenalty)p->p)->days!=s->i)
+                if (((pPenalty)p2)->days!=s->i)
                     goto big_continue;
                 continue;
             }
             if (s->type == FINE)
             {
-                if (fabs(((pPenalty)p->p)->days-s->f)>1e-6)
+                if (fabs(((pPenalty)p2)->days-s->f)>1e-6)
                     goto big_continue;
                 continue;
             }
@@ -394,7 +403,65 @@ pLinkedList search(pLinkedList source, pLinkedList search)
     return des;
 }
 
-void sort(pLinkedList list, int type)
+bool compare(pNode p1, pNode p2, int type, void* (*get_info)(pNode))
 {
-    
+    void *v1, *v2;
+    v1 = get_info(p1);
+    v2 = get_info(p2);
+    if (type == USER_ID)
+        return strcmp(((pUser)v1)->u_id, ((pUser)v2)->u_id);
+    if (type == USER_NAME)
+        return wcscmp(((pUser)v1)->u_name, ((pUser)v2)->u_name);
+    if (type == USER_CLASS)
+        return wcscmp(((pUser)v1)->u_class, ((pUser)v2)->u_class);
+    if (type == BOOK_ID)
+        return strcmp(((pBook)v1)->b_id, ((pBook)v2)->b_id);
+    if (type == BOOK_NAME)
+        return wcscmp(((pBook)v1)->b_name, ((pBook)v2)->b_name);
+    if (type == DAYS)
+        return ((pPenalty)v1)->days > ((pPenalty)v2)->days;
+    if (type == FINE)
+        return ((pPenalty)v1)->fine > ((pPenalty)v2)->fine;
+}
+
+void sort(pLinkedList list, int type, bool is_positive)
+{
+    bool swapped;
+    pNode ptr1;
+    pNode lptr = NULL;
+    void*(*p)(void*) ;
+    if (list->head->next == NULL)
+        return;
+    switch (type)
+    {
+    case USER_ID:
+    case USER_NAME:
+    case USER_CLASS:
+        p = get_penalty_user;
+        break;
+    case BOOK_ID:
+    case BOOK_NAME:
+        p = get_penalty_book;
+        break;
+    default:
+        p = get_penalty;
+    }
+    do
+    {
+        swapped = false;
+        ptr1 = list->head->next;
+
+        while (ptr1->next != lptr)
+        {
+            if (compare(ptr1, ptr1->next, type, p) && is_positive)
+            {
+                void* tmp = ptr1->p;
+                ptr1->p = ptr1->next->p;
+                ptr1->next->p = tmp;
+                swapped = true;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
+    } while (swapped);
 }

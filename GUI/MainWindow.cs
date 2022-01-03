@@ -23,6 +23,15 @@ namespace GUI
         [DllImport("Core.dll")]
         extern static void fresh_penalty_list();
 
+        [DllImport("Core.dll")]
+        extern static void sort(IntPtr list, int type, [MarshalAs(UnmanagedType.I1)] bool is_positive);
+
+        IntPtr current_head_node = get_penaltys();
+        IntPtr current_list = get_penalty_list();
+        bool is_searching = false;
+        public bool is_positive = true;
+        public int sort_type = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -33,7 +42,7 @@ namespace GUI
             fresh_penalty_list();
             list_main.BeginUpdate();
             list_main.Items.Clear();
-            IntPtr p = get_penaltys();
+            IntPtr p = current_head_node;
             while (p!=IntPtr.Zero)
             {
                 p = AddItem(p);
@@ -84,11 +93,6 @@ namespace GUI
 
         private void btn_add_Click(object sender, EventArgs e)
         {
-            /*add_item(Encoding.ASCII.GetBytes("3121009997"),
-                Encoding.Unicode.GetBytes("梁斯俊"),
-                Encoding.Unicode.GetBytes("21计科2"),
-                Encoding.Unicode.GetBytes("我的世界"),2);
-            UpdateList();*/
             ItemDetailForm form = new ItemDetailForm();
             form.ShowDialog();
             if(form.DialogResult == DialogResult.OK)
@@ -131,8 +135,13 @@ namespace GUI
 
         private void btn_sort_Click(object sender, EventArgs e)
         {
-            SortForm sortForm = new SortForm();
+            SortForm sortForm = new SortForm(sort_type,is_positive);
             sortForm.ShowDialog();
+            if (sortForm.DialogResult == DialogResult.OK)
+            {
+                sort(current_list, sort_type, is_positive);
+                UpdateList();
+            }
         }
 
         private void UpdateButtons()

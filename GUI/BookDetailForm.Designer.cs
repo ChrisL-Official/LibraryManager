@@ -59,7 +59,7 @@
             this.btn_cancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(73, 25);
-            this.btn_cancel.TabIndex = 1;
+            this.btn_cancel.TabIndex = 2;
             this.btn_cancel.Text = "取消";
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
@@ -70,7 +70,7 @@
             this.btn_confirm.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_confirm.Name = "btn_confirm";
             this.btn_confirm.Size = new System.Drawing.Size(73, 25);
-            this.btn_confirm.TabIndex = 0;
+            this.btn_confirm.TabIndex = 3;
             this.btn_confirm.Text = "确定";
             this.btn_confirm.UseVisualStyleBackColor = true;
             this.btn_confirm.Click += new System.EventHandler(this.btn_confirm_Click);
@@ -81,7 +81,7 @@
             this.edit_type.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.edit_type.Name = "edit_type";
             this.edit_type.Size = new System.Drawing.Size(156, 23);
-            this.edit_type.TabIndex = 50;
+            this.edit_type.TabIndex = 0;
             // 
             // txt_id
             // 
@@ -129,7 +129,7 @@
             this.edit_name.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.edit_name.Name = "edit_name";
             this.edit_name.Size = new System.Drawing.Size(156, 23);
-            this.edit_name.TabIndex = 46;
+            this.edit_name.TabIndex = 1;
             // 
             // BookDetailForm
             // 

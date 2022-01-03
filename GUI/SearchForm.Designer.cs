@@ -45,13 +45,18 @@
             this.txt_uname = new System.Windows.Forms.Label();
             this.edit_bname = new System.Windows.Forms.TextBox();
             this.txt_bname = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.chk0 = new System.Windows.Forms.CheckBox();
+            this.chk2 = new System.Windows.Forms.CheckBox();
+            this.chk3 = new System.Windows.Forms.CheckBox();
+            this.chk4 = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.edit_fine = new System.Windows.Forms.TextBox();
             this.txt_fine = new System.Windows.Forms.Label();
+            this.edit_type = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.chk1 = new System.Windows.Forms.CheckBox();
+            this.btn_book = new System.Windows.Forms.Button();
+            this.btn_cancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -70,6 +75,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btn_cancel);
             this.groupBox1.Controls.Add(this.btn_reset);
             this.groupBox1.Controls.Add(this.btn_search);
             this.groupBox1.Location = new System.Drawing.Point(0, 287);
@@ -86,7 +92,7 @@
             this.btn_reset.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_reset.Name = "btn_reset";
             this.btn_reset.Size = new System.Drawing.Size(73, 25);
-            this.btn_reset.TabIndex = 1;
+            this.btn_reset.TabIndex = 14;
             this.btn_reset.Text = "重置";
             this.btn_reset.UseVisualStyleBackColor = true;
             // 
@@ -96,9 +102,10 @@
             this.btn_search.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_search.Name = "btn_search";
             this.btn_search.Size = new System.Drawing.Size(73, 25);
-            this.btn_search.TabIndex = 0;
+            this.btn_search.TabIndex = 15;
             this.btn_search.Text = "搜索";
             this.btn_search.UseVisualStyleBackColor = true;
+            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
             // 
             // panel1
             // 
@@ -117,19 +124,20 @@
             this.txt_des.Name = "txt_des";
             this.txt_des.Size = new System.Drawing.Size(505, 21);
             this.txt_des.TabIndex = 13;
-            this.txt_des.Text = "留空则不搜索此项；按【重置】按钮重置搜索。";
+            this.txt_des.Text = "留空则不搜索此项；按【重置】按钮清空搜索选项。";
+            this.txt_des.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // edit_days
             // 
-            this.edit_days.Location = new System.Drawing.Point(61, 181);
+            this.edit_days.Location = new System.Drawing.Point(61, 210);
             this.edit_days.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.edit_days.Name = "edit_days";
             this.edit_days.Size = new System.Drawing.Size(156, 23);
-            this.edit_days.TabIndex = 44;
+            this.edit_days.TabIndex = 12;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(9, 184);
+            this.label2.Location = new System.Drawing.Point(9, 213);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 17);
@@ -138,25 +146,26 @@
             // 
             // btn_user
             // 
-            this.btn_user.Location = new System.Drawing.Point(240, 96);
+            this.btn_user.Location = new System.Drawing.Point(240, 125);
             this.btn_user.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_user.Name = "btn_user";
             this.btn_user.Size = new System.Drawing.Size(73, 25);
-            this.btn_user.TabIndex = 42;
+            this.btn_user.TabIndex = 11;
             this.btn_user.Text = "选择用户...";
             this.btn_user.UseVisualStyleBackColor = true;
+            this.btn_user.Click += new System.EventHandler(this.btn_user_Click);
             // 
             // edit_id
             // 
-            this.edit_id.Location = new System.Drawing.Point(61, 153);
+            this.edit_id.Location = new System.Drawing.Point(61, 182);
             this.edit_id.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.edit_id.Name = "edit_id";
             this.edit_id.Size = new System.Drawing.Size(156, 23);
-            this.edit_id.TabIndex = 40;
+            this.edit_id.TabIndex = 9;
             // 
             // txt_id
             // 
-            this.txt_id.Location = new System.Drawing.Point(9, 156);
+            this.txt_id.Location = new System.Drawing.Point(9, 185);
             this.txt_id.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txt_id.Name = "txt_id";
             this.txt_id.Size = new System.Drawing.Size(54, 17);
@@ -165,15 +174,15 @@
             // 
             // edit_class
             // 
-            this.edit_class.Location = new System.Drawing.Point(61, 125);
+            this.edit_class.Location = new System.Drawing.Point(61, 154);
             this.edit_class.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.edit_class.Name = "edit_class";
             this.edit_class.Size = new System.Drawing.Size(156, 23);
-            this.edit_class.TabIndex = 38;
+            this.edit_class.TabIndex = 7;
             // 
             // txt_class
             // 
-            this.txt_class.Location = new System.Drawing.Point(9, 128);
+            this.txt_class.Location = new System.Drawing.Point(9, 157);
             this.txt_class.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txt_class.Name = "txt_class";
             this.txt_class.Size = new System.Drawing.Size(54, 17);
@@ -182,15 +191,15 @@
             // 
             // edit_uname
             // 
-            this.edit_uname.Location = new System.Drawing.Point(61, 97);
+            this.edit_uname.Location = new System.Drawing.Point(61, 126);
             this.edit_uname.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.edit_uname.Name = "edit_uname";
             this.edit_uname.Size = new System.Drawing.Size(156, 23);
-            this.edit_uname.TabIndex = 36;
+            this.edit_uname.TabIndex = 5;
             // 
             // txt_uname
             // 
-            this.txt_uname.Location = new System.Drawing.Point(9, 100);
+            this.txt_uname.Location = new System.Drawing.Point(9, 129);
             this.txt_uname.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txt_uname.Name = "txt_uname";
             this.txt_uname.Size = new System.Drawing.Size(54, 17);
@@ -203,7 +212,7 @@
             this.edit_bname.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.edit_bname.Name = "edit_bname";
             this.edit_bname.Size = new System.Drawing.Size(156, 23);
-            this.edit_bname.TabIndex = 34;
+            this.edit_bname.TabIndex = 0;
             // 
             // txt_bname
             // 
@@ -212,47 +221,47 @@
             this.txt_bname.Name = "txt_bname";
             this.txt_bname.Size = new System.Drawing.Size(47, 17);
             this.txt_bname.TabIndex = 33;
-            this.txt_bname.Text = "书本：";
+            this.txt_bname.Text = "图书：";
             // 
-            // checkBox1
+            // chk0
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(221, 72);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1.TabIndex = 47;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chk0.AutoSize = true;
+            this.chk0.Location = new System.Drawing.Point(221, 72);
+            this.chk0.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.chk0.Name = "chk0";
+            this.chk0.Size = new System.Drawing.Size(15, 14);
+            this.chk0.TabIndex = 1;
+            this.chk0.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // chk2
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(221, 102);
-            this.checkBox3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(15, 14);
-            this.checkBox3.TabIndex = 49;
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.chk2.AutoSize = true;
+            this.chk2.Location = new System.Drawing.Point(221, 131);
+            this.chk2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.chk2.Name = "chk2";
+            this.chk2.Size = new System.Drawing.Size(15, 14);
+            this.chk2.TabIndex = 6;
+            this.chk2.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // chk3
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(221, 130);
-            this.checkBox4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(15, 14);
-            this.checkBox4.TabIndex = 50;
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.chk3.AutoSize = true;
+            this.chk3.Location = new System.Drawing.Point(221, 159);
+            this.chk3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.chk3.Name = "chk3";
+            this.chk3.Size = new System.Drawing.Size(15, 14);
+            this.chk3.TabIndex = 8;
+            this.chk3.UseVisualStyleBackColor = true;
             // 
-            // checkBox5
+            // chk4
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(221, 158);
-            this.checkBox5.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(15, 14);
-            this.checkBox5.TabIndex = 51;
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.chk4.AutoSize = true;
+            this.chk4.Location = new System.Drawing.Point(221, 187);
+            this.chk4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.chk4.Name = "chk4";
+            this.chk4.Size = new System.Drawing.Size(15, 14);
+            this.chk4.TabIndex = 10;
+            this.chk4.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -265,20 +274,69 @@
             // 
             // edit_fine
             // 
-            this.edit_fine.Location = new System.Drawing.Point(61, 210);
+            this.edit_fine.Location = new System.Drawing.Point(61, 239);
             this.edit_fine.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.edit_fine.Name = "edit_fine";
             this.edit_fine.Size = new System.Drawing.Size(156, 23);
-            this.edit_fine.TabIndex = 55;
+            this.edit_fine.TabIndex = 13;
             // 
             // txt_fine
             // 
-            this.txt_fine.Location = new System.Drawing.Point(9, 213);
+            this.txt_fine.Location = new System.Drawing.Point(9, 242);
             this.txt_fine.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txt_fine.Name = "txt_fine";
             this.txt_fine.Size = new System.Drawing.Size(54, 17);
             this.txt_fine.TabIndex = 54;
             this.txt_fine.Text = "罚金：";
+            // 
+            // edit_type
+            // 
+            this.edit_type.Location = new System.Drawing.Point(61, 97);
+            this.edit_type.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_type.Name = "edit_type";
+            this.edit_type.Size = new System.Drawing.Size(156, 23);
+            this.edit_type.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(9, 100);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 17);
+            this.label1.TabIndex = 56;
+            this.label1.Text = "类型：";
+            // 
+            // chk1
+            // 
+            this.chk1.AutoSize = true;
+            this.chk1.Location = new System.Drawing.Point(221, 102);
+            this.chk1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.chk1.Name = "chk1";
+            this.chk1.Size = new System.Drawing.Size(15, 14);
+            this.chk1.TabIndex = 3;
+            this.chk1.UseVisualStyleBackColor = true;
+            // 
+            // btn_book
+            // 
+            this.btn_book.Location = new System.Drawing.Point(240, 67);
+            this.btn_book.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_book.Name = "btn_book";
+            this.btn_book.Size = new System.Drawing.Size(73, 25);
+            this.btn_book.TabIndex = 4;
+            this.btn_book.Text = "选择图书...";
+            this.btn_book.UseVisualStyleBackColor = true;
+            this.btn_book.Click += new System.EventHandler(this.btn_book_Click);
+            // 
+            // btn_cancel
+            // 
+            this.btn_cancel.Location = new System.Drawing.Point(9, 20);
+            this.btn_cancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.Size = new System.Drawing.Size(73, 25);
+            this.btn_cancel.TabIndex = 16;
+            this.btn_cancel.Text = "取消";
+            this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // SearchForm
             // 
@@ -286,13 +344,17 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(520, 339);
+            this.Controls.Add(this.btn_book);
+            this.Controls.Add(this.chk1);
+            this.Controls.Add(this.edit_type);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.edit_fine);
             this.Controls.Add(this.txt_fine);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.checkBox5);
-            this.Controls.Add(this.checkBox4);
-            this.Controls.Add(this.checkBox3);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.chk4);
+            this.Controls.Add(this.chk3);
+            this.Controls.Add(this.chk2);
+            this.Controls.Add(this.chk0);
             this.Controls.Add(this.edit_days);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_user);
@@ -312,6 +374,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SearchForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "超期记录搜索筛选向导";
             this.Load += new System.EventHandler(this.SearchForm_Load);
             this.groupBox1.ResumeLayout(false);
@@ -339,12 +402,17 @@
         private System.Windows.Forms.Label txt_uname;
         private System.Windows.Forms.TextBox edit_bname;
         private System.Windows.Forms.Label txt_bname;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox chk0;
+        private System.Windows.Forms.CheckBox chk2;
+        private System.Windows.Forms.CheckBox chk3;
+        private System.Windows.Forms.CheckBox chk4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox edit_fine;
         private System.Windows.Forms.Label txt_fine;
+        private System.Windows.Forms.TextBox edit_type;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chk1;
+        private System.Windows.Forms.Button btn_book;
+        private System.Windows.Forms.Button btn_cancel;
     }
 }

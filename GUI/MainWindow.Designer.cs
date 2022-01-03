@@ -23,7 +23,7 @@ namespace GUI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "",
             ""}, -1);
             this.bar_status = new System.Windows.Forms.StatusStrip();
@@ -47,10 +47,10 @@ namespace GUI
             this.list_main = new System.Windows.Forms.ListView();
             this.col_type = new System.Windows.Forms.ColumnHeader();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn_book = new System.Windows.Forms.Button();
+            this.btn_user = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.btn_sort = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.bar_status.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +61,7 @@ namespace GUI
             this.bar_status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.txt_info,
             this.txt_time});
-            this.bar_status.Location = new System.Drawing.Point(0, 372);
+            this.bar_status.Location = new System.Drawing.Point(0, 362);
             this.bar_status.Name = "bar_status";
             this.bar_status.Padding = new System.Windows.Forms.Padding(1, 0, 11, 0);
             this.bar_status.Size = new System.Drawing.Size(608, 30);
@@ -98,7 +98,7 @@ namespace GUI
             this.txt_heading.Location = new System.Drawing.Point(9, 8);
             this.txt_heading.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txt_heading.Name = "txt_heading";
-            this.txt_heading.Size = new System.Drawing.Size(278, 76);
+            this.txt_heading.Size = new System.Drawing.Size(278, 60);
             this.txt_heading.TabIndex = 1;
             this.txt_heading.Text = "超期借阅图书管理系统";
             this.txt_heading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -145,7 +145,7 @@ namespace GUI
             // 
             // btn_search
             // 
-            this.btn_search.Location = new System.Drawing.Point(470, 89);
+            this.btn_search.Location = new System.Drawing.Point(471, 71);
             this.btn_search.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_search.Name = "btn_search";
             this.btn_search.Size = new System.Drawing.Size(62, 25);
@@ -156,7 +156,7 @@ namespace GUI
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(92, 89);
+            this.btn_add.Location = new System.Drawing.Point(93, 71);
             this.btn_add.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(62, 25);
@@ -167,7 +167,7 @@ namespace GUI
             // 
             // btn_delete
             // 
-            this.btn_delete.Location = new System.Drawing.Point(226, 89);
+            this.btn_delete.Location = new System.Drawing.Point(225, 71);
             this.btn_delete.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_delete.Name = "btn_delete";
             this.btn_delete.Size = new System.Drawing.Size(62, 25);
@@ -178,7 +178,7 @@ namespace GUI
             // 
             // btn_edit
             // 
-            this.btn_edit.Location = new System.Drawing.Point(159, 89);
+            this.btn_edit.Location = new System.Drawing.Point(160, 71);
             this.btn_edit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_edit.Name = "btn_edit";
             this.btn_edit.Size = new System.Drawing.Size(62, 25);
@@ -194,7 +194,7 @@ namespace GUI
             // 
             // btn_fresh
             // 
-            this.btn_fresh.Location = new System.Drawing.Point(9, 89);
+            this.btn_fresh.Location = new System.Drawing.Point(11, 71);
             this.btn_fresh.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_fresh.Name = "btn_fresh";
             this.btn_fresh.Size = new System.Drawing.Size(62, 25);
@@ -205,7 +205,7 @@ namespace GUI
             // 
             // btn_backup
             // 
-            this.btn_backup.Location = new System.Drawing.Point(537, 89);
+            this.btn_backup.Location = new System.Drawing.Point(537, 71);
             this.btn_backup.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_backup.Name = "btn_backup";
             this.btn_backup.Size = new System.Drawing.Size(62, 25);
@@ -226,13 +226,13 @@ namespace GUI
             this.col_fine});
             this.list_main.FullRowSelect = true;
             this.list_main.HideSelection = false;
-            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
             this.list_main.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
-            this.list_main.Location = new System.Drawing.Point(9, 119);
+            listViewItem2});
+            this.list_main.Location = new System.Drawing.Point(11, 102);
             this.list_main.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.list_main.Name = "list_main";
-            this.list_main.Size = new System.Drawing.Size(590, 250);
+            this.list_main.Size = new System.Drawing.Size(590, 257);
             this.list_main.TabIndex = 15;
             this.list_main.UseCompatibleStateImageBehavior = false;
             this.list_main.View = System.Windows.Forms.View.Details;
@@ -245,31 +245,42 @@ namespace GUI
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Location = new System.Drawing.Point(370, 8);
+            this.groupBox2.Controls.Add(this.btn_book);
+            this.groupBox2.Controls.Add(this.btn_user);
+            this.groupBox2.Location = new System.Drawing.Point(446, 7);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox2.Size = new System.Drawing.Size(229, 76);
+            this.groupBox2.Size = new System.Drawing.Size(151, 61);
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "用户";
+            this.groupBox2.Text = "工具";
             // 
-            // button1
+            // btn_book
             // 
-            this.button1.Location = new System.Drawing.Point(33, 30);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(68, 25);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btn_book.Location = new System.Drawing.Point(76, 30);
+            this.btn_book.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_book.Name = "btn_book";
+            this.btn_book.Size = new System.Drawing.Size(68, 25);
+            this.btn_book.TabIndex = 18;
+            this.btn_book.Text = "图书管理";
+            this.btn_book.UseVisualStyleBackColor = true;
+            this.btn_book.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // btn_user
+            // 
+            this.btn_user.Location = new System.Drawing.Point(4, 30);
+            this.btn_user.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_user.Name = "btn_user";
+            this.btn_user.Size = new System.Drawing.Size(68, 25);
+            this.btn_user.TabIndex = 17;
+            this.btn_user.Text = "学生管理";
+            this.btn_user.UseVisualStyleBackColor = true;
+            this.btn_user.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(336, 89);
+            this.button2.Location = new System.Drawing.Point(339, 71);
             this.button2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(62, 25);
@@ -279,7 +290,7 @@ namespace GUI
             // 
             // btn_sort
             // 
-            this.btn_sort.Location = new System.Drawing.Point(403, 89);
+            this.btn_sort.Location = new System.Drawing.Point(405, 71);
             this.btn_sort.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_sort.Name = "btn_sort";
             this.btn_sort.Size = new System.Drawing.Size(62, 25);
@@ -288,22 +299,11 @@ namespace GUI
             this.btn_sort.UseVisualStyleBackColor = true;
             this.btn_sort.Click += new System.EventHandler(this.btn_sort_Click);
             // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(121, 30);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(68, 25);
-            this.button3.TabIndex = 18;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(608, 402);
+            this.ClientSize = new System.Drawing.Size(608, 392);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.list_main);
@@ -353,11 +353,11 @@ namespace GUI
         private System.Windows.Forms.Button btn_backup;
         private System.Windows.Forms.ListView list_main;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_user;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btn_sort;
         private System.Windows.Forms.ColumnHeader col_type;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btn_book;
     }
 }
 

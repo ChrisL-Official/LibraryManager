@@ -144,4 +144,4 @@ bool wstr_find(const wchar_t* str, const wchar_t* key, bool is_fuzzy)
     if (is_fuzzy)
         return wcsstr(str, key) == NULL ? false : true;
     return wcscmp(str, key) ? false : true;
-}
+} 

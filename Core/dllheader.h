@@ -68,7 +68,11 @@ _declspec(dllexport) int edit_book(pBook book, const wchar_t* b_name, const char
 
 _declspec(dllexport) pLinkedList search(pLinkedList source, pLinkedList search);
 
-_declspec(dllexport) void sort(pLinkedList list, int type);
+_declspec(dllexport) void sort(pLinkedList list, int type, bool is_positive);
+
+_declspec(dllexport) pUser get_penalty_user(pNode p);
+
+_declspec(dllexport) pBook get_penalty_book(pNode p);
 
 /*
 *  util.c

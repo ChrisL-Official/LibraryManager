@@ -35,7 +35,7 @@
             this.txt_title = new System.Windows.Forms.Label();
             this.txt_type = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.list_sort = new System.Windows.Forms.ComboBox();
             this.rad_pos = new System.Windows.Forms.RadioButton();
             this.rad_neg = new System.Windows.Forms.RadioButton();
             this.txt_des = new System.Windows.Forms.Label();
@@ -61,7 +61,7 @@
             this.btn_cancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(73, 25);
-            this.btn_cancel.TabIndex = 7;
+            this.btn_cancel.TabIndex = 3;
             this.btn_cancel.Text = "取消";
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
@@ -72,7 +72,7 @@
             this.btn_confirm.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_confirm.Name = "btn_confirm";
             this.btn_confirm.Size = new System.Drawing.Size(73, 25);
-            this.btn_confirm.TabIndex = 8;
+            this.btn_confirm.TabIndex = 4;
             this.btn_confirm.Text = "确定";
             this.btn_confirm.UseVisualStyleBackColor = true;
             this.btn_confirm.Click += new System.EventHandler(this.btn_confirm_Click);
@@ -117,21 +117,22 @@
             this.label1.TabIndex = 43;
             this.label1.Text = "顺序：";
             // 
-            // comboBox1
+            // list_sort
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.list_sort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.list_sort.FormattingEnabled = true;
+            this.list_sort.Items.AddRange(new object[] {
             "学号",
             "姓名",
             "班级",
             "图书",
+            "类型",
             "天数",
             "罚金"});
-            this.comboBox1.Location = new System.Drawing.Point(61, 52);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(156, 25);
-            this.comboBox1.TabIndex = 44;
+            this.list_sort.Location = new System.Drawing.Point(61, 52);
+            this.list_sort.Name = "list_sort";
+            this.list_sort.Size = new System.Drawing.Size(156, 25);
+            this.list_sort.TabIndex = 0;
             // 
             // rad_pos
             // 
@@ -140,7 +141,7 @@
             this.rad_pos.Location = new System.Drawing.Point(61, 81);
             this.rad_pos.Name = "rad_pos";
             this.rad_pos.Size = new System.Drawing.Size(50, 21);
-            this.rad_pos.TabIndex = 45;
+            this.rad_pos.TabIndex = 1;
             this.rad_pos.TabStop = true;
             this.rad_pos.Text = "正序";
             this.rad_pos.UseVisualStyleBackColor = true;
@@ -151,7 +152,7 @@
             this.rad_neg.Location = new System.Drawing.Point(117, 81);
             this.rad_neg.Name = "rad_neg";
             this.rad_neg.Size = new System.Drawing.Size(50, 21);
-            this.rad_neg.TabIndex = 46;
+            this.rad_neg.TabIndex = 2;
             this.rad_neg.Text = "倒序";
             this.rad_neg.UseVisualStyleBackColor = true;
             // 
@@ -172,7 +173,7 @@
             this.Controls.Add(this.txt_des);
             this.Controls.Add(this.rad_neg);
             this.Controls.Add(this.rad_pos);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.list_sort);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txt_type);
             this.Controls.Add(this.groupBox1);
@@ -181,7 +182,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SortForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "超期记录排序向导";
+            this.Load += new System.EventHandler(this.SortForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -198,7 +201,7 @@
         private System.Windows.Forms.Label txt_title;
         private System.Windows.Forms.Label txt_type;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox list_sort;
         private System.Windows.Forms.RadioButton rad_pos;
         private System.Windows.Forms.RadioButton rad_neg;
         private System.Windows.Forms.Label txt_des;
