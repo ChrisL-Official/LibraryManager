@@ -26,11 +26,17 @@ namespace GUI
         [DllImport("Core.dll")]
         extern static void sort(IntPtr list, int type, [MarshalAs(UnmanagedType.I1)] bool is_positive);
 
-        IntPtr current_head_node = get_penaltys();
+        [DllImport("Core.dll")]
+        extern static IntPtr search(IntPtr source, IntPtr search);
+
+        [DllImport("Core.dll")]
+        extern static IntPtr get_search_list();
+
         IntPtr current_list = get_penalty_list();
         bool is_searching = false;
         public bool is_positive = true;
         public int sort_type = 0;
+        public AllInfo allInfo;
 
         public MainWindow()
         {
@@ -42,7 +48,14 @@ namespace GUI
             fresh_penalty_list();
             list_main.BeginUpdate();
             list_main.Items.Clear();
-            IntPtr p = current_head_node;
+            LinkedList list = (LinkedList)Marshal.PtrToStructure(current_list, typeof(LinkedList));
+            IntPtr p;
+            if(!is_searching)
+            {
+                Node node = (Node)Marshal.PtrToStructure(list.head, typeof(Node));
+                p = node.next;
+            }else
+                p = list.head;
             while (p!=IntPtr.Zero)
             {
                 p = AddItem(p);
@@ -119,8 +132,21 @@ namespace GUI
 
         private void btn_search_Click(object sender, EventArgs e)
         {
-            SearchForm form = new SearchForm();
+            SearchForm form = new SearchForm(allInfo);
+            form.Owner = this;
             form.ShowDialog();
+            if (form.DialogResult == DialogResult.OK)
+            {
+                is_searching = true;
+                current_list = search(get_penalty_list(), get_search_list());
+                UpdateList();
+            }
+            else if (form.DialogResult == DialogResult.Abort)
+            {
+                is_searching = false;
+                current_list = get_penalty_list();
+                UpdateList();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -136,6 +162,7 @@ namespace GUI
         private void btn_sort_Click(object sender, EventArgs e)
         {
             SortForm sortForm = new SortForm(sort_type,is_positive);
+            sortForm.Owner = this;
             sortForm.ShowDialog();
             if (sortForm.DialogResult == DialogResult.OK)
             {
@@ -156,6 +183,7 @@ namespace GUI
                 btn_delete.Enabled = true;
                 btn_edit.Enabled = list_main.SelectedItems.Count == 1;
             }
+            
         }
 
         private void button3_Click(object sender, EventArgs e)

@@ -8,8 +8,6 @@ namespace GUI
 {
     public partial class UserManagerForm : Form
     {
-        [DllImport("Core.dll")]
-        extern static IntPtr get_users();
 
         [DllImport("Core.dll")]
         extern static IntPtr get_user_list();
@@ -50,7 +48,9 @@ namespace GUI
         {
             list_main.BeginUpdate();
             list_main.Items.Clear();
-            IntPtr p = get_users();
+            LinkedList list = (LinkedList)Marshal.PtrToStructure(get_user_list(), typeof(LinkedList));
+            Node node = (Node)Marshal.PtrToStructure(list.head, typeof(Node));
+            IntPtr p = node.next;
             while (p != IntPtr.Zero)
             {
                 p = AddItem(p);

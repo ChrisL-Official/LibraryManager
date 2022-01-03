@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace GUI
 {
-    class MyUtil
+    public class MyUtil
     {
 
         [DllImport("Core.dll")]
@@ -15,6 +15,8 @@ namespace GUI
 
         [DllImport("Core.dll")]
         public extern static void delete_item(IntPtr p, IntPtr p1);
+
+
 
         public enum StatusCode
         {
@@ -36,6 +38,12 @@ namespace GUI
             public IntPtr pointer;
             public IntPtr pervious;
             public IntPtr next;
+        }
+
+        public struct LinkedList
+        {
+            public IntPtr head;
+            public IntPtr tail;
         }
 
         public struct Penalty
@@ -64,6 +72,22 @@ namespace GUI
             public byte[] u_name;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
             public byte[] u_class;
+        }
+
+        public struct AllInfo
+        {
+            public string u_id;
+            public bool chk0;
+            public string u_name;
+            public bool chk1;
+            public string u_class;
+            public bool chk2;
+            public string b_id;
+            public bool chk3;
+            public string b_name;
+            public bool chk4;
+            public string days;
+            public string fine;
         }
 
         public static IntPtr PTmp = IntPtr.Zero;

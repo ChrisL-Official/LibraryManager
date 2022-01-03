@@ -4,9 +4,31 @@
 #include <io.h>
 #include "dllheader.h"
 
+bool wstr_is_illegal_decimal(const wchar_t* str) {
+    int n=0, m=0;
+
+    while (*str >= 0x30 && *str <= 0x39) {
+        n++;
+        str++;
+    }
+
+    if (*str == 0x2E) {
+        str++;
+        while (*str >= 0x30 && *str <= 0x39) {
+            m++;
+            str++;
+        }
+        if (!n && !m) return false;
+    }
+    else if (!n) {
+        return false;
+    }
+    return *str == 0 ? true : false;
+}
+
 unsigned short wstr_to_short(const wchar_t* str)
 {
-    int result = 0;
+    unsigned short result = 0;
     wchar_t* p = str;
     while (*p)
     {
@@ -97,7 +119,13 @@ void reverse_list(pLinkedList list)
 
 void delete_list(pLinkedList list)
 {
-    pNode p = list->head,tmp;
+    clear_list(list);
+    free(list);
+}
+
+void clear_list(pLinkedList list)
+{
+    pNode p = list->head, tmp;
     while (p)
     {
         tmp = p->next;
@@ -105,12 +133,8 @@ void delete_list(pLinkedList list)
         free(p);
         p = tmp;
     }
-    free(list);
-}
-
-void clear_list(pLinkedList list)
-{
-
+    list->head = NULL;
+    list->tail = NULL;
 }
 
 int check_file(const char* path)

@@ -81,7 +81,7 @@
             this.btn_cancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(73, 25);
-            this.btn_cancel.TabIndex = 7;
+            this.btn_cancel.TabIndex = 9;
             this.btn_cancel.Text = "取消";
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
@@ -92,7 +92,7 @@
             this.btn_confirm.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_confirm.Name = "btn_confirm";
             this.btn_confirm.Size = new System.Drawing.Size(73, 25);
-            this.btn_confirm.TabIndex = 8;
+            this.btn_confirm.TabIndex = 10;
             this.btn_confirm.Text = "确定";
             this.btn_confirm.UseVisualStyleBackColor = true;
             this.btn_confirm.Click += new System.EventHandler(this.btn_confirm_Click);
@@ -103,7 +103,7 @@
             this.btn_user.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_user.Name = "btn_user";
             this.btn_user.Size = new System.Drawing.Size(73, 25);
-            this.btn_user.TabIndex = 5;
+            this.btn_user.TabIndex = 7;
             this.btn_user.Text = "选择用户...";
             this.btn_user.UseVisualStyleBackColor = true;
             this.btn_user.Click += new System.EventHandler(this.btn_user_Click);
@@ -112,9 +112,10 @@
             // 
             this.edit_id.Location = new System.Drawing.Point(61, 167);
             this.edit_id.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_id.MaxLength = 11;
             this.edit_id.Name = "edit_id";
             this.edit_id.Size = new System.Drawing.Size(156, 23);
-            this.edit_id.TabIndex = 3;
+            this.edit_id.TabIndex = 6;
             // 
             // txt_id
             // 
@@ -129,9 +130,10 @@
             // 
             this.edit_class.Location = new System.Drawing.Point(61, 139);
             this.edit_class.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_class.MaxLength = 9;
             this.edit_class.Name = "edit_class";
             this.edit_class.Size = new System.Drawing.Size(156, 23);
-            this.edit_class.TabIndex = 2;
+            this.edit_class.TabIndex = 5;
             // 
             // txt_class
             // 
@@ -146,9 +148,10 @@
             // 
             this.edit_uname.Location = new System.Drawing.Point(61, 111);
             this.edit_uname.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_uname.MaxLength = 5;
             this.edit_uname.Name = "edit_uname";
             this.edit_uname.Size = new System.Drawing.Size(156, 23);
-            this.edit_uname.TabIndex = 1;
+            this.edit_uname.TabIndex = 3;
             // 
             // txt_uname
             // 
@@ -163,6 +166,7 @@
             // 
             this.edit_bname.Location = new System.Drawing.Point(61, 52);
             this.edit_bname.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_bname.MaxLength = 15;
             this.edit_bname.Name = "edit_bname";
             this.edit_bname.Size = new System.Drawing.Size(156, 23);
             this.edit_bname.TabIndex = 0;
@@ -190,9 +194,10 @@
             // 
             this.edit_days.Location = new System.Drawing.Point(61, 196);
             this.edit_days.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_days.MaxLength = 4;
             this.edit_days.Name = "edit_days";
             this.edit_days.Size = new System.Drawing.Size(156, 23);
-            this.edit_days.TabIndex = 4;
+            this.edit_days.TabIndex = 8;
             // 
             // label2
             // 
@@ -207,9 +212,10 @@
             // 
             this.edit_type.Location = new System.Drawing.Point(61, 82);
             this.edit_type.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_type.MaxLength = 3;
             this.edit_type.Name = "edit_type";
             this.edit_type.Size = new System.Drawing.Size(156, 23);
-            this.edit_type.TabIndex = 30;
+            this.edit_type.TabIndex = 1;
             // 
             // txt_type
             // 
@@ -226,7 +232,7 @@
             this.btn_book.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_book.Name = "btn_book";
             this.btn_book.Size = new System.Drawing.Size(73, 25);
-            this.btn_book.TabIndex = 32;
+            this.btn_book.TabIndex = 2;
             this.btn_book.Text = "选择图书...";
             this.btn_book.UseVisualStyleBackColor = true;
             this.btn_book.Click += new System.EventHandler(this.btn_book_Click);

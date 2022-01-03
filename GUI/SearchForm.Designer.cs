@@ -30,6 +30,7 @@
         {
             this.txt_title = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_cancel = new System.Windows.Forms.Button();
             this.btn_reset = new System.Windows.Forms.Button();
             this.btn_search = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -56,7 +57,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.chk1 = new System.Windows.Forms.CheckBox();
             this.btn_book = new System.Windows.Forms.Button();
-            this.btn_cancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -86,6 +86,17 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             // 
+            // btn_cancel
+            // 
+            this.btn_cancel.Location = new System.Drawing.Point(9, 20);
+            this.btn_cancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.Size = new System.Drawing.Size(73, 25);
+            this.btn_cancel.TabIndex = 16;
+            this.btn_cancel.Text = "取消";
+            this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
+            // 
             // btn_reset
             // 
             this.btn_reset.Location = new System.Drawing.Point(363, 20);
@@ -95,6 +106,7 @@
             this.btn_reset.TabIndex = 14;
             this.btn_reset.Text = "重置";
             this.btn_reset.UseVisualStyleBackColor = true;
+            this.btn_reset.Click += new System.EventHandler(this.btn_reset_Click);
             // 
             // btn_search
             // 
@@ -326,17 +338,6 @@
             this.btn_book.Text = "选择图书...";
             this.btn_book.UseVisualStyleBackColor = true;
             this.btn_book.Click += new System.EventHandler(this.btn_book_Click);
-            // 
-            // btn_cancel
-            // 
-            this.btn_cancel.Location = new System.Drawing.Point(9, 20);
-            this.btn_cancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(73, 25);
-            this.btn_cancel.TabIndex = 16;
-            this.btn_cancel.Text = "取消";
-            this.btn_cancel.UseVisualStyleBackColor = true;
-            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // SearchForm
             // 

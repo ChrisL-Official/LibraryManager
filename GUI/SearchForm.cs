@@ -12,13 +12,49 @@ namespace GUI
 {
     public partial class SearchForm : Form
     {
+
+        [DllImport("Core.dll")]
+        extern static IntPtr get_search_list();
+
+        [DllImport("Core.dll")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        extern static bool wstr_is_illegal_decimal(byte[] str);
+
+        [DllImport("Core.dll")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        extern static bool wstr_is_pure_numberic(byte[] str);
+
+        [DllImport("Core.dll")]
+        extern static void clear_list(IntPtr list);
+
+        [DllImport("Core.dll")]
+        extern static int add_search_str(byte[] str, int type, bool is_fuzzy);
+
+        [DllImport("Core.dll")]
+        extern static int add_search_i(byte[] str, int type);
+
+        [DllImport("Core.dll")]
+        extern static int add_search_f(byte[] str, int type);
+
         private IntPtr user = IntPtr.Zero;
         private IntPtr book = IntPtr.Zero;
 
-        public SearchForm()
+        public SearchForm(AllInfo info)
         {
             InitializeComponent();
+            edit_class.Text = info.u_class;
+            edit_id.Text = info.u_id;
+            edit_type.Text = info.b_id;
+            edit_uname.Text = info.u_name;
+            edit_bname.Text = info.b_name;
+            edit_days.Text = info.days;
+            chk0.Checked = info.chk0;
+            chk1.Checked = info.chk1;
+            chk2.Checked = info.chk2;
+            chk3.Checked = info.chk3;
+            chk4.Checked = info.chk4;
         }
+
 
         private void SearchForm_Load(object sender, EventArgs e)
         {
@@ -60,7 +96,73 @@ namespace GUI
 
         private void btn_search_Click(object sender, EventArgs e)
         {
+            if (edit_type.Text.Length == 0 &&
+                edit_bname.Text.Length == 0 &&
+                edit_uname.Text.Length == 0 &&
+                edit_class.Text.Length == 0 &&
+                edit_id.Text.Length == 0 &&
+                edit_days.Text.Length == 0 &&
+                edit_fine.Text.Length == 0)
+            {
+                MyUtil.showWarningMsgbox("至少搜索一项。");
+                return;
+            }
+            clear_list(get_search_list());
+            if (edit_days.Text.Length != 0)
+            {
+                byte[] b = Encoding.Unicode.GetBytes(edit_days.Text);
+                if (wstr_is_pure_numberic(b))
+                    add_search_i(b, 5);
+                else
+                {
+                    MyUtil.showWarningMsgbox("天数必须是整数。");
+                    return;
+                }
+            }
+            if (edit_fine.Text.Length != 0)
+            {
+                byte[] b = Encoding.Unicode.GetBytes(edit_fine.Text);
+                if(wstr_is_illegal_decimal(b))
+                    add_search_f(b, 6);
+                else
+                {
+                    MyUtil.showWarningMsgbox("罚金必须是整数或小数。");
+                    return;
+                }
+            }
+            if (edit_id.Text.Length != 0)
+                add_search_str(Encoding.ASCII.GetBytes(edit_id.Text), 0, chk2.Checked);
+            if (edit_uname.Text.Length != 0)
+                add_search_str(Encoding.Unicode.GetBytes(edit_uname.Text), 1, chk3.Checked);
+            if (edit_class.Text.Length != 0)
+                add_search_str(Encoding.Unicode.GetBytes(edit_uname.Text), 2, chk4.Checked);
+            if (edit_bname.Text.Length != 0)
+                add_search_str(Encoding.Unicode.GetBytes(edit_bname.Text), 3, chk0.Checked);
+            if (edit_type.Text.Length != 0)
+                add_search_str(Encoding.Unicode.GetBytes(edit_bname.Text), 4, chk1.Checked);
+            AllInfo info = new AllInfo();
+            info.u_class = edit_class.Text;
+            info.u_id = edit_id.Text;
+            info.b_name = edit_bname.Text;
+            info.b_id = edit_type.Text;
+            info.b_name = edit_bname.Text;
+            info.days = edit_days.Text;
+            info.fine = edit_fine.Text;
+            info.chk0 = chk0.Checked;
+            info.chk1 = chk1.Checked;
+            info.chk2 = chk2.Checked;
+            info.chk3 = chk3.Checked;
+            info.chk4 = chk4.Checked;
+            MainWindow owner = (MainWindow)Owner;
+            owner.allInfo = info;
+            DialogResult = DialogResult.OK;
+            Dispose();
+        }
 
+        private void btn_reset_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Abort;
+            Dispose();
         }
     }
 }

@@ -79,6 +79,7 @@
             // 
             this.edit_type.Location = new System.Drawing.Point(59, 50);
             this.edit_type.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_type.MaxLength = 3;
             this.edit_type.Name = "edit_type";
             this.edit_type.Size = new System.Drawing.Size(156, 23);
             this.edit_type.TabIndex = 0;
@@ -127,6 +128,7 @@
             // 
             this.edit_name.Location = new System.Drawing.Point(59, 79);
             this.edit_name.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_name.MaxLength = 15;
             this.edit_name.Name = "edit_name";
             this.edit_name.Size = new System.Drawing.Size(156, 23);
             this.edit_name.TabIndex = 1;

@@ -57,7 +57,8 @@ namespace GUI
                 MyUtil.showWarningMsgbox("所有项都是必填项。");
                 return;
             }
-            if (!wstr_is_pure_numberic(Encoding.Unicode.GetBytes(edit_days.Text)))
+            if (!wstr_is_pure_numberic(Encoding.Unicode.GetBytes(edit_days.Text))
+                ||Convert.ToInt32(edit_days.Text)==0)
             {
                 MyUtil.showWarningMsgbox("天数只能是大于0的纯数字。");
                 return;

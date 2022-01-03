@@ -48,9 +48,19 @@ _declspec(dllexport) pLinkedList get_penalty_list();
 
 _declspec(dllexport) pLinkedList get_book_list();
 
+_declspec(dllexport) pLinkedList get_search_list();
+
 _declspec(dllexport) void fresh_penalty_list();
 
 _declspec(dllexport) void delete_item(pLinkedList list, pNode p);
+
+_declspec(dllexport) void clear_list(pLinkedList list);
+
+_declspec(dllexport) int add_search_str(char* str, int type, bool is_fuzzy);
+
+_declspec(dllexport) int add_search_i(wchar_t* wstr, int type);
+
+_declspec(dllexport) int add_search_f(wchar_t* wstr, int type);
 
 _declspec(dllexport) int add_penalty(pUser user, pBook book, const wchar_t* b_name, const char* b_id,
     const char* u_id, const wchar_t* u_name, const wchar_t* u_class, unsigned short days);
@@ -77,6 +87,8 @@ _declspec(dllexport) pBook get_penalty_book(pNode p);
 /*
 *  util.c
 */
+//检查字符串是否为一般小数
+_declspec(dllexport) bool wstr_is_illegal_decimal(const wchar_t* str);
 //检查字符串是否为纯数字
 _declspec(dllexport) bool wstr_is_pure_numberic(wchar_t* str);
 //检查字符串是否为id

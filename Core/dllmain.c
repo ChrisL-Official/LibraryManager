@@ -10,7 +10,7 @@
 LinkedList list_penalty = { NULL, NULL};
 LinkedList list_user = { NULL, NULL};
 LinkedList list_book = { NULL, NULL};
-LinkedList list_working;
+LinkedList list_search = { NULL, NULL};
 
 const char* Path_Penalty = "penalty.data";
 const char* Path_Book = "book.data";
@@ -176,6 +176,10 @@ pLinkedList get_book_list()
     return &list_book;
 }
 
+pLinkedList get_search_list()
+{
+    return &list_search;
+}
 
 //添加超期记录
 int add_penalty(pUser user, pBook book, const wchar_t* b_name, const char* b_id,
@@ -243,6 +247,51 @@ void fresh_penalty_list()
     final:
         p1 = p1->next;
     }
+}
+
+int add_search_str(char* str, int type, bool is_fuzzy)
+{
+    return add_search(str, type, is_fuzzy);
+}
+
+int add_search_i(wchar_t* wstr, int type)
+{
+    int i = _wtoi(wstr);
+    return add_search(&i, type, false);
+}
+
+int add_search_f(wchar_t* wstr, int type)
+{
+    float f = _wtof(wstr);
+    return add_search(&f, type, false);
+}
+
+int add_search(void* data, int type, bool is_fuzzy)
+{
+    pSearch search = (pSearch)malloc(sizeof(Search));
+    if (!search)
+        return MEMORY_FULL;
+    memset(search, 0, sizeof(Search));
+    search->type = type;
+    search->is_fuzzy = is_fuzzy;
+    switch (type)
+    {
+        case USER_ID:
+        case BOOK_ID:
+            strcpy(search->str, data);
+            break;
+        case BOOK_NAME:
+        case USER_NAME:
+        case USER_CLASS:
+            wcscpy(search->wstr, data);
+            break;
+        case DAYS:
+            search->i = *(int*)data;
+            break;
+        case FINE:
+            search->f = *(float*)data;
+    }
+    add_item(&list_search,search);
 }
 
 //添加用户
@@ -332,7 +381,7 @@ pPenalty get_penalty(pNode p)
     return (pPenalty)p->p;
 }
 
-pLinkedList search(pLinkedList source, pLinkedList search, void*(*get_info)(pNode))
+pLinkedList search(pLinkedList source, pLinkedList search/*, void* (*get_info)(pNode)*/)
 {
     if (!search->head)
         return;
@@ -344,57 +393,53 @@ pLinkedList search(pLinkedList source, pLinkedList search, void*(*get_info)(pNod
     while (p)
     {
         pNode p1 = search->head;
-        void* p2;
-        if (get_info == NULL) 
+        pPenalty penalty = p->p;
+        pUser user = penalty->user;
+        pBook book = penalty->book;
+        /*if (get_info == NULL)
             p2 = p1->p; 
         else
-            p2 = get_info(p1);
-        bool add = false;
+            p2 = get_info(p1);*/
+        //bool add = false;
         while (p1)
         {
             pSearch s = p1->p;
             if (s->type == USER_ID)
             {
-                if (!str_find(((pUser)p2)->u_id, s->str, s->is_fuzzy))
+                if (!str_find(user->u_id, s->str, s->is_fuzzy))
                     goto big_continue;
-                continue;
             }
             if (s->type == USER_NAME)
             {
-                if (!wstr_find(((pUser)p2)->u_name, s->wstr, s->is_fuzzy))
+                if (!wstr_find(user->u_name, s->wstr, s->is_fuzzy))
                     goto big_continue;
-                continue;
             }
             if (s->type == USER_CLASS)
             {
-                if (!wstr_find(((pUser)p2)->u_class, s->wstr, s->is_fuzzy))
+                if (!wstr_find(user->u_class, s->wstr, s->is_fuzzy))
                     goto big_continue;
-                continue;
             }
             if (s->type == BOOK_ID)
             {
-                if (!str_find(((pBook)p2)->b_id, s->str, s->is_fuzzy))
+                if (!str_find(book->b_id, s->str, s->is_fuzzy))
                     goto big_continue;
-                continue;
             }
             if (s->type == BOOK_NAME)
             {
-                if (!wstr_find(((pBook)p2)->b_name, s->wstr, s->is_fuzzy))
+                if (!wstr_find(book->b_name, s->wstr, s->is_fuzzy))
                     goto big_continue;
-                continue;
             }
             if (s->type == DAYS)
             {
-                if (((pPenalty)p2)->days!=s->i)
+                if (penalty->days!=s->i)
                     goto big_continue;
-                continue;
             }
             if (s->type == FINE)
             {
-                if (fabs(((pPenalty)p2)->days-s->f)>1e-6)
+                if (fabs(penalty->days-s->f)>1e-6)
                     goto big_continue;
-                continue;
             }
+            p1 = p1->next;
         }
         add_item(des, p->p);
     big_continue:

@@ -81,6 +81,7 @@
             // 
             this.edit_id.Location = new System.Drawing.Point(61, 52);
             this.edit_id.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_id.MaxLength = 11;
             this.edit_id.Name = "edit_id";
             this.edit_id.Size = new System.Drawing.Size(156, 23);
             this.edit_id.TabIndex = 0;
@@ -98,6 +99,7 @@
             // 
             this.edit_class.Location = new System.Drawing.Point(61, 109);
             this.edit_class.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_class.MaxLength = 9;
             this.edit_class.Name = "edit_class";
             this.edit_class.Size = new System.Drawing.Size(156, 23);
             this.edit_class.TabIndex = 2;
@@ -146,6 +148,7 @@
             // 
             this.edit_name.Location = new System.Drawing.Point(61, 81);
             this.edit_name.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.edit_name.MaxLength = 5;
             this.edit_name.Name = "edit_name";
             this.edit_name.Size = new System.Drawing.Size(156, 23);
             this.edit_name.TabIndex = 1;
