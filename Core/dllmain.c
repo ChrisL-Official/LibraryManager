@@ -578,26 +578,29 @@ void delete_item_from_searching(pLinkedList source, void* info)
 
 int load_list()
 {
-    FILE* f = fopen(Path_User, "rb");
+    FILE* f;
     wchar_t str[12] = { 0 };
-    if (f)
+    if (is_file_readable(Path_User))
     {
+        f = fopen(Path_User, "rb");
         while (!feof(f))
         {
+            fseek(f, 0, SEEK_SET);
             pUser user = (pUser)malloc(sizeof(User));
             if (!user)
                 return MEMORY_FULL;
             memset(user, 0, sizeof(User));
-            fwscanf(f, Format_User_Read, &user->uid, str, user->u_name, user->u_class);
+            int i = fwscanf(f, Format_User_Read, &user->uid, str, user->u_name, user->u_class);
+
             wcstombs(user->u_id, str, 12);
             add_item(&list_user, user);
             //memset(str, 0, 12 * sizeof(wchar_t));
         }
         fclose(f);
     }
-    f = fopen(Path_Book, "rb");
-    if (f)
+    if (is_file_readable(Path_Book))
     {
+        f = fopen(Path_Book, "rb");
         while (!feof(f))
         {
             pBook book = (pBook)malloc(sizeof(Book));
@@ -611,10 +614,10 @@ int load_list()
         }
         fclose(f);
     }
-    f = fopen(Path_Penalty, "r");
     pPenalty4IO penalty = (pPenalty4IO)malloc(sizeof(Penalty4IO));
-    if (f)
+    if (is_file_readable(Path_Penalty))
     {
+        f = fopen(Path_Penalty, "r");
         while (!feof(f))
         {
             fscanf(f, Format_Penalty, &penalty->uid_book, &penalty->uid_user, &penalty->days);

@@ -7,6 +7,8 @@ bool str_find(const char* str, const char* key, bool is_fuzzy);
 
 bool wstr_find(const wchar_t* str, const wchar_t* key, bool is_fuzzy);
 
+bool is_file_readable(const char* path);
+
 enum StateCode 
 {
     SUCCESS,
