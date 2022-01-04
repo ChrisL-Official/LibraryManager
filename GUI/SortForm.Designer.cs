@@ -184,7 +184,6 @@
             this.Name = "SortForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "超期记录排序向导";
-            this.Load += new System.EventHandler(this.SortForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);

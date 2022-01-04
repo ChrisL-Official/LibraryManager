@@ -86,7 +86,7 @@ namespace GUI
         {
             for (int i = 0; i < list_main.SelectedItems.Count; i++)
             {
-                delete_item(get_user_list(),(IntPtr)list_main.SelectedItems[i].Tag);
+                delete_item(get_user_list(),(IntPtr)list_main.SelectedItems[i].Tag,true);
             }
             UpdateList();
         }

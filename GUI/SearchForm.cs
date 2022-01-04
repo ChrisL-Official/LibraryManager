@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -48,6 +48,7 @@ namespace GUI
             edit_uname.Text = info.u_name;
             edit_bname.Text = info.b_name;
             edit_days.Text = info.days;
+            edit_fine.Text = info.fine;
             chk0.Checked = info.chk0;
             chk1.Checked = info.chk1;
             chk2.Checked = info.chk2;
@@ -131,19 +132,19 @@ namespace GUI
                 }
             }
             if (edit_id.Text.Length != 0)
-                add_search_str(Encoding.ASCII.GetBytes(edit_id.Text), 0, chk2.Checked);
+                add_search_str(Encoding.ASCII.GetBytes(edit_id.Text), 0, chk4.Checked);
             if (edit_uname.Text.Length != 0)
-                add_search_str(Encoding.Unicode.GetBytes(edit_uname.Text), 1, chk3.Checked);
+                add_search_str(Encoding.Unicode.GetBytes(edit_uname.Text), 1, chk2.Checked);
             if (edit_class.Text.Length != 0)
-                add_search_str(Encoding.Unicode.GetBytes(edit_uname.Text), 2, chk4.Checked);
+                add_search_str(Encoding.Unicode.GetBytes(edit_class.Text), 2, chk3.Checked);
             if (edit_bname.Text.Length != 0)
                 add_search_str(Encoding.Unicode.GetBytes(edit_bname.Text), 3, chk0.Checked);
             if (edit_type.Text.Length != 0)
-                add_search_str(Encoding.Unicode.GetBytes(edit_bname.Text), 4, chk1.Checked);
+                add_search_str(Encoding.Unicode.GetBytes(edit_type.Text), 4, chk1.Checked);
             AllInfo info = new AllInfo();
             info.u_class = edit_class.Text;
             info.u_id = edit_id.Text;
-            info.b_name = edit_bname.Text;
+            info.u_name = edit_uname.Text;
             info.b_id = edit_type.Text;
             info.b_name = edit_bname.Text;
             info.days = edit_days.Text;
@@ -162,6 +163,8 @@ namespace GUI
         private void btn_reset_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Abort;
+            MainWindow owner = (MainWindow)Owner;
+            owner.allInfo = new AllInfo();
             Dispose();
         }
     }

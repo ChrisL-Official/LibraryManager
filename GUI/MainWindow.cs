@@ -24,10 +24,13 @@ namespace GUI
         extern static void fresh_penalty_list();
 
         [DllImport("Core.dll")]
-        extern static void sort(IntPtr list, int type, [MarshalAs(UnmanagedType.I1)] bool is_positive);
+        extern static void sort_penalty(IntPtr list, int type, [MarshalAs(UnmanagedType.I1)] bool is_positive);
 
         [DllImport("Core.dll")]
         extern static IntPtr search(IntPtr source, IntPtr search);
+
+        [DllImport("Core.dll")]
+        extern static void delete_item_from_searching(IntPtr source, IntPtr data);
 
         [DllImport("Core.dll")]
         extern static IntPtr get_search_list();
@@ -61,7 +64,16 @@ namespace GUI
                 p = AddItem(p);
             }
             list_main.EndUpdate();
-            if (list_main.Items.Count == 0)
+            int i = list_main.Items.Count;
+            StringBuilder b = new StringBuilder();
+            if (is_searching)
+                b.Append("共找到");
+            else
+                b.Append("共载入");
+            b.Append(Convert.ToString(i));
+            b.Append("项，就绪");
+            txt_info.Text = b.ToString();
+            if (i == 0)
             {
                 btn_delete.Enabled = false;
                 btn_edit.Enabled = false;
@@ -99,7 +111,13 @@ namespace GUI
             int j = list_main.SelectedItems.Count;
             for (int i=0;i<j;i++)
             {
-                delete_item(get_penalty_list(),(IntPtr)list_main.SelectedItems[i].Tag);
+                IntPtr p = (IntPtr)list_main.SelectedItems[i].Tag;
+                if (is_searching)
+                {
+                    Node n = (Node)Marshal.PtrToStructure(p, typeof(Node));
+                    delete_item_from_searching(get_penalty_list(), n.pointer);
+                }
+                delete_item(current_list, p, false);
             }
             UpdateList();
         }
@@ -166,7 +184,7 @@ namespace GUI
             sortForm.ShowDialog();
             if (sortForm.DialogResult == DialogResult.OK)
             {
-                sort(current_list, sort_type, is_positive);
+                sort_penalty(current_list, sort_type, is_positive);
                 UpdateList();
             }
         }
@@ -189,6 +207,11 @@ namespace GUI
         private void button3_Click(object sender, EventArgs e)
         {
             new BookManagerForm(false).ShowDialog();
+        }
+
+        private void btn_backup_Click(object sender, EventArgs e)
+        {
+            new SaveForm().ShowDialog();
         }
     }
 }

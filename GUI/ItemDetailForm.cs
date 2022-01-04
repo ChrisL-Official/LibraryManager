@@ -88,11 +88,8 @@ namespace GUI
                     MyUtil.showErrorMsgbox("添加失败。");
                     return;
                 }
-                else
-                {
-                    DialogResult = DialogResult.OK;
-                    MyUtil.PTmp = current;
-                }
+                DialogResult = DialogResult.OK;
+                MyUtil.PTmp = current;
             }
             else
             {
@@ -103,6 +100,11 @@ namespace GUI
                     Encoding.Unicode.GetBytes(edit_uname.Text),
                     Encoding.Unicode.GetBytes(edit_class.Text),
                     wstr_to_short(Encoding.Unicode.GetBytes(edit_days.Text)));
+                if (i != (int)StatusCode.SUCCESS)
+                {
+                    MyUtil.showErrorMsgbox("修改失败。");
+                    return;
+                }
                 DialogResult = DialogResult.OK;
             }
             Dispose();

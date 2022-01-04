@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -10,6 +11,10 @@ namespace GUI
 {
     public partial class SaveForm : Form
     {
+
+        [DllImport("Core.dll")]
+        extern static int write_list();
+
         public SaveForm()
         {
             InitializeComponent();
@@ -34,6 +39,15 @@ namespace GUI
                 chk_penalty.Enabled = false;
                 chk_user.Enabled = false;
             }
+        }
+
+        private void btn_confirm_Click(object sender, EventArgs e)
+        {
+            if(rad_save.Checked)
+            {
+                write_list();
+            }
+            Dispose();
         }
     }
 }

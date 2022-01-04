@@ -23,7 +23,7 @@ namespace GUI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "",
             ""}, -1);
             this.bar_status = new System.Windows.Forms.StatusStrip();
@@ -212,6 +212,7 @@ namespace GUI
             this.btn_backup.TabIndex = 6;
             this.btn_backup.Text = "保存...";
             this.btn_backup.UseVisualStyleBackColor = true;
+            this.btn_backup.Click += new System.EventHandler(this.btn_backup_Click);
             // 
             // list_main
             // 
@@ -226,9 +227,9 @@ namespace GUI
             this.col_fine});
             this.list_main.FullRowSelect = true;
             this.list_main.HideSelection = false;
-            listViewItem2.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
             this.list_main.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
+            listViewItem1});
             this.list_main.Location = new System.Drawing.Point(11, 102);
             this.list_main.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.list_main.Name = "list_main";

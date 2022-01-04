@@ -12,9 +12,15 @@ LinkedList list_user = { NULL, NULL};
 LinkedList list_book = { NULL, NULL};
 LinkedList list_search = { NULL, NULL};
 
-const char* Path_Penalty = "penalty.data";
-const char* Path_Book = "book.data";
-const char* Path_User = "user.data";
+const char* Path_Penalty = "penalty.dat";
+const char* Path_Book = "book.dat";
+const char* Path_User = "user.dat";
+
+const wchar_t* Format_Book_Read = L"%d\t%ls\t%l[^\t]\t\n"; //uid,id,名称
+const wchar_t* Format_Book_Write = L"%d\t%ls\t%ls\t\n";
+const wchar_t* Format_User_Read = L"%d\t%ls\t%l[^\t]\t%l[^\t]\t\n"; //uid,id,姓名,班级
+const wchar_t* Format_User_Write = L"%d\t%ls\t%ls\t%ls\t\n";
+const char* Format_Penalty = "%d\t%d\t%d\t\n"; //uid,uid,天数
 
 int init()
 {
@@ -30,50 +36,53 @@ int init()
     p->book = list_book.head->p;
     p->days = 2;
     add_item(&list_penalty, p);
+    load_list();
 }
 
-int load_list()
+int write_list()
 {
-    int i = check_file(Path_User);
-    if (i) return i;
-    FILE* f = fopen(Path_User, 'r');
-    while (!feof(f))
+    FILE* f = fopen(Path_User, "wb+");
+    if (f) 
     {
-        pUser user = (pUser)malloc(sizeof(User));
-        memset(user, 0, sizeof(User));
-        if (fscanf(f, "%d\t%s\t%s\t%s\n", &(user->uid), user->u_id, user->u_name, user->u_class) != EOF)
-            add_item(&list_user, user);
-        else
-            free(user);
+        pNode p = list_user.head->next;
+        while (p)
+        {
+            pUser user = p->p;
+            wchar_t id[12];
+            mbstowcs(id, user->u_id, 12);
+            fwprintf(f, Format_User_Write, user->uid, id, user->u_name, user->u_class);
+            p = p->next;
+        }
+        fclose(f);
     }
-    fclose(f);
-
-    i = check_file(Path_Book);
-    if (i) return i;
-    f = fopen(Path_Book, 'r');
-    while (!feof(f))
+    f = fopen(Path_Book, "wb+");
+    if (f)
     {
-        pBook book = (pBook)malloc(sizeof(Book));
-        memset(book, 0, sizeof(Book));
-        if (fscanf(f, "%d\t%[^\t]\t%s\n", &(book->uid), book->b_name, book->b_id) != EOF)
-            add_item(&list_book, book);
-        else
-            free(book);
+        pNode p = list_book.head->next;
+        while (p)
+        {
+            pBook book = p->p;
+            wchar_t id[4];
+            mbstowcs(id, book->b_id, 4);
+            fwprintf(f, Format_Book_Write, book->uid, id, book->b_name);
+            p = p->next;
+        }
+        fclose(f);
     }
-    fclose(f);
-
-    i = check_file(Path_Penalty);
-    if (i) return i;
-    f = fopen(Path_Penalty, 'r');
-    while (!feof(f))
+    f = fopen(Path_Penalty, "w+");
+    if (f)
     {
-        pPenalty4IO penalty = (pPenalty4IO)malloc(sizeof(Penalty4IO));
-        if (fscanf(f, "%d\t%d\t%d\n", &(penalty->uid_user), &(penalty->uid_book), &(penalty->uid_user)) != EOF)
-            ;
-        else
-            free(penalty);
+        pNode p = list_penalty.head->next;
+        while (p)
+        {
+            pPenalty penalty = p->p;
+            pBook book = penalty->book;
+            pUser user = penalty->user;
+            fprintf(f, Format_Penalty,book->uid,user->uid,penalty->days);
+            p = p->next;
+        }
+        fclose(f);
     }
-    fclose(f);
 }
 
 int login(const char* account, const char* pwd)
@@ -179,6 +188,40 @@ pLinkedList get_book_list()
 pLinkedList get_search_list()
 {
     return &list_search;
+}
+
+int add_penalty_from_io(pPenalty4IO p)
+{
+    pNode p1 = list_user.head->next;
+    pPenalty p3 = (pPenalty)malloc(sizeof(Penalty));
+    while (p1)
+    {
+        pUser p2 = p1->p;
+        if (p2->uid == p->uid_user)
+        {
+            p3->user = p2;
+            goto next1;
+        }
+        p1 = p1->next;
+    }
+    p3->user = list_user.head;
+next1:
+    p1 = list_book.head->next;
+    while (p1)
+    {
+        pBook p2 = p1->p;
+        if (p2->uid == p->uid_book)
+        {
+            p3->book = p2;
+            goto next2;
+        }
+        p1 = p1->next;
+    }
+    p3->book = list_book.head;
+next2:
+    p3->days = p->days;
+    p3->fine = p->days * 0.2;
+    add_item(&list_penalty, p3);
 }
 
 //添加超期记录
@@ -328,6 +371,7 @@ int edit_user(pUser user, const char* u_id, const wchar_t* u_name, const wchar_t
     strcpy(user->u_id, u_id);
     wcscpy(user->u_name, u_name);
     wcscpy(user->u_class, u_class);
+    //write_list();
     return SUCCESS;
 }
 
@@ -436,7 +480,7 @@ pLinkedList search(pLinkedList source, pLinkedList search/*, void* (*get_info)(p
             }
             if (s->type == FINE)
             {
-                if (fabs(penalty->days-s->f)>1e-6)
+                if (fabs(penalty->fine-s->f)>1e-6)
                     goto big_continue;
             }
             p1 = p1->next;
@@ -469,11 +513,8 @@ bool compare(pNode p1, pNode p2, int type, void* (*get_info)(pNode))
         return ((pPenalty)v1)->fine > ((pPenalty)v2)->fine;
 }
 
-void sort(pLinkedList list, int type, bool is_positive)
+void sort_penalty(pLinkedList list, int type, bool is_positive)
 {
-    bool swapped;
-    pNode ptr1;
-    pNode lptr = NULL;
     void*(*p)(void*) ;
     if (list->head->next == NULL)
         return;
@@ -491,11 +532,20 @@ void sort(pLinkedList list, int type, bool is_positive)
     default:
         p = get_penalty;
     }
+    //sort(list, type,is_positive,p);
+}
+
+void sort(pLinkedList list, int type, bool is_positive, void* (*p)(void*))
+{
+    if (list->head->next == NULL)
+        return;
+    bool swapped;
+    pNode ptr1;
+    pNode lptr = NULL;
     do
     {
         swapped = false;
         ptr1 = list->head->next;
-
         while (ptr1->next != lptr)
         {
             if (compare(ptr1, ptr1->next, type, p) && is_positive)
@@ -509,4 +559,63 @@ void sort(pLinkedList list, int type, bool is_positive)
         }
         lptr = ptr1;
     } while (swapped);
+}
+
+void delete_item_from_searching(pLinkedList source, void* info)
+{
+    pNode p = source->head;
+    while (p)
+    {
+        if (p->p == info)
+        {
+            delete_item(source, p, true);
+            break;
+        }
+        p = p->next;
+    }
+}
+
+int load_list()
+{
+    FILE* f = fopen(Path_User, "rb");
+    wchar_t str[12] = { 0 };
+    if (f)
+    {
+        while (!feof(f))
+        {
+            pUser user = (pUser)malloc(sizeof(User));
+            if (!user)
+                return MEMORY_FULL;
+            memset(user, 0, sizeof(User));
+            fwscanf(f, Format_User_Read, &user->uid, str, user->u_name, user->u_class);
+            wcstombs(user->u_id, str, 12);
+            add_item(&list_user, user);
+            //memset(str, 0, 12 * sizeof(wchar_t));
+        }
+        fclose(f);
+    }
+    f = fopen(Path_Book, "rb");
+    if (f)
+    {
+        while (!feof(f))
+        {
+            pBook book = (pBook)malloc(sizeof(Book));
+            if (!book)
+                return MEMORY_FULL;
+            memset(book, 0, sizeof(Book));
+            fwscanf(f, Format_Book_Read, &book->uid, str, book->b_name);
+            wcstombs(book->b_id, str, 4);
+            add_item(&list_book, book);
+            //memset(str, 0, 12 * sizeof(wchar_t));
+        }
+        fclose(f);
+    }
+    f = fopen(Path_Penalty, "r");
+    pPenalty4IO penalty = (pPenalty4IO)malloc(sizeof(Penalty4IO));
+    if (f)
+    {
+        fscanf(f, Format_Penalty, &penalty->uid_book, &penalty->uid_user, &penalty->days);
+        add_penalty_from_io(penalty);
+        fclose(f);
+    }
 }

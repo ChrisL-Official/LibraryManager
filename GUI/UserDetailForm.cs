@@ -48,7 +48,7 @@ namespace GUI
             }
             if (current == IntPtr.Zero)
             {
-                int i = add_user(DateTime.Now.Second,
+                int i = add_user(getUID(),
                     Encoding.ASCII.GetBytes(edit_id.Text),
                     Encoding.Unicode.GetBytes(edit_name.Text),
                     Encoding.Unicode.GetBytes(edit_class.Text));

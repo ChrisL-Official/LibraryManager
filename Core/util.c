@@ -88,7 +88,7 @@ pNode add_item(pLinkedList list, void* p)
     return node;
 }
 
-void delete_item(pLinkedList list,pNode p)
+void delete_item(pLinkedList list,pNode p, bool free_data)
 {
     if (p->pervious)
         p->pervious->next = p->next;
@@ -98,7 +98,8 @@ void delete_item(pLinkedList list,pNode p)
         p->next->pervious = p->pervious;
     else
         list->tail = p->pervious;
-    free(p->p);
+    if(free_data)
+        free(p->p);
     free(p);
 }
 

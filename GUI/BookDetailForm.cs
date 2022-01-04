@@ -46,7 +46,7 @@ namespace GUI
             }
             if (current == IntPtr.Zero)
             {
-                int i = add_book(DateTime.Now.Second,
+                int i = add_book(getUID(),
                     Encoding.Unicode.GetBytes(edit_name.Text),
                     Encoding.ASCII.GetBytes(edit_type.Text));
                 if (i != 0)

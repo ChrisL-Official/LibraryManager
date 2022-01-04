@@ -14,7 +14,7 @@ namespace GUI
         public extern static bool wstr_is_id(byte[] str);
 
         [DllImport("Core.dll")]
-        public extern static void delete_item(IntPtr p, IntPtr p1);
+        public extern static void delete_item(IntPtr p, IntPtr p1, bool free_data);
 
 
 
@@ -98,8 +98,14 @@ namespace GUI
         }
 
         public static void showErrorMsgbox(String msg)
-        {
+        { 
             MessageBox.Show(msg, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public static int getUID()
+        {
+            TimeSpan ts = DateTime.UtcNow - new DateTime(2000, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt32(ts.TotalSeconds);
         }
     }
 }

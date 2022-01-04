@@ -17,6 +17,7 @@ namespace GUI
             InitializeComponent();
             list_sort.SelectedIndex = i;
             rad_pos.Checked = b;
+            rad_neg.Checked = !b;
         }
 
         private void btn_confirm_Click(object sender, EventArgs e)
@@ -31,11 +32,6 @@ namespace GUI
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             Dispose();
-        }
-
-        private void SortForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
