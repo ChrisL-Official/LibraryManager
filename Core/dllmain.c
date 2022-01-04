@@ -498,19 +498,46 @@ bool compare(pNode p1, pNode p2, int type, void* (*get_info)(pNode))
     v1 = get_info(p1);
     v2 = get_info(p2);
     if (type == USER_ID)
-        return strcmp(((pUser)v1)->u_id, ((pUser)v2)->u_id);
+        return strcmp(((pUser)v1)->u_id, ((pUser)v2)->u_id)>0;
     if (type == USER_NAME)
-        return wcscmp(((pUser)v1)->u_name, ((pUser)v2)->u_name);
+        return wcscmp(((pUser)v1)->u_name, ((pUser)v2)->u_name)>0;
     if (type == USER_CLASS)
-        return wcscmp(((pUser)v1)->u_class, ((pUser)v2)->u_class);
+        return wcscmp(((pUser)v1)->u_class, ((pUser)v2)->u_class)>0;
     if (type == BOOK_ID)
-        return strcmp(((pBook)v1)->b_id, ((pBook)v2)->b_id);
+        return strcmp(((pBook)v1)->b_id, ((pBook)v2)->b_id)>0;
     if (type == BOOK_NAME)
-        return wcscmp(((pBook)v1)->b_name, ((pBook)v2)->b_name);
+        return wcscmp(((pBook)v1)->b_name, ((pBook)v2)->b_name)>0;
     if (type == DAYS)
         return ((pPenalty)v1)->days > ((pPenalty)v2)->days;
     if (type == FINE)
         return ((pPenalty)v1)->fine > ((pPenalty)v2)->fine;
+}
+
+void sort(pLinkedList list, int type, bool is_positive, void* (*p)(void*))
+{
+    if (list->head->next == NULL)
+        return;
+    bool swapped;
+    pNode ptr1;
+    pNode lptr = NULL;
+    do
+    {
+        swapped = false;
+        ptr1 = list->head->next;
+        while (ptr1->next != lptr)
+        {
+            bool b = compare(ptr1, ptr1->next, type, p);
+            if ((b&&is_positive)||(!b&&!is_positive))
+            {
+                void* tmp = ptr1->p;
+                ptr1->p = ptr1->next->p;
+                ptr1->next->p = tmp;
+                swapped = true;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
+    } while (swapped);
 }
 
 void sort_penalty(pLinkedList list, int type, bool is_positive)
@@ -532,33 +559,7 @@ void sort_penalty(pLinkedList list, int type, bool is_positive)
     default:
         p = get_penalty;
     }
-    //sort(list, type,is_positive,p);
-}
-
-void sort(pLinkedList list, int type, bool is_positive, void* (*p)(void*))
-{
-    if (list->head->next == NULL)
-        return;
-    bool swapped;
-    pNode ptr1;
-    pNode lptr = NULL;
-    do
-    {
-        swapped = false;
-        ptr1 = list->head->next;
-        while (ptr1->next != lptr)
-        {
-            if (compare(ptr1, ptr1->next, type, p) && is_positive)
-            {
-                void* tmp = ptr1->p;
-                ptr1->p = ptr1->next->p;
-                ptr1->next->p = tmp;
-                swapped = true;
-            }
-            ptr1 = ptr1->next;
-        }
-        lptr = ptr1;
-    } while (swapped);
+    sort(list, type,is_positive,p);
 }
 
 void delete_item_from_searching(pLinkedList source, void* info)
@@ -614,8 +615,11 @@ int load_list()
     pPenalty4IO penalty = (pPenalty4IO)malloc(sizeof(Penalty4IO));
     if (f)
     {
-        fscanf(f, Format_Penalty, &penalty->uid_book, &penalty->uid_user, &penalty->days);
-        add_penalty_from_io(penalty);
+        while (!feof(f))
+        {
+            fscanf(f, Format_Penalty, &penalty->uid_book, &penalty->uid_user, &penalty->days);
+            add_penalty_from_io(penalty);
+        }
         fclose(f);
     }
 }
