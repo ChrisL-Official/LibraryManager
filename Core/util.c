@@ -88,6 +88,24 @@ pNode add_item(pLinkedList list, void* p)
     return node;
 }
 
+pNode incert_item(pLinkedList list, void* p)
+{
+    pNode node = (pNode)malloc(sizeof(Node));
+    if (!node) return NULL;
+    memset(node, 0, sizeof(Node));
+    node->p = p;
+    if (list->head)
+    {
+        list->head->next = node;
+    }
+    else
+    {
+        list->head = node;
+    }
+    list->tail = node;
+    return node;
+}
+
 void delete_item(pLinkedList list,pNode p, bool free_data)
 {
     if (p->pervious)

@@ -36,12 +36,20 @@ namespace GUI
         [DllImport("Core.dll")]
         extern static int add_search_f(byte[] str, int type);
 
+
+        private MainWindow owner;
         private IntPtr user = IntPtr.Zero;
         private IntPtr book = IntPtr.Zero;
 
         public SearchForm(AllInfo info)
         {
             InitializeComponent();
+            load(info);
+            list_fun.SelectedIndex = info.fun;
+        }
+
+        private void load(AllInfo info)
+        {
             edit_class.Text = info.u_class;
             edit_id.Text = info.u_id;
             edit_type.Text = info.b_id;
@@ -56,11 +64,6 @@ namespace GUI
             chk4.Checked = info.chk4;
         }
 
-
-        private void SearchForm_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void btn_book_Click(object sender, EventArgs e)
         {
@@ -140,7 +143,7 @@ namespace GUI
             if (edit_bname.Text.Length != 0)
                 add_search_str(Encoding.Unicode.GetBytes(edit_bname.Text), 3, chk0.Checked);
             if (edit_type.Text.Length != 0)
-                add_search_str(Encoding.Unicode.GetBytes(edit_type.Text), 4, chk1.Checked);
+                add_search_str(Encoding.ASCII.GetBytes(edit_type.Text), 4, chk1.Checked);
             AllInfo info = new AllInfo();
             info.u_class = edit_class.Text;
             info.u_id = edit_id.Text;
@@ -154,7 +157,7 @@ namespace GUI
             info.chk2 = chk2.Checked;
             info.chk3 = chk3.Checked;
             info.chk4 = chk4.Checked;
-            MainWindow owner = (MainWindow)Owner;
+            info.fun = list_fun.SelectedIndex;
             owner.allInfo = info;
             DialogResult = DialogResult.OK;
             Dispose();
@@ -166,6 +169,21 @@ namespace GUI
             MainWindow owner = (MainWindow)Owner;
             owner.allInfo = new AllInfo();
             Dispose();
+        }
+
+        private void SearchForm_Load(object sender, EventArgs e)
+        {
+            owner = (MainWindow)Owner;
+            btn_reset.Enabled = owner.is_searching;
+        }
+
+        private void btn_clear_Click(object sender, EventArgs e)
+        {
+            AllInfo i = new AllInfo();
+            user = IntPtr.Zero;
+            book = IntPtr.Zero;
+            load(i);
+            owner.allInfo = i;
         }
     }
 }

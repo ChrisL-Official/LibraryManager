@@ -53,6 +53,8 @@ _declspec(dllexport) int edit_book(pBook book, const wchar_t* b_name, const char
 _declspec(dllexport) pLinkedList search(pLinkedList source, pLinkedList search);
 //≈≈–Ú
 _declspec(dllexport) void sort_penalty(pLinkedList list, int type, bool is_positive);
+//Õ≥º∆
+_declspec(dllexport) float statistic(pLinkedList list);
 
 _declspec(dllexport) pUser get_penalty_user(pNode p);
 

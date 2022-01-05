@@ -35,8 +35,14 @@ namespace GUI
         [DllImport("Core.dll")]
         extern static IntPtr get_search_list();
 
+        [DllImport("Core.dll")]
+        extern static float statistic(IntPtr list);
+
+        [DllImport("Core.dll")]
+        extern static void clear_list(IntPtr list);
+
         IntPtr current_list = get_penalty_list();
-        bool is_searching = false;
+        public bool is_searching = false;
         public bool is_positive = true;
         public int sort_type = 0;
         public AllInfo allInfo;
@@ -155,21 +161,28 @@ namespace GUI
             form.ShowDialog();
             if (form.DialogResult == DialogResult.OK)
             {
-                is_searching = true;
-                current_list = search(get_penalty_list(), get_search_list());
-                UpdateList();
+                if(allInfo.fun == 0)
+                {
+                    is_searching = true;
+                    current_list = search(get_penalty_list(), get_search_list());
+                    UpdateList();
+                }
+                else
+                {
+                    IntPtr list = search(get_penalty_list(), get_search_list());
+                    float f = statistic(list);
+                    clear_list(get_search_list());
+                    clear_list(list);
+                    showInfoMsgbox("统计结果："+Convert.ToString(f)+"元。");
+                }
             }
             else if (form.DialogResult == DialogResult.Abort)
             {
                 is_searching = false;
+                clear_list(get_search_list());
                 current_list = get_penalty_list();
                 UpdateList();
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            new UserManagerForm(false).ShowDialog();
         }
 
         private void list_Selected(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -204,14 +217,19 @@ namespace GUI
             
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            new BookManagerForm(false).ShowDialog();
-        }
-
         private void btn_backup_Click(object sender, EventArgs e)
         {
             new SaveForm().ShowDialog();
+        }
+
+        private void btn_user_Click(object sender, EventArgs e)
+        {
+            new UserManagerForm(false).ShowDialog();
+        }
+
+        private void btn_book_Click(object sender, EventArgs e)
+        {
+            new BookManagerForm(false).ShowDialog();
         }
     }
 }

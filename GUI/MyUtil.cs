@@ -88,6 +88,7 @@ namespace GUI
             public bool chk4;
             public string days;
             public string fine;
+            public int fun;
         }
 
         public static IntPtr PTmp = IntPtr.Zero;
@@ -100,6 +101,11 @@ namespace GUI
         public static void showErrorMsgbox(String msg)
         { 
             MessageBox.Show(msg, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public static void showInfoMsgbox(String msg)
+        {
+            MessageBox.Show(msg, "信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public static int getUID()

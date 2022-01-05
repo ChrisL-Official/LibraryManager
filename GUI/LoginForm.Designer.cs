@@ -36,6 +36,7 @@ namespace GUI
             this.edit_pwd = new System.Windows.Forms.TextBox();
             this.btn_login = new System.Windows.Forms.Button();
             this.txt_cp = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // title
@@ -51,7 +52,7 @@ namespace GUI
             // txt_account
             // 
             this.txt_account.AutoSize = true;
-            this.txt_account.Location = new System.Drawing.Point(13, 61);
+            this.txt_account.Location = new System.Drawing.Point(12, 101);
             this.txt_account.Name = "txt_account";
             this.txt_account.Size = new System.Drawing.Size(54, 20);
             this.txt_account.TabIndex = 1;
@@ -60,7 +61,7 @@ namespace GUI
             // txt_pwd
             // 
             this.txt_pwd.AutoSize = true;
-            this.txt_pwd.Location = new System.Drawing.Point(13, 101);
+            this.txt_pwd.Location = new System.Drawing.Point(12, 141);
             this.txt_pwd.Name = "txt_pwd";
             this.txt_pwd.Size = new System.Drawing.Size(54, 20);
             this.txt_pwd.TabIndex = 2;
@@ -68,21 +69,21 @@ namespace GUI
             // 
             // edit_account
             // 
-            this.edit_account.Location = new System.Drawing.Point(58, 58);
+            this.edit_account.Location = new System.Drawing.Point(58, 98);
             this.edit_account.Name = "edit_account";
             this.edit_account.Size = new System.Drawing.Size(235, 27);
             this.edit_account.TabIndex = 3;
             // 
             // edit_pwd
             // 
-            this.edit_pwd.Location = new System.Drawing.Point(58, 98);
+            this.edit_pwd.Location = new System.Drawing.Point(58, 138);
             this.edit_pwd.Name = "edit_pwd";
             this.edit_pwd.Size = new System.Drawing.Size(235, 27);
             this.edit_pwd.TabIndex = 4;
             // 
             // btn_login
             // 
-            this.btn_login.Location = new System.Drawing.Point(309, 58);
+            this.btn_login.Location = new System.Drawing.Point(309, 98);
             this.btn_login.Name = "btn_login";
             this.btn_login.Size = new System.Drawing.Size(71, 67);
             this.btn_login.TabIndex = 5;
@@ -93,17 +94,28 @@ namespace GUI
             // txt_cp
             // 
             this.txt_cp.AutoSize = true;
-            this.txt_cp.Location = new System.Drawing.Point(287, 134);
+            this.txt_cp.Location = new System.Drawing.Point(287, 174);
             this.txt_cp.Name = "txt_cp";
             this.txt_cp.Size = new System.Drawing.Size(93, 20);
             this.txt_cp.TabIndex = 6;
             this.txt_cp.Text = "ChrisL 2022";
             // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(12, 45);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(368, 36);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "管理员登录";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 163);
+            this.ClientSize = new System.Drawing.Size(392, 203);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.txt_cp);
             this.Controls.Add(this.btn_login);
             this.Controls.Add(this.edit_pwd);
@@ -131,5 +143,6 @@ namespace GUI
         private System.Windows.Forms.TextBox edit_pwd;
         private System.Windows.Forms.Button btn_login;
         private System.Windows.Forms.Label txt_cp;
+        private System.Windows.Forms.Label label1;
     }
 }

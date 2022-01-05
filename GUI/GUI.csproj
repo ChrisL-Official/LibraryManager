@@ -13,8 +13,10 @@
     <Version>1.1</Version>
     <Authors>ChrisL</Authors>
     <Company>GDUT</Company>
-    <Product>Final Homework</Product>
+    <Product>借阅图书超期管理系统</Product>
     <SignAssembly>false</SignAssembly>
+    <Copyright>ChrisL 2022</Copyright>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='项目|AnyCPU'">
@@ -23,6 +25,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>$(SolutionDir)Debug</OutputPath>
     <DocumentationFile />
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='仅更新UI|AnyCPU'">
@@ -31,6 +34,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>$(SolutionDir)Debug</OutputPath>
     <DocumentationFile />
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
@@ -49,7 +53,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <None Update="Resources\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

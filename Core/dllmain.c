@@ -333,6 +333,7 @@ int add_search(void* data, int type, bool is_fuzzy)
             break;
         case FINE:
             search->f = *(float*)data;
+            break;
     }
     add_item(&list_search,search);
 }
@@ -585,7 +586,6 @@ int load_list()
         f = fopen(Path_User, "rb");
         while (!feof(f))
         {
-            fseek(f, 0, SEEK_SET);
             pUser user = (pUser)malloc(sizeof(User));
             if (!user)
                 return MEMORY_FULL;
@@ -625,4 +625,16 @@ int load_list()
         }
         fclose(f);
     }
+}
+
+float statistic(pLinkedList list)
+{
+    float ans = 0;
+    pNode p = list->head;
+    while (p)
+    {
+        ans += ((pPenalty)(p->p))->fine;
+        p = p->next;
+    }
+    return ans;
 }

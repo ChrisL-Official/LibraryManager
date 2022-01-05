@@ -1,8 +1,6 @@
 #pragma once
 #include <wchar.h>
 
-int check_file(const char* path);
-
 bool str_find(const char* str, const char* key, bool is_fuzzy);
 
 bool wstr_find(const wchar_t* str, const wchar_t* key, bool is_fuzzy);
@@ -35,33 +33,6 @@ enum ItemType
     FINE,
 };
 
-/*typedef struct User_Info User, * pUser;
-struct User_Info {
-    char id[12];
-    wchar_t uname[5];
-    wchar_t uclass[10];
-    pUser pervious;
-    pUser next;
-};
-
-typedef struct Item_Info Item, *pItem;
-struct Item_Info {
-    char id[12];
-    wchar_t u_name[5];
-    wchar_t u_class[10];
-    wchar_t b_name[20];
-    int days;
-    float fine;
-    pItem next;
-};
-
-typedef struct Item_Info_Pointer PItem, * pPItem;
-struct Item_Info_Pointer {
-    pItem p;
-    pPItem next;
-};*/
-
-
 typedef struct SearchInfo
 {
     union {
@@ -74,7 +45,6 @@ typedef struct SearchInfo
     bool is_fuzzy;
 }Search, * pSearch;
 
-//需4字节对齐
 typedef struct UserInfo
 {
     int uid;
@@ -89,16 +59,6 @@ typedef struct BookInfo
     char b_id[4];
     wchar_t b_name[16];
 }Book, * pBook;
-
-//需4字节对齐
-/*typedef struct PenaltyInfo
-{
-    wchar_t b_name[15];
-    char b_id[4];
-    pNode user;
-    unsigned short days; //最大支持179年
-    float fine;
-}Penalty, * pPenalty;*/
 
 typedef struct PenaltyInfo
 {
