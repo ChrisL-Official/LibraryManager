@@ -68,45 +68,37 @@ namespace GUI
                 MyUtil.showWarningMsgbox("ID只能由数字和大写字母(A-Z)组成。");
                 return;
             }
+            int i;
             if (current==IntPtr.Zero)
             {
-
-                /*current = add_item(Encoding.ASCII.GetBytes(edit_id.Text),
-                    Encoding.Unicode.GetBytes(edit_uname.Text),
-                    Encoding.Unicode.GetBytes(edit_class.Text),
-                    Encoding.Unicode.GetBytes(edit_bname.Text),
-                    2);*/
-                int i = add_penalty(user, book,
+                i = add_penalty(user, book,
                     Encoding.Unicode.GetBytes(edit_bname.Text),
                     Encoding.ASCII.GetBytes(edit_type.Text),
                     Encoding.ASCII.GetBytes(edit_id.Text),
                     Encoding.Unicode.GetBytes(edit_uname.Text),
                     Encoding.Unicode.GetBytes(edit_class.Text),
                     wstr_to_short(Encoding.Unicode.GetBytes(edit_days.Text)));
-                if(i!=(int)StatusCode.SUCCESS)
-                {
-                    MyUtil.showErrorMsgbox("添加失败。");
-                    return;
-                }
-                DialogResult = DialogResult.OK;
-                MyUtil.PTmp = current;
             }
             else
             {
-                int i = edit_penalty(current, user, book,
+                i = edit_penalty(current, user, book,
                     Encoding.Unicode.GetBytes(edit_bname.Text),
                     Encoding.ASCII.GetBytes(edit_type.Text),
                     Encoding.ASCII.GetBytes(edit_id.Text),
                     Encoding.Unicode.GetBytes(edit_uname.Text),
                     Encoding.Unicode.GetBytes(edit_class.Text),
                     wstr_to_short(Encoding.Unicode.GetBytes(edit_days.Text)));
-                if (i != (int)StatusCode.SUCCESS)
-                {
-                    MyUtil.showErrorMsgbox("修改失败。");
-                    return;
-                }
-                DialogResult = DialogResult.OK;
             }
+            if (i != (int)StatusCode.SUCCESS)
+            {
+                if(i == (int)StatusCode.NOT_EXIST)
+                    MyUtil.showErrorMsgbox("图书或用户不存在。");
+                if (i == (int)StatusCode.CONFLICT)
+                    MyUtil.showErrorMsgbox("图书或用与现有项存在冲突。");
+                return;
+            }
+            MyUtil.PTmp = current;
+            DialogResult = DialogResult.OK;
             Dispose();
         }
 

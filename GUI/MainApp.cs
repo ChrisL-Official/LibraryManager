@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Reflection;
+using static GUI.MyUtil;
 
 namespace GUI
 {
@@ -18,7 +19,7 @@ namespace GUI
         extern static IntPtr FreeLibrary(IntPtr handle);
 
         [DllImport("Core.dll")]
-        extern static void init();
+        extern static int init();
 
 
         [STAThread]
@@ -30,7 +31,17 @@ namespace GUI
                 MyUtil.showErrorMsgbox("未找到关键文件Core.dll!\n请把Core.dll放入\"" + System.Environment.CurrentDirectory + "\"文件夹。");
                 return;
             }
-            init();
+            int i = init();
+            if (i == (int)StatusCode.MEMORY_FULL)
+            {
+                MyUtil.showErrorMsgbox("内存不足。");
+                return;
+            }
+            if (i == (int)StatusCode.UNWRITABLE)
+            {
+                MyUtil.showErrorMsgbox("无法在本文件夹下写入。");
+                return;
+            }
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

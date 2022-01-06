@@ -189,9 +189,9 @@ bool wstr_find(const wchar_t* str, const wchar_t* key, bool is_fuzzy)
     return wcscmp(str, key) ? false : true;
 }
 
-bool is_file_readable(const char* file)
+bool is_file_readable(const wchar_t* file)
 {
-    FILE* f = fopen(file, "r");
+    FILE* f = _wfopen(file, L"r");
     if(!f)
         return false;
     bool b = true;

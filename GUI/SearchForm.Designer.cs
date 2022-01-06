@@ -144,6 +144,7 @@
             // 
             this.edit_days.Location = new System.Drawing.Point(78, 247);
             this.edit_days.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.edit_days.MaxLength = 4;
             this.edit_days.Name = "edit_days";
             this.edit_days.Size = new System.Drawing.Size(199, 27);
             this.edit_days.TabIndex = 12;
@@ -171,6 +172,7 @@
             // 
             this.edit_id.Location = new System.Drawing.Point(78, 214);
             this.edit_id.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.edit_id.MaxLength = 11;
             this.edit_id.Name = "edit_id";
             this.edit_id.Size = new System.Drawing.Size(199, 27);
             this.edit_id.TabIndex = 9;
@@ -187,6 +189,7 @@
             // 
             this.edit_class.Location = new System.Drawing.Point(78, 181);
             this.edit_class.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.edit_class.MaxLength = 9;
             this.edit_class.Name = "edit_class";
             this.edit_class.Size = new System.Drawing.Size(199, 27);
             this.edit_class.TabIndex = 7;
@@ -203,6 +206,7 @@
             // 
             this.edit_uname.Location = new System.Drawing.Point(78, 148);
             this.edit_uname.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.edit_uname.MaxLength = 5;
             this.edit_uname.Name = "edit_uname";
             this.edit_uname.Size = new System.Drawing.Size(199, 27);
             this.edit_uname.TabIndex = 5;
@@ -219,6 +223,7 @@
             // 
             this.edit_bname.Location = new System.Drawing.Point(78, 80);
             this.edit_bname.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.edit_bname.MaxLength = 15;
             this.edit_bname.Name = "edit_bname";
             this.edit_bname.Size = new System.Drawing.Size(199, 27);
             this.edit_bname.TabIndex = 0;
@@ -283,9 +288,11 @@
             // 
             this.edit_fine.Location = new System.Drawing.Point(78, 281);
             this.edit_fine.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.edit_fine.MaxLength = 5;
             this.edit_fine.Name = "edit_fine";
             this.edit_fine.Size = new System.Drawing.Size(199, 27);
             this.edit_fine.TabIndex = 13;
+            this.edit_fine.Visible = false;
             // 
             // txt_fine
             // 
@@ -294,11 +301,13 @@
             this.txt_fine.Size = new System.Drawing.Size(69, 20);
             this.txt_fine.TabIndex = 54;
             this.txt_fine.Text = "罚金：";
+            this.txt_fine.Visible = false;
             // 
             // edit_type
             // 
             this.edit_type.Location = new System.Drawing.Point(78, 114);
             this.edit_type.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.edit_type.MaxLength = 3;
             this.edit_type.Name = "edit_type";
             this.edit_type.Size = new System.Drawing.Size(199, 27);
             this.edit_type.TabIndex = 2;

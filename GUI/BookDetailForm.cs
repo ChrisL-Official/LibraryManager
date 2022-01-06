@@ -44,40 +44,26 @@ namespace GUI
                 showWarningMsgbox("编号只能由数字和大写字母(A-Z)组成。");
                 return;
             }
+            int i;
             if (current == IntPtr.Zero)
             {
-                int i = add_book(getUID(),
+                i = add_book(getUID(),
                     Encoding.Unicode.GetBytes(edit_name.Text),
                     Encoding.ASCII.GetBytes(edit_type.Text));
-                if (i != 0)
-                {
-                    if (i == (int)StatusCode.CONFLICT)
-                    {
-                        showWarningMsgbox("图书已存在。");
-                    }
-                    return;
-                }
-                else
-                {
-                    DialogResult = DialogResult.OK;
-                    MyUtil.PTmp = current;
-                }
             }
             else
             {
-                int i = edit_book(current,
+                i = edit_book(current,
                     Encoding.Unicode.GetBytes(edit_name.Text),
                     Encoding.ASCII.GetBytes(edit_type.Text));
-                if (i != 0)
-                {
-                    if (i == (int)StatusCode.CONFLICT)
-                    {
-                        showWarningMsgbox("图书已存在。");
-                    }
-                    return;
-                }
-                DialogResult = DialogResult.OK;
             }
+            if (i != 0)
+            {
+                showWarningMsgbox("图书已存在或与现有项冲突。");
+                return;
+            }
+            DialogResult = DialogResult.OK;
+            MyUtil.PTmp = current;
             Dispose();
         }
 

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using static GUI.MyUtil;
 
 namespace GUI
 {
@@ -13,7 +14,7 @@ namespace GUI
     {
 
         [DllImport("Core.dll")]
-        extern static int write_list();
+        extern static int save(bool b);
 
         public SaveForm()
         {
@@ -25,28 +26,11 @@ namespace GUI
             Dispose();
         }
 
-        private void rad_backup_CheckedChanged(object sender, EventArgs e)
-        {
-            if(rad_backup.Checked)
-            {
-                chk_book.Enabled = true;
-                chk_penalty.Enabled = true;
-                chk_user.Enabled = true;
-            }
-            else
-            {
-                chk_book.Enabled = false;
-                chk_penalty.Enabled = false;
-                chk_user.Enabled = false;
-            }
-        }
-
         private void btn_confirm_Click(object sender, EventArgs e)
         {
-            if(rad_save.Checked)
-            {
-                write_list();
-            }
+            int i = save(rad_backup.Checked);
+            if(i == (int)StatusCode.UNWRITABLE)
+                MyUtil.showErrorMsgbox("无法写入，操作失败。");
             Dispose();
         }
     }

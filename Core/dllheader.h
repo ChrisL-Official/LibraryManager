@@ -25,8 +25,8 @@ _declspec(dllexport) pLinkedList get_book_list();
 _declspec(dllexport) pLinkedList get_search_list();
 //刷新超期记录列表
 _declspec(dllexport) void fresh_penalty_list();
-//保存文件
-_declspec(dllexport) int write_list();
+//保存、备份文件
+_declspec(dllexport) int save(bool isbak);
 //从搜索结果中删除节点和数据
 _declspec(dllexport) void delete_item_from_searching(pLinkedList source, void* info);
 //添加文字搜索

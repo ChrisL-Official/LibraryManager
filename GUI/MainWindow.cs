@@ -142,6 +142,10 @@ namespace GUI
         {
             ItemDetailForm form = new ItemDetailForm((IntPtr)list_main.SelectedItems[0].Tag);
             form.ShowDialog();
+            if(form.DialogResult==DialogResult.OK)
+            {
+                UpdateList();
+            }
         }
 
         private void UpdateDate(object sender, EventArgs e)

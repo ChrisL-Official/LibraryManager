@@ -46,42 +46,28 @@ namespace GUI
                 showWarningMsgbox("学号只能由数字和大写字母(A-Z)组成。");
                 return;
             }
+            int i;
             if (current == IntPtr.Zero)
             {
-                int i = add_user(getUID(),
+                i = add_user(getUID(),
                     Encoding.ASCII.GetBytes(edit_id.Text),
                     Encoding.Unicode.GetBytes(edit_name.Text),
                     Encoding.Unicode.GetBytes(edit_class.Text));
-                if (i != 0)
-                {
-                    if(i==(int)StatusCode.CONFLICT)
-                    {
-                        showWarningMsgbox("学号已存在。");
-                    }
-                    return;
-                }
-                else
-                {
-                    DialogResult = DialogResult.OK;
-                    MyUtil.PTmp = current;
-                }
             }
             else
             {
-                int i = edit_user(current,
+                i = edit_user(current,
                     Encoding.ASCII.GetBytes(edit_id.Text),
                     Encoding.Unicode.GetBytes(edit_name.Text),
                     Encoding.Unicode.GetBytes(edit_class.Text));
-                if (i != 0)
-                {
-                    if (i == (int)StatusCode.CONFLICT)
-                    {
-                        showWarningMsgbox("学号已存在。");
-                    }
-                    return;
-                }
-                DialogResult = DialogResult.OK;
             }
+            if (i != 0)
+            {
+                showWarningMsgbox("学号已存在。");
+                return;
+            }
+            DialogResult = DialogResult.OK;
+            MyUtil.PTmp = current;
             Dispose();
         }
 

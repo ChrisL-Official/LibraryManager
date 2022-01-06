@@ -256,7 +256,7 @@ namespace GUI
             // 
             // btn_book
             // 
-            this.btn_book.Location = new System.Drawing.Point(98, 35);
+            this.btn_book.Location = new System.Drawing.Point(101, 35);
             this.btn_book.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_book.Name = "btn_book";
             this.btn_book.Size = new System.Drawing.Size(87, 29);
@@ -267,7 +267,7 @@ namespace GUI
             // 
             // btn_user
             // 
-            this.btn_user.Location = new System.Drawing.Point(5, 35);
+            this.btn_user.Location = new System.Drawing.Point(8, 35);
             this.btn_user.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_user.Name = "btn_user";
             this.btn_user.Size = new System.Drawing.Size(87, 29);

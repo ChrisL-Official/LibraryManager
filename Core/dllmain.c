@@ -4,23 +4,29 @@
 #include <wchar.h>
 #include <stdio.h>
 #include <io.h>
+#include <errno.h>
 #include "dllheader.h"
 #include "util.h"
 
-LinkedList list_penalty = { NULL, NULL};
-LinkedList list_user = { NULL, NULL};
-LinkedList list_book = { NULL, NULL};
-LinkedList list_search = { NULL, NULL};
-
-const char* Path_Penalty = "penalty.dat";
-const char* Path_Book = "book.dat";
-const char* Path_User = "user.dat";
+const wchar_t* Folder_Save = L"data";
+const wchar_t* Folder_Backup = L"backup";
+const wchar_t* Path_Penalty = L"data/penalty.dat";
+const wchar_t* Path_Book = L"data/book.dat";
+const wchar_t* Path_User = L"data/user.dat";
+const wchar_t* Path_Penalty_Bak = L"backup/penalty.dat";
+const wchar_t* Path_Book_Bak = L"backup/book.dat";
+const wchar_t* Path_User_Bak = L"backup/user.dat";
 
 const wchar_t* Format_Book_Read = L"%d\t%ls\t%l[^\t]\t\n"; //uid,id,名称
 const wchar_t* Format_Book_Write = L"%d\t%ls\t%ls\t\n";
 const wchar_t* Format_User_Read = L"%d\t%ls\t%l[^\t]\t%l[^\t]\t\n"; //uid,id,姓名,班级
 const wchar_t* Format_User_Write = L"%d\t%ls\t%ls\t%ls\t\n";
-const char* Format_Penalty = "%d\t%d\t%d\t\n"; //uid,uid,天数
+const wchar_t* Format_Penalty = L"%d\t%d\t%d\t\n"; //uid,uid,天数
+
+LinkedList list_penalty = { NULL, NULL };
+LinkedList list_user = { NULL, NULL };
+LinkedList list_book = { NULL, NULL };
+LinkedList list_search = { NULL, NULL };
 
 int init()
 {
@@ -36,12 +42,12 @@ int init()
     p->book = list_book.head->p;
     p->days = 2;
     add_item(&list_penalty, p);
-    load_list();
+    return load_list();
 }
 
-int write_list()
+int write_list(const wchar_t* p1, const wchar_t* p2, const wchar_t* p3)
 {
-    FILE* f = fopen(Path_User, "wb+");
+    FILE* f = _wfopen(p1, L"wb+");
     if (f) 
     {
         pNode p = list_user.head->next;
@@ -50,12 +56,16 @@ int write_list()
             pUser user = p->p;
             wchar_t id[12];
             mbstowcs(id, user->u_id, 12);
-            fwprintf(f, Format_User_Write, user->uid, id, user->u_name, user->u_class);
+            if (fwprintf(f, Format_User_Write, user->uid, id, user->u_name, user->u_class) < 0)
+                return UNWRITABLE;
             p = p->next;
         }
         fclose(f);
     }
-    f = fopen(Path_Book, "wb+");
+    else
+        return UNWRITABLE;
+
+    f = _wfopen(p2, L"wb+");
     if (f)
     {
         pNode p = list_book.head->next;
@@ -64,12 +74,16 @@ int write_list()
             pBook book = p->p;
             wchar_t id[4];
             mbstowcs(id, book->b_id, 4);
-            fwprintf(f, Format_Book_Write, book->uid, id, book->b_name);
+            if (fwprintf(f, Format_Book_Write, book->uid, id, book->b_name)<0)
+                return UNWRITABLE;
             p = p->next;
         }
         fclose(f);
     }
-    f = fopen(Path_Penalty, "w+");
+    else
+        return UNWRITABLE;
+
+    f = _wfopen(p3, L"wb+");
     if (f)
     {
         pNode p = list_penalty.head->next;
@@ -78,11 +92,21 @@ int write_list()
             pPenalty penalty = p->p;
             pBook book = penalty->book;
             pUser user = penalty->user;
-            fprintf(f, Format_Penalty,book->uid,user->uid,penalty->days);
+            if(fwprintf(f, Format_Penalty,book->uid,user->uid,penalty->days)<0)
+                return UNWRITABLE;
             p = p->next;
         }
         fclose(f);
     }
+    else
+        return UNWRITABLE;
+}
+
+int save(bool isbak)
+{
+    if (isbak)
+        return write_list(Path_User_Bak, Path_Book_Bak, Path_Penalty_Bak);
+    return write_list(Path_User, Path_Book, Path_Penalty);
 }
 
 int login(const char* account, const char* pwd)
@@ -194,6 +218,8 @@ int add_penalty_from_io(pPenalty4IO p)
 {
     pNode p1 = list_user.head->next;
     pPenalty p3 = (pPenalty)malloc(sizeof(Penalty));
+    if (!p3)
+        return MEMORY_FULL;
     while (p1)
     {
         pUser p2 = p1->p;
@@ -305,8 +331,8 @@ int add_search_i(wchar_t* wstr, int type)
 
 int add_search_f(wchar_t* wstr, int type)
 {
-    float f = _wtof(wstr);
-    return add_search(&f, type, false);
+    //float f = _wtof(wstr);
+    return add_search(NULL, type, false);
 }
 
 int add_search(void* data, int type, bool is_fuzzy)
@@ -372,7 +398,6 @@ int edit_user(pUser user, const char* u_id, const wchar_t* u_name, const wchar_t
     strcpy(user->u_id, u_id);
     wcscpy(user->u_name, u_name);
     wcscpy(user->u_class, u_class);
-    //write_list();
     return SUCCESS;
 }
 
@@ -474,14 +499,14 @@ pLinkedList search(pLinkedList source, pLinkedList search/*, void* (*get_info)(p
                 if (!wstr_find(book->b_name, s->wstr, s->is_fuzzy))
                     goto big_continue;
             }
-            if (s->type == DAYS)
-            {
-                if (penalty->days!=s->i)
-                    goto big_continue;
-            }
             if (s->type == FINE)
             {
-                if (fabs(penalty->fine-s->f)>1e-6)
+                if (fabs(penalty->fine - s->f) > 1e-6)
+                    goto big_continue;
+            }
+            if (s->type == DAYS)
+            {
+                if (penalty->days != s->i)
                     goto big_continue;
             }
             p1 = p1->next;
@@ -579,11 +604,24 @@ void delete_item_from_searching(pLinkedList source, void* info)
 
 int load_list()
 {
+    errno = 0;
+    if (_waccess_s(Folder_Save,6)==ENOENT)
+    {
+        int ret = _wmkdir(Folder_Save);
+        if (ret == -1) {
+            if (errno = EACCES)
+                    return UNWRITABLE;
+        }
+
+    }
+    _wmkdir(Folder_Backup);
+    if(_waccess_s(Folder_Save, 6) == EACCES|| _waccess_s(Folder_Backup, 6) == EACCES)
+        return UNWRITABLE;
     FILE* f;
     wchar_t str[12] = { 0 };
     if (is_file_readable(Path_User))
     {
-        f = fopen(Path_User, "rb");
+        f = _wfopen(Path_User, L"rb");
         while (!feof(f))
         {
             pUser user = (pUser)malloc(sizeof(User));
@@ -600,7 +638,7 @@ int load_list()
     }
     if (is_file_readable(Path_Book))
     {
-        f = fopen(Path_Book, "rb");
+        f = _wfopen(Path_Book, L"rb");
         while (!feof(f))
         {
             pBook book = (pBook)malloc(sizeof(Book));
@@ -615,16 +653,19 @@ int load_list()
         fclose(f);
     }
     pPenalty4IO penalty = (pPenalty4IO)malloc(sizeof(Penalty4IO));
+    if (!penalty)
+        return MEMORY_FULL;
     if (is_file_readable(Path_Penalty))
     {
-        f = fopen(Path_Penalty, "r");
+        f = _wfopen(Path_Penalty, L"rb");
         while (!feof(f))
         {
-            fscanf(f, Format_Penalty, &penalty->uid_book, &penalty->uid_user, &penalty->days);
+            fwscanf(f, Format_Penalty, &penalty->uid_book, &penalty->uid_user, &penalty->days);
             add_penalty_from_io(penalty);
         }
         fclose(f);
     }
+    return SUCCESS;
 }
 
 float statistic(pLinkedList list)
