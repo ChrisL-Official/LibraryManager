@@ -75,3 +75,5 @@ _declspec(dllexport) unsigned short wstr_to_short(const wchar_t* str);
 _declspec(dllexport) void delete_item(pLinkedList list, pNode p, bool free_data);
 //清空列表(保留list)
 _declspec(dllexport) void clear_list(pLinkedList list);
+//删除列表
+_declspec(dllexport) void delete_list(pLinkedList list);

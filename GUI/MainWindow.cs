@@ -39,7 +39,10 @@ namespace GUI
         extern static float statistic(IntPtr list);
 
         [DllImport("Core.dll")]
-        extern static void clear_list(IntPtr list);
+        extern static void clear_list(IntPtr list, bool b);
+
+        [DllImport("Core.dll")]
+        extern static void delete_list(IntPtr list,bool b);
 
         IntPtr current_list = get_penalty_list();
         public bool is_searching = false;
@@ -175,15 +178,14 @@ namespace GUI
                 {
                     IntPtr list = search(get_penalty_list(), get_search_list());
                     float f = statistic(list);
-                    clear_list(get_search_list());
-                    clear_list(list);
+                    delete_list(list,false);
                     showInfoMsgbox("统计结果："+Convert.ToString(f)+"元。");
                 }
             }
             else if (form.DialogResult == DialogResult.Abort)
             {
                 is_searching = false;
-                clear_list(get_search_list());
+                clear_list(get_search_list(),true);
                 current_list = get_penalty_list();
                 UpdateList();
             }

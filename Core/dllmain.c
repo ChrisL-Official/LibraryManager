@@ -45,70 +45,6 @@ int init()
     return load_list();
 }
 
-int write_list(const wchar_t* p1, const wchar_t* p2, const wchar_t* p3)
-{
-    FILE* f = _wfopen(p1, L"wb+");
-    if (f) 
-    {
-        pNode p = list_user.head->next;
-        while (p)
-        {
-            pUser user = p->p;
-            wchar_t id[12];
-            mbstowcs(id, user->u_id, 12);
-            if (fwprintf(f, Format_User_Write, user->uid, id, user->u_name, user->u_class) < 0)
-                return UNWRITABLE;
-            p = p->next;
-        }
-        fclose(f);
-    }
-    else
-        return UNWRITABLE;
-
-    f = _wfopen(p2, L"wb+");
-    if (f)
-    {
-        pNode p = list_book.head->next;
-        while (p)
-        {
-            pBook book = p->p;
-            wchar_t id[4];
-            mbstowcs(id, book->b_id, 4);
-            if (fwprintf(f, Format_Book_Write, book->uid, id, book->b_name)<0)
-                return UNWRITABLE;
-            p = p->next;
-        }
-        fclose(f);
-    }
-    else
-        return UNWRITABLE;
-
-    f = _wfopen(p3, L"wb+");
-    if (f)
-    {
-        pNode p = list_penalty.head->next;
-        while (p)
-        {
-            pPenalty penalty = p->p;
-            pBook book = penalty->book;
-            pUser user = penalty->user;
-            if(fwprintf(f, Format_Penalty,book->uid,user->uid,penalty->days)<0)
-                return UNWRITABLE;
-            p = p->next;
-        }
-        fclose(f);
-    }
-    else
-        return UNWRITABLE;
-}
-
-int save(bool isbak)
-{
-    if (isbak)
-        return write_list(Path_User_Bak, Path_Book_Bak, Path_Penalty_Bak);
-    return write_list(Path_User, Path_Book, Path_Penalty);
-}
-
 int login(const char* account, const char* pwd)
 {
     if (!strcmp(account, "admin"))
@@ -331,8 +267,8 @@ int add_search_i(wchar_t* wstr, int type)
 
 int add_search_f(wchar_t* wstr, int type)
 {
-    //float f = _wtof(wstr);
-    return add_search(NULL, type, false);
+    float f = _wtof(wstr);
+    return add_search(&f, type, false);
 }
 
 int add_search(void* data, int type, bool is_fuzzy)
@@ -602,20 +538,75 @@ void delete_item_from_searching(pLinkedList source, void* info)
     }
 }
 
+int write_list(const wchar_t* p1, const wchar_t* p2, const wchar_t* p3)
+{
+    if (load_dir(Folder_Save) != SUCCESS||load_dir(Folder_Backup)!=SUCCESS)
+        return UNWRITABLE;
+    FILE* f = _wfopen(p1, L"wb+");
+    if (f)
+    {
+        pNode p = list_user.head->next;
+        while (p)
+        {
+            pUser user = p->p;
+            wchar_t id[12];
+            mbstowcs(id, user->u_id, 12);
+            if (fwprintf(f, Format_User_Write, user->uid, id, user->u_name, user->u_class) < 0)
+                return UNWRITABLE;
+            p = p->next;
+        }
+        fclose(f);
+    }
+    else
+        return UNWRITABLE;
+
+    f = _wfopen(p2, L"wb+");
+    if (f)
+    {
+        pNode p = list_book.head->next;
+        while (p)
+        {
+            pBook book = p->p;
+            wchar_t id[4];
+            mbstowcs(id, book->b_id, 4);
+            if (fwprintf(f, Format_Book_Write, book->uid, id, book->b_name) < 0)
+                return UNWRITABLE;
+            p = p->next;
+        }
+        fclose(f);
+    }
+    else
+        return UNWRITABLE;
+
+    f = _wfopen(p3, L"wb+");
+    if (f)
+    {
+        pNode p = list_penalty.head->next;
+        while (p)
+        {
+            pPenalty penalty = p->p;
+            pBook book = penalty->book;
+            pUser user = penalty->user;
+            if (fwprintf(f, Format_Penalty, book->uid, user->uid, penalty->days) < 0)
+                return UNWRITABLE;
+            p = p->next;
+        }
+        fclose(f);
+    }
+    else
+        return UNWRITABLE;
+}
+
+int save(bool isbak)
+{
+    if (isbak)
+        return write_list(Path_User_Bak, Path_Book_Bak, Path_Penalty_Bak);
+    return write_list(Path_User, Path_Book, Path_Penalty);
+}
+
 int load_list()
 {
-    errno = 0;
-    if (_waccess_s(Folder_Save,6)==ENOENT)
-    {
-        int ret = _wmkdir(Folder_Save);
-        if (ret == -1) {
-            if (errno = EACCES)
-                    return UNWRITABLE;
-        }
-
-    }
-    _wmkdir(Folder_Backup);
-    if(_waccess_s(Folder_Save, 6) == EACCES|| _waccess_s(Folder_Backup, 6) == EACCES)
+    if (load_dir(Folder_Save) != SUCCESS || load_dir(Folder_Backup) != SUCCESS)
         return UNWRITABLE;
     FILE* f;
     wchar_t str[12] = { 0 };
@@ -679,3 +670,4 @@ float statistic(pLinkedList list)
     }
     return ans;
 }
+

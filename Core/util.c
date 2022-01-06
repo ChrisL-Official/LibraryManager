@@ -4,6 +4,8 @@
 #include <io.h>
 #include "dllheader.h"
 
+
+
 bool wstr_is_illegal_decimal(const wchar_t* str) {
     int n=0, m=0;
 
@@ -136,19 +138,20 @@ void reverse_list(pLinkedList list)
     list->tail = tmp;
 }
 
-void delete_list(pLinkedList list)
+void delete_list(pLinkedList list,bool free_data)
 {
-    clear_list(list);
+    clear_list(list,free_data);
     free(list);
 }
 
-void clear_list(pLinkedList list)
+void clear_list(pLinkedList list, bool free_data)
 {
     pNode p = list->head, tmp;
     while (p)
     {
         tmp = p->next;
-        free(p->p);
+        if(free_data)
+            free(p->p);
         free(p);
         p = tmp;
     }
@@ -199,4 +202,19 @@ bool is_file_readable(const wchar_t* file)
     b = ftell(f);
     fclose(f);
     return b;
+}
+
+int load_dir(const wchar_t* path)
+{
+    errno = 0;
+    if (_waccess_s(path, 6) == ENOENT)
+    {
+        int ret = _wmkdir(path);
+        if (ret == -1) {
+            if (errno = EACCES)
+                return UNWRITABLE;
+        }
+
+    }
+    return SUCCESS;
 }
