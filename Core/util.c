@@ -4,8 +4,6 @@
 #include <io.h>
 #include "dllheader.h"
 
-
-
 bool wstr_is_illegal_decimal(const wchar_t* str) {
     int n=0, m=0;
 
@@ -90,7 +88,7 @@ pNode add_item(pLinkedList list, void* p)
     return node;
 }
 
-pNode incert_item(pLinkedList list, void* p)
+pNode insert_item(pLinkedList list, void* p)
 {
     pNode node = (pNode)malloc(sizeof(Node));
     if (!node) return NULL;
@@ -157,25 +155,6 @@ void clear_list(pLinkedList list, bool free_data)
     }
     list->head = NULL;
     list->tail = NULL;
-}
-
-int check_file(const char* path)
-{
-    //r->4 w->2 rw->6
-    if (_access(path, 6))
-    {
-        FILE* f = fopen(path, 'w');
-        if (f)
-        {
-            fclose(f);
-            return SUCCESS;
-        }
-        else 
-        {
-            return UNWRITABLE;
-        }
-    }
-    return SUCCESS;
 }
 
 bool str_find(const char* str, const char* key, bool is_fuzzy)

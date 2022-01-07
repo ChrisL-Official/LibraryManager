@@ -42,6 +42,8 @@ namespace GUI
                 MyUtil.showErrorMsgbox("无法在本文件夹下写入。");
                 return;
             }
+            if (i == (int)StatusCode.UNREADABLE)
+                MyUtil.showWarningMsgbox("项目读取失败，部分文件可能已经损毁！\n程序可继续运行。");
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

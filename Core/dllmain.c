@@ -31,6 +31,7 @@ LinkedList list_search = { NULL, NULL };
 int init()
 {
     //每个链表的头都是预留的错误项
+    //已失效的节点将指向头节点
     const wchar_t* error = L"[失效]";
     add_user(0,"?", error, error);
     add_book(0, error, "?");
@@ -64,7 +65,8 @@ int login(const char* account, const char* pwd)
     NOT_EXIST:不存在
     如*user不为null,且现有值与*user冲突但找到合法项,会修改形参*user所指向的指针
 */
-int check_user(pUser *user, const char* u_id, const wchar_t* u_name, const wchar_t* u_class)
+int check_user(pUser *user, const char* u_id, 
+    const wchar_t* u_name, const wchar_t* u_class)
 {
     pUser temp = *user;
     if (!strcmp(temp->u_id, u_id) &&
@@ -221,7 +223,6 @@ int edit_penalty(pPenalty penalty, pUser user, pBook book, const wchar_t* b_name
     i = check_book(pb, b_name, b_id);
     if (i != SUCCESS && i != SAME)
         return i;
-    //不可能是NULL指针
     penalty->user = *pu;
     penalty->book = *pb;
     penalty->days = days;
@@ -387,7 +388,7 @@ pPenalty get_penalty(pNode p)
     return (pPenalty)p->p;
 }
 
-pLinkedList search(pLinkedList source, pLinkedList search/*, void* (*get_info)(pNode)*/)
+pLinkedList search(pLinkedList source, pLinkedList search)
 {
     if (!search->head)
         return;
@@ -402,11 +403,6 @@ pLinkedList search(pLinkedList source, pLinkedList search/*, void* (*get_info)(p
         pPenalty penalty = p->p;
         pUser user = penalty->user;
         pBook book = penalty->book;
-        /*if (get_info == NULL)
-            p2 = p1->p; 
-        else
-            p2 = get_info(p1);*/
-        //bool add = false;
         while (p1)
         {
             pSearch s = p1->p;
@@ -606,12 +602,14 @@ int save(bool isbak)
 
 int load_list()
 {
+    int i = SUCCESS;
     if (load_dir(Folder_Save) != SUCCESS || load_dir(Folder_Backup) != SUCCESS)
         return UNWRITABLE;
     FILE* f;
     wchar_t str[12] = { 0 };
     if (is_file_readable(Path_User))
     {
+        long l = 0;
         f = _wfopen(Path_User, L"rb");
         while (!feof(f))
         {
@@ -619,27 +617,52 @@ int load_list()
             if (!user)
                 return MEMORY_FULL;
             memset(user, 0, sizeof(User));
-            int i = fwscanf(f, Format_User_Read, &user->uid, str, user->u_name, user->u_class);
-
+            l = ftell(f);
+            if (fwscanf(f, Format_User_Read, &user->uid, str, user->u_name, user->u_class) == EOF)
+            {
+                i = UNREADABLE;
+                free(user);
+                break;
+            }
+            long l1 = ftell(f);
+            if (l1 == l)
+            {
+                i = UNREADABLE;
+                free(user);
+                break;
+            }
+            l = l1;
             wcstombs(user->u_id, str, 12);
             add_item(&list_user, user);
-            //memset(str, 0, 12 * sizeof(wchar_t));
         }
         fclose(f);
     }
     if (is_file_readable(Path_Book))
     {
         f = _wfopen(Path_Book, L"rb");
+        long l = 0;
         while (!feof(f))
         {
             pBook book = (pBook)malloc(sizeof(Book));
             if (!book)
                 return MEMORY_FULL;
             memset(book, 0, sizeof(Book));
-            fwscanf(f, Format_Book_Read, &book->uid, str, book->b_name);
+            if(fwscanf(f, Format_Book_Read, &book->uid, str, book->b_name)==EOF)
+            {
+                i = UNREADABLE;
+                free(book);
+                break;
+            }
+            long l1 = ftell(f);
+            if (l1 == l)
+            {
+                i = UNREADABLE;
+                free(book);
+                break;
+            }
+            l = l1; 
             wcstombs(book->b_id, str, 4);
             add_item(&list_book, book);
-            //memset(str, 0, 12 * sizeof(wchar_t));
         }
         fclose(f);
     }
@@ -649,14 +672,27 @@ int load_list()
     if (is_file_readable(Path_Penalty))
     {
         f = _wfopen(Path_Penalty, L"rb");
+        long l = 0;
         while (!feof(f))
         {
-            fwscanf(f, Format_Penalty, &penalty->uid_book, &penalty->uid_user, &penalty->days);
+            if(fwscanf(f, Format_Penalty, 
+                &penalty->uid_book, &penalty->uid_user, &penalty->days) == EOF)
+            {
+                i = UNREADABLE;
+                break;
+            }
+            long l1 = ftell(f);
+            if (l1 == l)
+            {
+                i = UNREADABLE;
+                break;
+            }
             add_penalty_from_io(penalty);
         }
         fclose(f);
     }
-    return SUCCESS;
+    free(penalty);
+    return i;
 }
 
 float statistic(pLinkedList list)
