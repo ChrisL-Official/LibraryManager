@@ -5,7 +5,7 @@ bool str_find(const char* str, const char* key, bool is_fuzzy);
 
 bool wstr_find(const wchar_t* str, const wchar_t* key, bool is_fuzzy);
 
-bool is_file_readable(const char* path);
+bool is_file_readable(const wchar_t* path);
 
 enum StateCode 
 {
@@ -64,7 +64,7 @@ typedef struct PenaltyInfo
 {
     pUser user;
     pBook book;
-    unsigned short days; //最大支持179年
+    unsigned short days;
     float fine;
 }Penalty, * pPenalty;
 
