@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <io.h>
 #include <errno.h>
+#include <math.h>
 #include "dllheader.h"
 #include "util.h"
 
@@ -168,7 +169,7 @@ int add_penalty_from_io(pPenalty4IO p)
         }
         p1 = p1->next;
     }
-    p3->user = list_user.head;
+    p3->user = list_user.head->p;
 next1:
     p1 = list_book.head->next;
     while (p1)
@@ -181,11 +182,13 @@ next1:
         }
         p1 = p1->next;
     }
-    p3->book = list_book.head;
+    p3->book = list_book.head->p;
 next2:
     p3->days = p->days;
     p3->fine = p->days * 0.2;
-    add_item(&list_penalty, p3);
+    if (add_item(&list_penalty, p3))
+        return SUCCESS;
+    return MEMORY_FULL;
 }
 
 //添加超期记录
@@ -210,7 +213,8 @@ int add_penalty(pUser user, pBook book, const wchar_t* b_name, const char* b_id,
 int edit_penalty(pPenalty penalty, pUser user, pBook book, const wchar_t* b_name, const char* b_id,
     const char* u_id, const wchar_t* u_name, const wchar_t* u_class, unsigned short days)
 {
-    if (!penalty) return;
+    if (!penalty) 
+        return FATAL;
     pUser* pu = &(list_user.head->p);
     pBook* pb = &(list_book.head->p);
     if (user)
@@ -298,7 +302,9 @@ int add_search(void* data, int type, bool is_fuzzy)
             search->f = *(float*)data;
             break;
     }
-    add_item(&list_search,search);
+    if (add_item(&list_search, search))
+        return SUCCESS;
+    return MEMORY_FULL;
 }
 
 //添加用户
@@ -322,7 +328,8 @@ int add_user(int uid, const char* u_id, const wchar_t* u_name, const wchar_t* u_
 //修改用户(只不允许学号相同)
 int edit_user(pUser user, const char* u_id, const wchar_t* u_name, const wchar_t* u_class)
 {
-    if (!user) return;
+    if (!user) 
+        return FATAL;
     pNode p = list_user.head;
     pUser p1;
     while (p)
@@ -359,6 +366,8 @@ int add_book(int uid, const wchar_t* b_name, const char* b_id)
 //修改图书
 int edit_book(pBook book, const wchar_t* b_name, const char* b_id)
 {
+    if (!book)
+        return FATAL;
     pNode p = list_book.head;
     pBook p1;
     while (p)
@@ -391,7 +400,7 @@ pPenalty get_penalty(pNode p)
 pLinkedList search(pLinkedList source, pLinkedList search)
 {
     if (!search->head)
-        return;
+        return NULL;
     pLinkedList des = (pLinkedList)malloc(sizeof(LinkedList));
     if (!des)
         return NULL;
@@ -469,6 +478,7 @@ bool compare(pNode p1, pNode p2, int type, void* (*get_info)(pNode))
         return ((pPenalty)v1)->days > ((pPenalty)v2)->days;
     if (type == FINE)
         return ((pPenalty)v1)->fine > ((pPenalty)v2)->fine;
+    return false;
 }
 
 void sort(pLinkedList list, int type, bool is_positive, void* (*p)(void*))
@@ -591,6 +601,7 @@ int write_list(const wchar_t* p1, const wchar_t* p2, const wchar_t* p3)
     }
     else
         return UNWRITABLE;
+    return SUCCESS;
 }
 
 int save(bool isbak)
@@ -707,3 +718,10 @@ float statistic(pLinkedList list)
     return ans;
 }
 
+void exit_prepare()
+{
+    delete_list(&list_book,true);
+    delete_list(&list_user,true);
+    delete_list(&list_penalty,true);
+    delete_list(&list_search,true);
+}
