@@ -1,11 +1,12 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <io.h>
 #include "dllheader.h"
 
 bool wstr_is_illegal_decimal(const wchar_t* str) {
-    int n=0, m=0;
+    int n = 0, m = 0;
 
     while (*str >= 0x30 && *str <= 0x39) {
         n++;
@@ -106,7 +107,7 @@ pNode insert_item(pLinkedList list, void* p)
     return node;
 }
 
-void delete_item(pLinkedList list,pNode p, bool free_data)
+void delete_item(pLinkedList list, pNode p, bool free_data)
 {
     if (p->pervious)
         p->pervious->next = p->next;
@@ -116,7 +117,7 @@ void delete_item(pLinkedList list,pNode p, bool free_data)
         p->next->pervious = p->pervious;
     else
         list->tail = p->pervious;
-    if(free_data)
+    if (free_data)
         free(p->p);
     free(p);
 }
@@ -136,9 +137,9 @@ void reverse_list(pLinkedList list)
     list->tail = tmp;
 }
 
-void delete_list(pLinkedList list,bool free_data)
+void delete_list(pLinkedList list, bool free_data)
 {
-    clear_list(list,free_data);
+    clear_list(list, free_data);
     free(list);
 }
 
@@ -148,7 +149,7 @@ void clear_list(pLinkedList list, bool free_data)
     while (p)
     {
         tmp = p->next;
-        if(free_data)
+        if (free_data)
             free(p->p);
         free(p);
         p = tmp;
@@ -160,7 +161,7 @@ void clear_list(pLinkedList list, bool free_data)
 bool str_find(const char* str, const char* key, bool is_fuzzy)
 {
     if (is_fuzzy)
-        return strstr(str,key) == NULL ? false : true;
+        return strstr(str, key) == NULL ? false : true;
     return strcmp(str, key) ? false : true;
 }
 
@@ -174,7 +175,7 @@ bool wstr_find(const wchar_t* str, const wchar_t* key, bool is_fuzzy)
 bool is_file_readable(const wchar_t* file)
 {
     FILE* f = _wfopen(file, L"r");
-    if(!f)
+    if (!f)
         return false;
     bool b = true;
     fseek(f, 0, SEEK_END);
@@ -189,11 +190,9 @@ int load_dir(const wchar_t* path)
     if (_waccess_s(path, 6) == ENOENT)
     {
         int ret = _wmkdir(path);
-        if (ret == -1) {
+        if (ret == -1)
             if (errno = EACCES)
                 return UNWRITABLE;
-        }
-
     }
     return SUCCESS;
 }

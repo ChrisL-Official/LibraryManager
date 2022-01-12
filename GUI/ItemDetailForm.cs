@@ -47,18 +47,18 @@ namespace GUI
 
         private void btn_confirm_Click(object sender, EventArgs e)
         {
-            if(edit_type.Text.Length == 0||
-                edit_bname.Text.Length==0||
-                edit_uname.Text.Length == 0||
-                edit_class.Text.Length==0||
-                edit_id.Text.Length==0||
-                edit_days.Text.Length==0)
+            if (edit_type.Text.Length == 0 ||
+                edit_bname.Text.Length == 0 ||
+                edit_uname.Text.Length == 0 ||
+                edit_class.Text.Length == 0 ||
+                edit_id.Text.Length == 0 ||
+                edit_days.Text.Length == 0)
             {
                 MyUtil.showWarningMsgbox("所有项都是必填项。");
                 return;
             }
             if (!wstr_is_pure_numberic(Encoding.Unicode.GetBytes(edit_days.Text))
-                ||Convert.ToInt32(edit_days.Text)==0)
+                || Convert.ToInt32(edit_days.Text) == 0)
             {
                 MyUtil.showWarningMsgbox("天数只能是大于0的纯数字。");
                 return;
@@ -69,7 +69,7 @@ namespace GUI
                 return;
             }
             int i;
-            if (current==IntPtr.Zero)
+            if (current == IntPtr.Zero)
             {
                 i = add_penalty(user, book,
                     Encoding.Unicode.GetBytes(edit_bname.Text),
@@ -91,7 +91,7 @@ namespace GUI
             }
             if (i != (int)StatusCode.SUCCESS)
             {
-                if(i == (int)StatusCode.NOT_EXIST)
+                if (i == (int)StatusCode.NOT_EXIST)
                     MyUtil.showErrorMsgbox("图书或用户不存在。");
                 if (i == (int)StatusCode.CONFLICT)
                     MyUtil.showErrorMsgbox("图书或用与现有项存在冲突。");
@@ -104,6 +104,13 @@ namespace GUI
 
         private void ItemDetailForm_Load(object sender, EventArgs e)
         {
+            MyUtil.SetMaxLengthHint(edit_bname, 15, false);
+            MyUtil.SetMaxLengthHint(edit_type, 3, true);
+            MyUtil.SetMaxLengthHint(edit_uname, 5, false);
+            MyUtil.SetMaxLengthHint(edit_class, 9, false);
+            MyUtil.SetMaxLengthHint(edit_id, 11, true);
+            MyUtil.SetHint(edit_days, "最大支持9999天");
+
             if (current != IntPtr.Zero)
             {
                 Penalty p = (Penalty)Marshal.PtrToStructure(current, typeof(Penalty));
@@ -121,7 +128,7 @@ namespace GUI
         private void btn_user_Click(object sender, EventArgs e)
         {
             UserManagerForm form = new UserManagerForm(true);
-            if(form.ShowDialog() == DialogResult.OK)
+            if (form.ShowDialog() == DialogResult.OK)
             {
                 Node n = (Node)Marshal.PtrToStructure(PTmp, typeof(Node));
                 User u = (User)Marshal.PtrToStructure(n.pointer, typeof(User));
@@ -130,7 +137,7 @@ namespace GUI
                 edit_id.Text = Encoding.ASCII.GetString(u.u_id).TrimEnd('\0');
                 user = n.pointer;
             }
-            
+
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
@@ -142,7 +149,7 @@ namespace GUI
         {
             BookManagerForm form = new BookManagerForm(true);
             form.ShowDialog();
-            if(form.DialogResult == DialogResult.OK)
+            if (form.DialogResult == DialogResult.OK)
             {
                 Node n = (Node)Marshal.PtrToStructure(PTmp, typeof(Node));
                 Book b = (Book)Marshal.PtrToStructure(n.pointer, typeof(Book));

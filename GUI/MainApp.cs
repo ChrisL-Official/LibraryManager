@@ -21,12 +21,15 @@ namespace GUI
         [DllImport("Core.dll")]
         extern static int init();
 
+        [DllImport("Core.dll")]
+        extern static void exit_prepare();
+
 
         [STAThread]
         static void Main()
         {
             IntPtr handle = LoadLibrary("Core.dll");
-            if(handle==IntPtr.Zero)
+            if (handle == IntPtr.Zero)
             {
                 MyUtil.showErrorMsgbox("未找到关键文件Core.dll!\n请把Core.dll放入\"" + System.Environment.CurrentDirectory + "\"文件夹。");
                 return;
@@ -49,10 +52,11 @@ namespace GUI
             Application.SetCompatibleTextRenderingDefault(false);
             Form f = new LoginForm();
             f.ShowDialog();
-            if(f.DialogResult==DialogResult.OK)
+            if (f.DialogResult == DialogResult.OK)
             {
                 Application.Run(new MainWindow());
             }
+            exit_prepare();
             FreeLibrary(handle);
         }
     }

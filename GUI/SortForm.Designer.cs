@@ -47,20 +47,20 @@
             // 
             this.groupBox1.Controls.Add(this.btn_cancel);
             this.groupBox1.Controls.Add(this.btn_confirm);
-            this.groupBox1.Location = new System.Drawing.Point(-2, 243);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.groupBox1.Location = new System.Drawing.Point(-3, 286);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox1.Size = new System.Drawing.Size(414, 55);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox1.Size = new System.Drawing.Size(532, 65);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             // 
             // btn_cancel
             // 
-            this.btn_cancel.Location = new System.Drawing.Point(250, 20);
-            this.btn_cancel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_cancel.Location = new System.Drawing.Point(321, 24);
+            this.btn_cancel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(73, 25);
+            this.btn_cancel.Size = new System.Drawing.Size(94, 29);
             this.btn_cancel.TabIndex = 3;
             this.btn_cancel.Text = "取消";
             this.btn_cancel.UseVisualStyleBackColor = true;
@@ -68,10 +68,10 @@
             // 
             // btn_confirm
             // 
-            this.btn_confirm.Location = new System.Drawing.Point(328, 20);
-            this.btn_confirm.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btn_confirm.Location = new System.Drawing.Point(422, 24);
+            this.btn_confirm.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_confirm.Name = "btn_confirm";
-            this.btn_confirm.Size = new System.Drawing.Size(73, 25);
+            this.btn_confirm.Size = new System.Drawing.Size(94, 29);
             this.btn_confirm.TabIndex = 4;
             this.btn_confirm.Text = "确定";
             this.btn_confirm.UseVisualStyleBackColor = true;
@@ -81,39 +81,36 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.panel1.Controls.Add(this.txt_title);
-            this.panel1.Location = new System.Drawing.Point(-2, -2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.panel1.Location = new System.Drawing.Point(-3, -2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(414, 42);
+            this.panel1.Size = new System.Drawing.Size(532, 49);
             this.panel1.TabIndex = 19;
             // 
             // txt_title
             // 
             this.txt_title.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.txt_title.Font = new System.Drawing.Font("Microsoft YaHei UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txt_title.Location = new System.Drawing.Point(9, 8);
-            this.txt_title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.txt_title.Location = new System.Drawing.Point(12, 9);
             this.txt_title.Name = "txt_title";
-            this.txt_title.Size = new System.Drawing.Size(392, 34);
+            this.txt_title.Size = new System.Drawing.Size(504, 40);
             this.txt_title.TabIndex = 1;
             this.txt_title.Text = "超期记录排序向导";
             this.txt_title.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txt_type
             // 
-            this.txt_type.Location = new System.Drawing.Point(9, 54);
-            this.txt_type.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.txt_type.Location = new System.Drawing.Point(12, 64);
             this.txt_type.Name = "txt_type";
-            this.txt_type.Size = new System.Drawing.Size(54, 17);
+            this.txt_type.Size = new System.Drawing.Size(69, 20);
             this.txt_type.TabIndex = 42;
             this.txt_type.Text = "类别：";
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(9, 83);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(12, 98);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 17);
+            this.label1.Size = new System.Drawing.Size(69, 20);
             this.label1.TabIndex = 43;
             this.label1.Text = "顺序：";
             // 
@@ -129,18 +126,20 @@
             "类型",
             "天数",
             "罚金"});
-            this.list_sort.Location = new System.Drawing.Point(61, 52);
+            this.list_sort.Location = new System.Drawing.Point(78, 61);
+            this.list_sort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.list_sort.Name = "list_sort";
-            this.list_sort.Size = new System.Drawing.Size(156, 25);
+            this.list_sort.Size = new System.Drawing.Size(199, 28);
             this.list_sort.TabIndex = 0;
             // 
             // rad_pos
             // 
             this.rad_pos.AutoSize = true;
             this.rad_pos.Checked = true;
-            this.rad_pos.Location = new System.Drawing.Point(61, 81);
+            this.rad_pos.Location = new System.Drawing.Point(78, 95);
+            this.rad_pos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rad_pos.Name = "rad_pos";
-            this.rad_pos.Size = new System.Drawing.Size(50, 21);
+            this.rad_pos.Size = new System.Drawing.Size(60, 24);
             this.rad_pos.TabIndex = 1;
             this.rad_pos.TabStop = true;
             this.rad_pos.Text = "正序";
@@ -149,27 +148,27 @@
             // rad_neg
             // 
             this.rad_neg.AutoSize = true;
-            this.rad_neg.Location = new System.Drawing.Point(117, 81);
+            this.rad_neg.Location = new System.Drawing.Point(150, 95);
+            this.rad_neg.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rad_neg.Name = "rad_neg";
-            this.rad_neg.Size = new System.Drawing.Size(50, 21);
+            this.rad_neg.Size = new System.Drawing.Size(60, 24);
             this.rad_neg.TabIndex = 2;
             this.rad_neg.Text = "倒序";
             this.rad_neg.UseVisualStyleBackColor = true;
             // 
             // txt_des
             // 
-            this.txt_des.Location = new System.Drawing.Point(7, 219);
-            this.txt_des.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.txt_des.Location = new System.Drawing.Point(9, 242);
             this.txt_des.Name = "txt_des";
-            this.txt_des.Size = new System.Drawing.Size(389, 21);
+            this.txt_des.Size = new System.Drawing.Size(507, 40);
             this.txt_des.TabIndex = 47;
-            this.txt_des.Text = "将在目前显示的表中排序；你可能要重置搜索结果来排序整个表。";
+            this.txt_des.Text = "将在目前显示的表中排序；你可能要重置搜索结果来排序整个表。\r\n你可以直接通过【保存】功能保存排序后的表。\r\n";
             // 
             // SortForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(411, 297);
+            this.ClientSize = new System.Drawing.Size(528, 349);
             this.Controls.Add(this.txt_des);
             this.Controls.Add(this.rad_neg);
             this.Controls.Add(this.rad_pos);
@@ -179,6 +178,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SortForm";

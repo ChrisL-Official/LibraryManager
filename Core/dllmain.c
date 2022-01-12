@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <io.h>
 #include <errno.h>
+#include <math.h>
 #include "dllheader.h"
 #include "util.h"
 
@@ -23,17 +24,17 @@ const wchar_t* Format_User_Read = L"%d\t%ls\t%l[^\t]\t%l[^\t]\t\n"; //uid,id,姓
 const wchar_t* Format_User_Write = L"%d\t%ls\t%ls\t%ls\t\n";
 const wchar_t* Format_Penalty = L"%d\t%d\t%d\t\n"; //uid,uid,天数
 
-LinkedList list_penalty = { NULL, NULL };
-LinkedList list_user = { NULL, NULL };
-LinkedList list_book = { NULL, NULL };
-LinkedList list_search = { NULL, NULL };
+LinkedList list_penalty = { NULL, NULL }; //超期记录链表
+LinkedList list_user = { NULL, NULL }; //用户链表
+LinkedList list_book = { NULL, NULL }; //图书链表
+LinkedList list_search = { NULL, NULL }; //搜索链表
 
 int init()
 {
     //每个链表的头都是预留的错误项
     //已失效的节点将指向头节点
     const wchar_t* error = L"[失效]";
-    add_user(0,"?", error, error);
+    add_user(0, "?", error, error);
     add_book(0, error, "?");
     pPenalty p = (pPenalty)malloc(sizeof(Penalty));
     if (!p)
@@ -65,7 +66,7 @@ int login(const char* account, const char* pwd)
     NOT_EXIST:不存在
     如*user不为null,且现有值与*user冲突但找到合法项,会修改形参*user所指向的指针
 */
-int check_user(pUser *user, const char* u_id, 
+int check_user(pUser* user, const char* u_id,
     const wchar_t* u_name, const wchar_t* u_class)
 {
     pUser temp = *user;
@@ -168,7 +169,7 @@ int add_penalty_from_io(pPenalty4IO p)
         }
         p1 = p1->next;
     }
-    p3->user = list_user.head;
+    p3->user = list_user.head->p;
 next1:
     p1 = list_book.head->next;
     while (p1)
@@ -181,11 +182,13 @@ next1:
         }
         p1 = p1->next;
     }
-    p3->book = list_book.head;
+    p3->book = list_book.head->p;
 next2:
     p3->days = p->days;
     p3->fine = p->days * 0.2;
-    add_item(&list_penalty, p3);
+    if (add_item(&list_penalty, p3))
+        return SUCCESS;
+    return MEMORY_FULL;
 }
 
 //添加超期记录
@@ -210,7 +213,8 @@ int add_penalty(pUser user, pBook book, const wchar_t* b_name, const char* b_id,
 int edit_penalty(pPenalty penalty, pUser user, pBook book, const wchar_t* b_name, const char* b_id,
     const char* u_id, const wchar_t* u_name, const wchar_t* u_class, unsigned short days)
 {
-    if (!penalty) return;
+    if (!penalty)
+        return FATAL;
     pUser* pu = &(list_user.head->p);
     pBook* pb = &(list_book.head->p);
     if (user)
@@ -218,7 +222,7 @@ int edit_penalty(pPenalty penalty, pUser user, pBook book, const wchar_t* b_name
     if (book)
         pb = &book;
     int i = check_user(pu, u_id, u_name, u_class);
-    if (i != SUCCESS && i != SAME) 
+    if (i != SUCCESS && i != SAME)
         return i;
     i = check_book(pb, b_name, b_id);
     if (i != SUCCESS && i != SAME)
@@ -227,7 +231,7 @@ int edit_penalty(pPenalty penalty, pUser user, pBook book, const wchar_t* b_name
     penalty->book = *pb;
     penalty->days = days;
     penalty->fine = 0.2 * days;
-    return SUCCESS; 
+    return SUCCESS;
 }
 
 void fresh_penalty_list()
@@ -250,7 +254,7 @@ void fresh_penalty_list()
                 goto final;
         }
         temp->book = list_book.head->p;
-    final:
+        final:
         p1 = p1->next;
     }
 }
@@ -282,23 +286,25 @@ int add_search(void* data, int type, bool is_fuzzy)
     search->is_fuzzy = is_fuzzy;
     switch (type)
     {
-        case USER_ID:
-        case BOOK_ID:
-            strcpy(search->str, data);
-            break;
-        case BOOK_NAME:
-        case USER_NAME:
-        case USER_CLASS:
-            wcscpy(search->wstr, data);
-            break;
-        case DAYS:
-            search->i = *(int*)data;
-            break;
-        case FINE:
-            search->f = *(float*)data;
-            break;
+    case USER_ID:
+    case BOOK_ID:
+        strcpy(search->str, data);
+        break;
+    case BOOK_NAME:
+    case USER_NAME:
+    case USER_CLASS:
+        wcscpy(search->wstr, data);
+        break;
+    case DAYS:
+        search->i = *(int*)data;
+        break;
+    case FINE:
+        search->f = *(float*)data;
+        break;
     }
-    add_item(&list_search,search);
+    if (add_item(&list_search, search))
+        return SUCCESS;
+    return MEMORY_FULL;
 }
 
 //添加用户
@@ -322,7 +328,8 @@ int add_user(int uid, const char* u_id, const wchar_t* u_name, const wchar_t* u_
 //修改用户(只不允许学号相同)
 int edit_user(pUser user, const char* u_id, const wchar_t* u_name, const wchar_t* u_class)
 {
-    if (!user) return;
+    if (!user)
+        return FATAL;
     pNode p = list_user.head;
     pUser p1;
     while (p)
@@ -342,7 +349,7 @@ int edit_user(pUser user, const char* u_id, const wchar_t* u_name, const wchar_t
 int add_book(int uid, const wchar_t* b_name, const char* b_id)
 {
     pBook book = (pBook)malloc(sizeof(Book));
-    if (!book) 
+    if (!book)
         return MEMORY_FULL;
     memset(book, 0, sizeof(Book));
     if (edit_book(book, b_name, b_id))
@@ -359,12 +366,14 @@ int add_book(int uid, const wchar_t* b_name, const char* b_id)
 //修改图书
 int edit_book(pBook book, const wchar_t* b_name, const char* b_id)
 {
+    if (!book)
+        return FATAL;
     pNode p = list_book.head;
     pBook p1;
     while (p)
     {
         p1 = p->p;
-        if ((!strcmp(p1->b_id, b_id)||!wcscmp(p1->b_name, b_name)) && book != p1)
+        if ((!strcmp(p1->b_id, b_id) || !wcscmp(p1->b_name, b_name)) && book != p1)
             return CONFLICT;
         p = p->next;
     }
@@ -391,7 +400,7 @@ pPenalty get_penalty(pNode p)
 pLinkedList search(pLinkedList source, pLinkedList search)
 {
     if (!search->head)
-        return;
+        return NULL;
     pLinkedList des = (pLinkedList)malloc(sizeof(LinkedList));
     if (!des)
         return NULL;
@@ -407,40 +416,26 @@ pLinkedList search(pLinkedList source, pLinkedList search)
         {
             pSearch s = p1->p;
             if (s->type == USER_ID)
-            {
                 if (!str_find(user->u_id, s->str, s->is_fuzzy))
                     goto big_continue;
-            }
             if (s->type == USER_NAME)
-            {
                 if (!wstr_find(user->u_name, s->wstr, s->is_fuzzy))
                     goto big_continue;
-            }
             if (s->type == USER_CLASS)
-            {
                 if (!wstr_find(user->u_class, s->wstr, s->is_fuzzy))
                     goto big_continue;
-            }
             if (s->type == BOOK_ID)
-            {
                 if (!str_find(book->b_id, s->str, s->is_fuzzy))
                     goto big_continue;
-            }
             if (s->type == BOOK_NAME)
-            {
                 if (!wstr_find(book->b_name, s->wstr, s->is_fuzzy))
                     goto big_continue;
-            }
             if (s->type == FINE)
-            {
                 if (fabs(penalty->fine - s->f) > 1e-6)
                     goto big_continue;
-            }
             if (s->type == DAYS)
-            {
                 if (penalty->days != s->i)
                     goto big_continue;
-            }
             p1 = p1->next;
         }
         add_item(des, p->p);
@@ -450,25 +445,27 @@ pLinkedList search(pLinkedList source, pLinkedList search)
     return des;
 }
 
+//比较
 bool compare(pNode p1, pNode p2, int type, void* (*get_info)(pNode))
 {
-    void *v1, *v2;
+    void* v1, * v2;
     v1 = get_info(p1);
     v2 = get_info(p2);
     if (type == USER_ID)
-        return strcmp(((pUser)v1)->u_id, ((pUser)v2)->u_id)>0;
+        return strcmp(((pUser)v1)->u_id, ((pUser)v2)->u_id) > 0;
     if (type == USER_NAME)
-        return wcscmp(((pUser)v1)->u_name, ((pUser)v2)->u_name)>0;
+        return wcscmp(((pUser)v1)->u_name, ((pUser)v2)->u_name) > 0;
     if (type == USER_CLASS)
-        return wcscmp(((pUser)v1)->u_class, ((pUser)v2)->u_class)>0;
+        return wcscmp(((pUser)v1)->u_class, ((pUser)v2)->u_class) > 0;
     if (type == BOOK_ID)
-        return strcmp(((pBook)v1)->b_id, ((pBook)v2)->b_id)>0;
+        return strcmp(((pBook)v1)->b_id, ((pBook)v2)->b_id) > 0;
     if (type == BOOK_NAME)
-        return wcscmp(((pBook)v1)->b_name, ((pBook)v2)->b_name)>0;
+        return wcscmp(((pBook)v1)->b_name, ((pBook)v2)->b_name) > 0;
     if (type == DAYS)
         return ((pPenalty)v1)->days > ((pPenalty)v2)->days;
     if (type == FINE)
         return ((pPenalty)v1)->fine > ((pPenalty)v2)->fine;
+    return false;
 }
 
 void sort(pLinkedList list, int type, bool is_positive, void* (*p)(void*))
@@ -485,7 +482,7 @@ void sort(pLinkedList list, int type, bool is_positive, void* (*p)(void*))
         while (ptr1->next != lptr)
         {
             bool b = compare(ptr1, ptr1->next, type, p);
-            if ((b&&is_positive)||(!b&&!is_positive))
+            if ((b && is_positive) || (!b && !is_positive))
             {
                 void* tmp = ptr1->p;
                 ptr1->p = ptr1->next->p;
@@ -500,7 +497,7 @@ void sort(pLinkedList list, int type, bool is_positive, void* (*p)(void*))
 
 void sort_penalty(pLinkedList list, int type, bool is_positive)
 {
-    void*(*p)(void*) ;
+    void* (*p)(void*);
     if (list->head->next == NULL)
         return;
     switch (type)
@@ -517,7 +514,7 @@ void sort_penalty(pLinkedList list, int type, bool is_positive)
     default:
         p = get_penalty;
     }
-    sort(list, type,is_positive,p);
+    sort(list, type, is_positive, p);
 }
 
 void delete_item_from_searching(pLinkedList source, void* info)
@@ -536,7 +533,7 @@ void delete_item_from_searching(pLinkedList source, void* info)
 
 int write_list(const wchar_t* p1, const wchar_t* p2, const wchar_t* p3)
 {
-    if (load_dir(Folder_Save) != SUCCESS||load_dir(Folder_Backup)!=SUCCESS)
+    if (load_dir(Folder_Save) != SUCCESS || load_dir(Folder_Backup) != SUCCESS)
         return UNWRITABLE;
     FILE* f = _wfopen(p1, L"wb+");
     if (f)
@@ -591,6 +588,7 @@ int write_list(const wchar_t* p1, const wchar_t* p2, const wchar_t* p3)
     }
     else
         return UNWRITABLE;
+    return SUCCESS;
 }
 
 int save(bool isbak)
@@ -647,7 +645,7 @@ int load_list()
             if (!book)
                 return MEMORY_FULL;
             memset(book, 0, sizeof(Book));
-            if(fwscanf(f, Format_Book_Read, &book->uid, str, book->b_name)==EOF)
+            if (fwscanf(f, Format_Book_Read, &book->uid, str, book->b_name) == EOF)
             {
                 i = UNREADABLE;
                 free(book);
@@ -660,7 +658,7 @@ int load_list()
                 free(book);
                 break;
             }
-            l = l1; 
+            l = l1;
             wcstombs(book->b_id, str, 4);
             add_item(&list_book, book);
         }
@@ -675,7 +673,7 @@ int load_list()
         long l = 0;
         while (!feof(f))
         {
-            if(fwscanf(f, Format_Penalty, 
+            if (fwscanf(f, Format_Penalty,
                 &penalty->uid_book, &penalty->uid_user, &penalty->days) == EOF)
             {
                 i = UNREADABLE;
@@ -707,3 +705,10 @@ float statistic(pLinkedList list)
     return ans;
 }
 
+void exit_prepare()
+{
+    clear_list(&list_book, true);
+    clear_list(&list_user, true);
+    clear_list(&list_penalty, true);
+    clear_list(&list_search, true);
+}

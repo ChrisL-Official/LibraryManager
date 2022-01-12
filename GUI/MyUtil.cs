@@ -16,7 +16,15 @@ namespace GUI
         [DllImport("Core.dll")]
         public extern static void delete_item(IntPtr p, IntPtr p1, bool free_data);
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern Int32 SendMessage(IntPtr hWnd, int msg,
+            int wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
 
+        [DllImport("user32.dll")]
+        private static extern bool SendMessage(IntPtr hwnd, int msg, int wParam, StringBuilder lParam);
+
+        [DllImport("user32.dll")]
+        private static extern bool GetComboBoxInfo(IntPtr hwnd, ref COMBOBOXINFO pcbi);
 
         public enum StatusCode
         {
@@ -99,7 +107,7 @@ namespace GUI
         }
 
         public static void showErrorMsgbox(String msg)
-        { 
+        {
             MessageBox.Show(msg, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
@@ -112,6 +120,83 @@ namespace GUI
         {
             TimeSpan ts = DateTime.UtcNow - new DateTime(2000, 1, 1, 0, 0, 0, 0);
             return Convert.ToInt32(ts.TotalSeconds);
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct COMBOBOXINFO
+        {
+            public int cbSize;
+            public RECT rcItem;
+            public RECT rcButton;
+            public IntPtr stateButton;
+            public IntPtr hwndCombo;
+            public IntPtr hwndItem;
+            public IntPtr hwndList;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct RECT
+        {
+            public int left;
+            public int top;
+            public int right;
+            public int bottom;
+        }
+
+        private const int EM_SETCUEBANNER = 0x1501;
+        private const int EM_GETCUEBANNER = 0x1502;
+
+        public static void SetMaxLengthHint(Control control, int max, bool is_id)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("最长");
+            sb.Append(max);
+            sb.Append("字");
+            if (is_id)
+                sb.Append("，仅支持0-9和A-Z");
+            SetHint(control, sb.ToString());
+        }
+
+        public static void SetHint(Control control, string text)
+        {
+            if (control is ComboBox)
+            {
+                COMBOBOXINFO info = GetComboBoxInfo(control);
+                SendMessage(info.hwndItem, EM_SETCUEBANNER, 0, text);
+            }
+            else
+            {
+                SendMessage(control.Handle, EM_SETCUEBANNER, 0, text);
+            }
+        }
+
+        private static COMBOBOXINFO GetComboBoxInfo(Control control)
+        {
+            COMBOBOXINFO info = new COMBOBOXINFO();
+            //a combobox is made up of three controls, a button, a list and textbox;
+            //we want the textbox
+            info.cbSize = Marshal.SizeOf(info);
+            GetComboBoxInfo(control.Handle, ref info);
+            return info;
+        }
+
+        public static string GetHint(Control control)
+        {
+            StringBuilder builder = new StringBuilder();
+            if (control is ComboBox)
+            {
+                COMBOBOXINFO info = new COMBOBOXINFO();
+                //a combobox is made up of two controls, a list and textbox;
+                //we want the textbox
+                info.cbSize = Marshal.SizeOf(info);
+                GetComboBoxInfo(control.Handle, ref info);
+                SendMessage(info.hwndItem, EM_GETCUEBANNER, 0, builder);
+            }
+            else
+            {
+                SendMessage(control.Handle, EM_GETCUEBANNER, 0, builder);
+            }
+            return builder.ToString();
         }
     }
 }
