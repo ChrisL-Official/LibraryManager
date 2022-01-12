@@ -213,7 +213,7 @@ int add_penalty(pUser user, pBook book, const wchar_t* b_name, const char* b_id,
 int edit_penalty(pPenalty penalty, pUser user, pBook book, const wchar_t* b_name, const char* b_id,
     const char* u_id, const wchar_t* u_name, const wchar_t* u_class, unsigned short days)
 {
-    if (!penalty)
+    if (!penalty) 
         return FATAL;
     pUser* pu = &(list_user.head->p);
     pBook* pb = &(list_book.head->p);
@@ -328,7 +328,7 @@ int add_user(int uid, const char* u_id, const wchar_t* u_name, const wchar_t* u_
 //修改用户(只不允许学号相同)
 int edit_user(pUser user, const char* u_id, const wchar_t* u_name, const wchar_t* u_class)
 {
-    if (!user)
+    if (!user) 
         return FATAL;
     pNode p = list_user.head;
     pUser p1;

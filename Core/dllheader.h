@@ -55,6 +55,8 @@ _declspec(dllexport) pLinkedList search(pLinkedList source, pLinkedList search);
 _declspec(dllexport) float statistic(pLinkedList list);
 //排序
 _declspec(dllexport) void sort_penalty(pLinkedList list, int type, bool is_positive);
+//统计
+_declspec(dllexport) float statistic(pLinkedList list);
 //退出
 _declspec(dllexport) void exit_prepare();
 
@@ -76,6 +78,6 @@ _declspec(dllexport) unsigned short wstr_to_short(const wchar_t* str);
 //删除节点
 _declspec(dllexport) void delete_item(pLinkedList list, pNode p, bool free_data);
 //清空列表(保留list)
-_declspec(dllexport) void clear_list(pLinkedList list, bool free_data);
+_declspec(dllexport) void clear_list(pLinkedList list,bool free_data);
 //删除列表
-_declspec(dllexport) void delete_list(pLinkedList list, bool free_data);
+_declspec(dllexport) void delete_list(pLinkedList list,bool free_data);
