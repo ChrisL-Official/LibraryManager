@@ -78,6 +78,9 @@ namespace GUI
 
         private void UserDetailForm_Load(object sender, EventArgs e)
         {
+            MyUtil.SetMaxLengthHint(edit_name, 5, false);
+            MyUtil.SetMaxLengthHint(edit_class, 9, false);
+            MyUtil.SetMaxLengthHint(edit_id, 11, true);
             if (current != IntPtr.Zero)
             {
                 User u = (User)Marshal.PtrToStructure(current, typeof(User));

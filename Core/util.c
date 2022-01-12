@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <io.h>
 #include "dllheader.h"
 
@@ -189,11 +190,8 @@ int load_dir(const wchar_t* path)
     if (_waccess_s(path, 6) == ENOENT)
     {
         int ret = _wmkdir(path);
-        if (ret == -1) {
+        if (ret == -1) 
             if (errno = EACCES)
-                return UNWRITABLE;
-        }
-
-    }
+                return UNWRITABLE;    }
     return SUCCESS;
 }

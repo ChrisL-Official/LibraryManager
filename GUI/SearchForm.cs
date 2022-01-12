@@ -173,6 +173,12 @@ namespace GUI
 
         private void SearchForm_Load(object sender, EventArgs e)
         {
+            MyUtil.SetMaxLengthHint(edit_bname, 15, false);
+            MyUtil.SetMaxLengthHint(edit_type, 3, false);
+            MyUtil.SetMaxLengthHint(edit_uname, 5, false);
+            MyUtil.SetMaxLengthHint(edit_class, 9, false);
+            MyUtil.SetMaxLengthHint(edit_id, 11, false);
+            MyUtil.SetHint(edit_days, "最大支持9999天");
             owner = (MainWindow)Owner;
             btn_reset.Enabled = owner.is_searching;
         }

@@ -33,5 +33,10 @@ namespace GUI
         {
             Dispose();
         }
+
+        private void txt_des_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
