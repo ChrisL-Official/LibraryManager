@@ -74,8 +74,6 @@ namespace GUI
 
         private void BookDetailForm_Load(object sender, EventArgs e)
         {
-            MyUtil.SetMaxLengthHint(edit_name, 15, false);
-            MyUtil.SetMaxLengthHint(edit_type, 3, true);
             if (current != IntPtr.Zero)
             {
                 Book u = (Book)Marshal.PtrToStructure(current, typeof(Book));

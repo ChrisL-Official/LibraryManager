@@ -104,13 +104,6 @@ namespace GUI
 
         private void ItemDetailForm_Load(object sender, EventArgs e)
         {
-            MyUtil.SetMaxLengthHint(edit_bname, 15,false);
-            MyUtil.SetMaxLengthHint(edit_type, 3,true);
-            MyUtil.SetMaxLengthHint(edit_uname, 5,false);
-            MyUtil.SetMaxLengthHint(edit_class, 9,false);
-            MyUtil.SetMaxLengthHint(edit_id, 11, true);
-            MyUtil.SetHint(edit_days,"最大支持9999天");
-
             if (current != IntPtr.Zero)
             {
                 Penalty p = (Penalty)Marshal.PtrToStructure(current, typeof(Penalty));

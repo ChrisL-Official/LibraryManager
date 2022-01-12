@@ -29,6 +29,12 @@ _declspec(dllexport) void fresh_penalty_list();
 _declspec(dllexport) int save(bool isbak);
 //从搜索结果中删除节点和数据
 _declspec(dllexport) void delete_item_from_searching(pLinkedList source, void* info);
+//添加文字搜索
+_declspec(dllexport) int add_search_str(char* str, int type, bool is_fuzzy);
+//添加整形搜索
+_declspec(dllexport) int add_search_i(wchar_t* wstr, int type);
+//添加浮点型搜索
+_declspec(dllexport) int add_search_f(wchar_t* wstr, int type);
 //添加超期记录
 _declspec(dllexport) int add_penalty(pUser user, pBook book, const wchar_t* b_name, const char* b_id,
     const char* u_id, const wchar_t* u_name, const wchar_t* u_class, unsigned short days);
@@ -43,20 +49,12 @@ _declspec(dllexport) int edit_user(pUser user, const char* u_id, const wchar_t* 
 _declspec(dllexport) int add_book(int uid, const wchar_t* b_name, const char* b_id);
 //修改图书
 _declspec(dllexport) int edit_book(pBook book, const wchar_t* b_name, const char* b_id);
-//添加文字搜索
-_declspec(dllexport) int add_search_str(char* str, int type, bool is_fuzzy);
-//添加整形搜索
-_declspec(dllexport) int add_search_i(wchar_t* wstr, int type);
-//添加浮点型搜索
-_declspec(dllexport) int add_search_f(wchar_t* wstr, int type);
 //搜索
 _declspec(dllexport) pLinkedList search(pLinkedList source, pLinkedList search);
-//统计
-_declspec(dllexport) float statistic(pLinkedList list);
 //排序
 _declspec(dllexport) void sort_penalty(pLinkedList list, int type, bool is_positive);
-//退出
-_declspec(dllexport) void exit_prepare();
+//统计
+_declspec(dllexport) float statistic(pLinkedList list);
 
 _declspec(dllexport) pUser get_penalty_user(pNode p);
 
@@ -76,6 +74,6 @@ _declspec(dllexport) unsigned short wstr_to_short(const wchar_t* str);
 //删除节点
 _declspec(dllexport) void delete_item(pLinkedList list, pNode p, bool free_data);
 //清空列表(保留list)
-_declspec(dllexport) void clear_list(pLinkedList list,bool free_data);
+_declspec(dllexport) void clear_list(pLinkedList list);
 //删除列表
-_declspec(dllexport) void delete_list(pLinkedList list,bool free_data);
+_declspec(dllexport) void delete_list(pLinkedList list);

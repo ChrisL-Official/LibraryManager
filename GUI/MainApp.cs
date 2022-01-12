@@ -21,9 +21,6 @@ namespace GUI
         [DllImport("Core.dll")]
         extern static int init();
 
-        [DllImport("Core.dll")]
-        extern static void exit_prepare();
-
 
         [STAThread]
         static void Main()
@@ -56,7 +53,6 @@ namespace GUI
             {
                 Application.Run(new MainWindow());
             }
-            exit_prepare();
             FreeLibrary(handle);
         }
     }

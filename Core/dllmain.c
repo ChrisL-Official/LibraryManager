@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <io.h>
 #include <errno.h>
-#include <math.h>
 #include "dllheader.h"
 #include "util.h"
 
@@ -24,10 +23,10 @@ const wchar_t* Format_User_Read = L"%d\t%ls\t%l[^\t]\t%l[^\t]\t\n"; //uid,id,姓
 const wchar_t* Format_User_Write = L"%d\t%ls\t%ls\t%ls\t\n";
 const wchar_t* Format_Penalty = L"%d\t%d\t%d\t\n"; //uid,uid,天数
 
-LinkedList list_penalty = { NULL, NULL }; //超期记录链表
-LinkedList list_user = { NULL, NULL }; //用户链表
-LinkedList list_book = { NULL, NULL }; //图书链表
-LinkedList list_search = { NULL, NULL }; //搜索链表
+LinkedList list_penalty = { NULL, NULL };
+LinkedList list_user = { NULL, NULL };
+LinkedList list_book = { NULL, NULL };
+LinkedList list_search = { NULL, NULL };
 
 int init()
 {
@@ -169,7 +168,7 @@ int add_penalty_from_io(pPenalty4IO p)
         }
         p1 = p1->next;
     }
-    p3->user = list_user.head->p;
+    p3->user = list_user.head;
 next1:
     p1 = list_book.head->next;
     while (p1)
@@ -182,13 +181,11 @@ next1:
         }
         p1 = p1->next;
     }
-    p3->book = list_book.head->p;
+    p3->book = list_book.head;
 next2:
     p3->days = p->days;
     p3->fine = p->days * 0.2;
-    if (add_item(&list_penalty, p3))
-        return SUCCESS;
-    return MEMORY_FULL;
+    add_item(&list_penalty, p3);
 }
 
 //添加超期记录
@@ -213,8 +210,7 @@ int add_penalty(pUser user, pBook book, const wchar_t* b_name, const char* b_id,
 int edit_penalty(pPenalty penalty, pUser user, pBook book, const wchar_t* b_name, const char* b_id,
     const char* u_id, const wchar_t* u_name, const wchar_t* u_class, unsigned short days)
 {
-    if (!penalty) 
-        return FATAL;
+    if (!penalty) return;
     pUser* pu = &(list_user.head->p);
     pBook* pb = &(list_book.head->p);
     if (user)
@@ -302,9 +298,7 @@ int add_search(void* data, int type, bool is_fuzzy)
             search->f = *(float*)data;
             break;
     }
-    if (add_item(&list_search, search))
-        return SUCCESS;
-    return MEMORY_FULL;
+    add_item(&list_search,search);
 }
 
 //添加用户
@@ -328,8 +322,7 @@ int add_user(int uid, const char* u_id, const wchar_t* u_name, const wchar_t* u_
 //修改用户(只不允许学号相同)
 int edit_user(pUser user, const char* u_id, const wchar_t* u_name, const wchar_t* u_class)
 {
-    if (!user) 
-        return FATAL;
+    if (!user) return;
     pNode p = list_user.head;
     pUser p1;
     while (p)
@@ -366,8 +359,6 @@ int add_book(int uid, const wchar_t* b_name, const char* b_id)
 //修改图书
 int edit_book(pBook book, const wchar_t* b_name, const char* b_id)
 {
-    if (!book)
-        return FATAL;
     pNode p = list_book.head;
     pBook p1;
     while (p)
@@ -400,7 +391,7 @@ pPenalty get_penalty(pNode p)
 pLinkedList search(pLinkedList source, pLinkedList search)
 {
     if (!search->head)
-        return NULL;
+        return;
     pLinkedList des = (pLinkedList)malloc(sizeof(LinkedList));
     if (!des)
         return NULL;
@@ -416,26 +407,40 @@ pLinkedList search(pLinkedList source, pLinkedList search)
         {
             pSearch s = p1->p;
             if (s->type == USER_ID)
+            {
                 if (!str_find(user->u_id, s->str, s->is_fuzzy))
                     goto big_continue;
+            }
             if (s->type == USER_NAME)
+            {
                 if (!wstr_find(user->u_name, s->wstr, s->is_fuzzy))
                     goto big_continue;
+            }
             if (s->type == USER_CLASS)
+            {
                 if (!wstr_find(user->u_class, s->wstr, s->is_fuzzy))
                     goto big_continue;
+            }
             if (s->type == BOOK_ID)
+            {
                 if (!str_find(book->b_id, s->str, s->is_fuzzy))
                     goto big_continue;
+            }
             if (s->type == BOOK_NAME)
+            {
                 if (!wstr_find(book->b_name, s->wstr, s->is_fuzzy))
                     goto big_continue;
+            }
             if (s->type == FINE)
+            {
                 if (fabs(penalty->fine - s->f) > 1e-6)
                     goto big_continue;
+            }
             if (s->type == DAYS)
+            {
                 if (penalty->days != s->i)
                     goto big_continue;
+            }
             p1 = p1->next;
         }
         add_item(des, p->p);
@@ -445,7 +450,6 @@ pLinkedList search(pLinkedList source, pLinkedList search)
     return des;
 }
 
-//比较
 bool compare(pNode p1, pNode p2, int type, void* (*get_info)(pNode))
 {
     void *v1, *v2;
@@ -465,7 +469,6 @@ bool compare(pNode p1, pNode p2, int type, void* (*get_info)(pNode))
         return ((pPenalty)v1)->days > ((pPenalty)v2)->days;
     if (type == FINE)
         return ((pPenalty)v1)->fine > ((pPenalty)v2)->fine;
-    return false;
 }
 
 void sort(pLinkedList list, int type, bool is_positive, void* (*p)(void*))
@@ -588,7 +591,6 @@ int write_list(const wchar_t* p1, const wchar_t* p2, const wchar_t* p3)
     }
     else
         return UNWRITABLE;
-    return SUCCESS;
 }
 
 int save(bool isbak)
@@ -705,10 +707,3 @@ float statistic(pLinkedList list)
     return ans;
 }
 
-void exit_prepare()
-{
-    clear_list(&list_book,true);
-    clear_list(&list_user,true);
-    clear_list(&list_penalty,true);
-    clear_list(&list_search,true);
-}
